@@ -2,16 +2,14 @@
 
 **Kiro Web の公式情報がどこにどんな形で置かれているのか、どう使い分けるのかをまとめたセクションです。**
 
-> 🚧 **構築中**（Phase 1 完了時点）。本文は Phase 2b で追加します。
-
 ---
 
 ## 📂 このセクションのファイル
 
 | ファイル | 内容 |
 |---------|------|
-| `01_official-site-structure.md` | **公式サイトの構造マップ**。`changelog/web/` 系列・docs の Web 区分・sitemap・`llms.txt` の関係 |
-| `02_information-sources.md` | **情報源の使い分けと落とし穴**。`.md` companion の壊れ方・RSC ペイロード・日付形式の2種 |
+| [01_official-site-structure.md](01_official-site-structure.md) | **公式サイトの構造マップ**。`changelog/web/` の系列構造・docs の Web 区分（20ページ）・sitemap と `llms.txt` の違い・URL の作法 |
+| [02_information-sources.md](02_information-sources.md) | **情報源の使い分けと落とし穴**。`.md` 版の壊れ方2種・折りたたみ節が HTML に無いこと・日付表記2種・公式ページ間の食い違い |
 
 ---
 
