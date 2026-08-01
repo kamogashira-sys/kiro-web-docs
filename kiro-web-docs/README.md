@@ -14,7 +14,7 @@
 |-----------|------|
 | [00_information](00_information/) | 公式サイトの構造・情報源の使い分けと落とし穴 |
 | [01_features](01_features/) | 機能詳細ガイド（6ページ） |
-| [02_update](02_update/) | 更新履歴（changelog 全エントリ） |
+| [02_update](02_update/) | 更新履歴（[changelog 全7エントリ](02_update/01_changelog.md)）✅ |
 | [03_deployment](03_deployment/) | 導入・運用（4ページ） |
 | [04_reference](04_reference/) | リファレンス（検証可能な正準値・4ページ） |
 

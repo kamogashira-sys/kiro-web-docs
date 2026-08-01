@@ -15,7 +15,7 @@
 |-----------|------|
 | [00_information](kiro-web-docs/00_information/) | 公式サイトの構造・情報源の使い分け |
 | [01_features](kiro-web-docs/01_features/) | 機能詳細ガイド（エージェントモード・Specs・Automations・Steering・Sandbox・リポジトリ連携） |
-| [02_update](kiro-web-docs/02_update/) | 更新履歴（changelog 全エントリ） |
+| [02_update](kiro-web-docs/02_update/) | 更新履歴（[changelog 全7エントリ](kiro-web-docs/02_update/01_changelog.md)）✅ |
 | [03_deployment](kiro-web-docs/03_deployment/) | 導入・運用（Setup・Identity Center・データ保護・ファイアウォール） |
 | [04_reference](kiro-web-docs/04_reference/) | リファレンス（許可ドメイン・環境変数・MCP 設定・上限値） |
 

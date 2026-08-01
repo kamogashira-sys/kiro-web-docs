@@ -275,6 +275,8 @@ def extract_entry(html: str, slug: str | None = None) -> dict:
     date = None
     intro = None
     headings: list[str] = []
+    blocks: list[dict] = []
+    body_seen = False
     sections: list[dict] = []
     seen_sections: set[tuple[str, int]] = set()
 
@@ -316,13 +318,36 @@ def extract_entry(html: str, slug: str | None = None) -> dict:
                     seen_sections.add(key)
                     sections.append({"title": props["title"], "count": len(items), "items": items})
 
-            # 本文コンテナ直下の最初の <p> を導入文とする
+            # 本文コンテナ: 直下は「見出し div」と「<p>」が交互に並ぶ平坦な並び。
+            # 最初の <p> を導入文、以降を blocks（見出しと本文の対）として取る。
+            # ⚠️ 全 row を走査するため本文コンテナは複数回見つかる。`not blocks` を
+            #    ガードにすると、本文が「導入文 <p> のみ＋折りたたみ」のエントリ
+            #    （blocks が空のまま終わる）で2回処理され、導入文が blocks に
+            #    重複して入る（実測: session-stability で再現）。専用フラグで抑える。
             if tag == "div" and isinstance(props.get("className"), str) \
-                    and "changelog prose" in props["className"] and intro is None:
-                for child in walk(props.get("children")):
-                    if is_element(child) and child[1] == "p" and isinstance(child[3], dict):
-                        intro = node_text(child[3].get("children")) or None
-                        break
+                    and "changelog prose" in props["className"] and not body_seen:
+                body_seen = True
+                children = props.get("children")
+                seq = children if isinstance(children, list) else [children]
+                for child in seq:
+                    if not is_element(child) or not isinstance(child[3], dict):
+                        continue
+                    text = node_text(child[3].get("children"))
+                    if not text:
+                        continue
+                    if child[1] == "p":
+                        if intro is None:
+                            intro = text
+                        else:
+                            blocks.append({"type": "p", "text": text})
+                    elif child[1] in ("div", "h2", "h3"):
+                        # 見出しは heading-anchor-wrapper div に包まれている
+                        level = 2
+                        for h in walk(child):
+                            if is_element(h) and h[1] in ("h2", "h3"):
+                                level = int(h[1][1])
+                                break
+                        blocks.append({"type": f"h{level}", "text": text})
 
     # 日付: エントリページは月名フル（F-W3）。本文コンテナ外の time/日付表示も拾う。
     for row in list(rows.values()):
@@ -343,6 +368,7 @@ def extract_entry(html: str, slug: str | None = None) -> dict:
         "granularity": "W-L3" if sections else "W-L2",
         "intro": intro,
         "headings": headings,
+        "blocks": blocks,
         "sections": sections,
         "item_total": sum(s["count"] for s in sections),
         # 交差検証用。RSC 抽出とレンダリング HTML で節数が一致するか
@@ -374,6 +400,11 @@ def print_entry_text(entry: dict) -> None:
         print(f"  h2 見出し  : {len(entry['headings'])} 件")
         for h in entry["headings"]:
             print(f"      - {h}")
+    if entry["blocks"]:
+        print(f"  本文ブロック: {len(entry['blocks'])} 件")
+        for b in entry["blocks"]:
+            prefix = "  ## " if b["type"] == "h2" else ("  ### " if b["type"] == "h3" else "      ")
+            print(f"    {prefix}{b['text']}")
     if entry["sections"]:
         print(f"  折りたたみ : {len(entry['sections'])} 節 / 計 {entry['item_total']} 項目")
         for s in entry["sections"]:
@@ -434,7 +465,7 @@ def main() -> int:
         entry = extract_entry(html, slug=slug)
         # 本文が空なら抽出失敗として扱う（タイトルすら取れないのは構造変化）
         if not entry["title"] and not entry["intro"] and not entry["headings"] \
-                and not entry["sections"]:
+                and not entry["blocks"] and not entry["sections"]:
             failed.append(path)
         elif not entry["section_count_matches"]:
             mismatched.append((path, len(entry["sections"]), entry["rendered_section_count"]))
