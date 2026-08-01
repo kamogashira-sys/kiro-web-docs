@@ -16,7 +16,7 @@
 
 .DEFAULT_GOAL := help
 
-.PHONY: help check-kiro-web-ignore
+.PHONY: help check-kiro-web-ignore extract-kiro-web-changelog
 
 SCRIPTS := ./scripts/kiro-web-docs
 
@@ -39,11 +39,15 @@ help:
 	@echo "                                 #   ローカル管理4系統の除外・公開対象の非除外・"
 	@echo "                                 #   トラック状況・ローカル絶対パスの混入を検査"
 	@echo ""
+	@echo "保守用:"
+	@echo "  make extract-kiro-web-changelog INDEX=<html>          # 索引からスラッグ・日付・タイトル"
+	@echo "  make extract-kiro-web-changelog ENTRY=\"<html...>\"     # 本文・粒度・折りたたみ項目"
+	@echo "    ARGS=--text で人が読む形式。折りたたみ節は RSC のみにあるため必ず本スクリプトを使う"
+	@echo ""
 	@echo "Phase 2a で追加予定:"
 	@echo "  make check-kiro-web-links      # 内部リンク実在＋アンカー＋kiro.dev URL 書式"
 	@echo "  make check-kiro-web-structure  # ディレクトリ構成・H1・公開境界"
 	@echo "  make check-kiro-web-coverage   # 一次情報との突き合わせ（スラッグ・日付・折りたたみ項目数）"
-	@echo "  make extract-kiro-web-changelog # 公式 changelog HTML（RSC）から一次情報を抽出"
 	@echo ""
 	@echo "Phase 3 で追加予定:"
 	@echo "  make check-kiro-web-all        # 全チェック（ネットワーク不要のもの全部）"
@@ -61,3 +65,23 @@ help:
 # 各コミット前に実行し exit 0 を必須とする（作業計画書 Phase 1-5 / 4-1 / 5-3）。
 check-kiro-web-ignore:
 	@$(SCRIPTS)/check-ignore.sh
+
+# ------------------------------------------------------------
+# 保守用（取得済み HTML を対象にするため check-*-all には含めない）
+# ------------------------------------------------------------
+# 公式 changelog の HTML から一次情報（スラッグ・日付・粒度・折りたたみ項目）を抽出する。
+# ⚠️ 折りたたみ節（Improvements / Fixes）は**素の HTML に存在しない**（hidden な空 div）。
+#    RSC ペイロードから取るため、grep では代用できない。
+# HTML の取得手順は kiro-web-docs/05_meta/10_update-guide.md §5 を参照
+# （末尾スラッシュ必須・-A "Mozilla/5.0" が必要）。
+INDEX ?=
+ENTRY ?=
+ARGS ?=
+extract-kiro-web-changelog:
+	@if [ -z "$(INDEX)" ] && [ -z "$(ENTRY)" ]; then \
+	    echo "使い方: make extract-kiro-web-changelog INDEX=\"<索引html>\" [ARGS=--text]"; \
+	    echo "        make extract-kiro-web-changelog ENTRY=\"<エントリhtml...>\" [ARGS=--text]"; \
+	    exit 2; \
+	fi
+	@if [ -n "$(INDEX)" ]; then $(SCRIPTS)/extract-changelog.py --index $(INDEX) $(ARGS); fi
+	@if [ -n "$(ENTRY)" ]; then $(SCRIPTS)/extract-changelog.py --entry $(ENTRY) $(ARGS); fi
