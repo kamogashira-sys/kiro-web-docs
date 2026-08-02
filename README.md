@@ -70,6 +70,20 @@ Kiro は IDE・CLI・Web の3つのインターフェースを持つ**別製品*
 | 6 | 日付は **ISO 形式（`YYYY-MM-DD`）** に正規化する |
 | 7 | 各ページに公式の**出典 URL と出典日**を記載する |
 
+### 未確認事項は Issue で追跡しています
+
+公式に確認できていないことは、**何が分かっていないかを Issue に記録**して公式の是正・仕様確定を待っています。
+
+| Issue | 内容 |
+|-------|------|
+| [#1](https://github.com/kamogashira-sys/kiro-web-docs/issues/1) | **Kiro Web に Free Tier があるか** — 公式ページ間で記述が食い違っている（未解決） |
+| [#2](https://github.com/kamogashira-sys/kiro-web-docs/issues/2) | バージョン番号が存在しない理由（公式に説明なし） |
+| [#3](https://github.com/kamogashira-sys/kiro-web-docs/issues/3) | フィードが Kiro Web を配信対象にしているか |
+| [#4](https://github.com/kamogashira-sys/kiro-web-docs/issues/4) | 公式に記載が見つからない上限値5項目 |
+| [#5](https://github.com/kamogashira-sys/kiro-web-docs/issues/5) | Preview から GA に移行したときの記述見直し |
+
+**[→ 未確認事項の一覧](https://github.com/kamogashira-sys/kiro-web-docs/issues?q=is%3Aissue+is%3Aopen+label%3A%E6%9C%AA%E7%A2%BA%E8%AA%8D)**
+
 ### 機械検証しています
 
 リンク・アンカーの実在、セクション構成、各ページの出典の有無、**公式 changelog の折りたたみ項目数の一致**などを自動チェックしています。
@@ -78,6 +92,8 @@ Kiro は IDE・CLI・Web の3つのインターフェースを持つ**別製品*
 make check-kiro-web-all      # 全チェック
 make check-kiro-web-quick    # 執筆中の常用
 ```
+
+公式の更新（新しい changelog エントリ・**changelog に現れない docs の更新**）は毎日の CI で監視しています。
 
 ---
 
