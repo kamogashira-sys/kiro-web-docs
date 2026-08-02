@@ -2,8 +2,6 @@
 
 **設定値・許可ドメイン・上限値など、Kiro Web の「調べたい値」を引くためのセクションです。**
 
-> 🚧 **構築中**（Phase 1 完了時点）。本文は Phase 2b で追加します。
->
 > ⚠️ 本セクションは **Kiro Web 版**の仕様を扱います。
 
 ---
@@ -12,10 +10,24 @@
 
 | ファイル | 内容 | 公式ドキュメント |
 |---------|------|---------------|
-| `01_allowed-domains.md` | **許可ドメイン・URL・IP の一覧**（サンドボックスの依存先ドメイン・ファイアウォール設定用の URL 表・GitLab 送信元 IP） | `web/sandbox/internet-access/`・`web/firewalls/`・`web/gitlab/` |
-| `02_environment-variables.md` | **環境変数・シークレット**（参照構文・IAM ロール／信頼ポリシー） | `web/sandbox/environment-variables/`・`web/sandbox/environment-configuration/` |
-| `03_mcp-configuration.md` | **MCP 設定**（JSON スキーマ・ローカルサーバのみ対応） | `web/sandbox/mcp/` |
-| `04_limits.md` | **上限・保持期間**（並列タスク数・スケジュール数・プロンプト文字数・セッション保持期間・ディスク容量ほか） | `web/using-the-agent/creating-tasks/`・`web/automations/`・`web/using-the-agent/` |
+| [01_allowed-domains.md](01_allowed-domains.md) | **許可ドメイン・URL・IP の一覧**（目的の違う3系統: 本体 34 行・サンドボックス 73 ドメイン・GitLab 送信元 IP 3 件） | `web/firewalls/`・`web/sandbox/internet-access/`・`web/gitlab/` |
+| [02_environment-variables.md](02_environment-variables.md) | **環境変数・シークレット**（`${key_name}` 参照構文・優先順位・IAM ロールと信頼ポリシー） | `web/sandbox/environment-variables/`・`web/sandbox/environment-configuration/` |
+| [03_mcp-configuration.md](03_mcp-configuration.md) | **MCP 設定と Powers**（設定 JSON・ローカルのみ対応・OAuth 認可・セキュリティ警告） | `web/sandbox/mcp/` |
+| [04_limits.md](04_limits.md) | **上限・保持期間・リージョン**（並列 10・スケジュール 5・10,000 文字・90 日・128GB ほか） | `web/using-the-agent/`・`web/using-the-agent/creating-tasks/`・`web/automations/`・`web/data-protection/` |
+
+---
+
+## 📊 早見表
+
+主要な値は [04_limits.md の早見表](04_limits.md#-早見表) にまとめています。
+
+| 項目 | 値 |
+|------|---|
+| 並列タスクの上限 | **10** |
+| セッションの保持期間 | **90 日** |
+| オートメーションのスケジュール上限 / プロンプト文字数 | **5** / **10,000 文字** |
+| サンドボックスのディスク容量 | **128GB** |
+| 許可ドメイン数（Common dependencies） | **73** |
 
 ---
 

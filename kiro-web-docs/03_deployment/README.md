@@ -2,8 +2,6 @@
 
 **Kiro Web を使い始めるための設定と、組織で導入する際に必要な要件をまとめたセクションです。**
 
-> 🚧 **構築中**（Phase 1 完了時点）。本文は Phase 2b で追加します。
->
 > ⚠️ 本セクションは **Kiro Web 版**の仕様を扱います。
 
 ---
@@ -12,10 +10,10 @@
 
 | ファイル | 内容 | 公式ドキュメント |
 |---------|------|---------------|
-| `01_setup.md` | **セットアップ**（ソーシャルログイン / AWS Identity Center）・最初のタスク | `web/setup/`・`web/first-task/` |
-| `02_identity-center.md` | **AWS Identity Center**（要件・制限） | `web/identity-center/` |
-| `03_data-protection.md` | **データ保護**（保存リージョン・暗号化・オプトアウト） | `web/data-protection/` |
-| `04_firewalls.md` | **ファイアウォール・プロキシ・データ境界** | `web/firewalls/` |
+| [01_setup.md](01_setup.md) | **セットアップ**（ソーシャルログイン / AWS Identity Center・GitHub / GitLab の接続）・**最初のタスク** | `web/setup/`・`web/first-task/` |
+| [02_identity-center.md](02_identity-center.md) | **AWS Identity Center**（要件・**適用されない共有設定6項目**・CMK 非対応） | `web/identity-center/` |
+| [03_data-protection.md](03_data-protection.md) | **データ保護**（保存リージョン・リージョン間推論・暗号化・オプトアウト・不正利用検知） | `web/data-protection/` |
+| [04_firewalls.md](04_firewalls.md) | **ファイアウォール・プロキシ・データ境界**（許可リストの構成と考え方） | `web/firewalls/` |
 
 ---
 
