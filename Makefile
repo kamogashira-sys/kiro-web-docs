@@ -13,15 +13,15 @@
 #   検証スクリプトを新規作成・改修したときは、意図的に文書を壊して検出されることを
 #   確認してください（ネガティブテスト）。手順は .github/WORKFLOW.md §6 を参照。
 #
-# 📌 本ファイルは Phase 2a 時点の版です。検証スクリプトの実装に合わせて
-#    Phase 3 でターゲットを追加します（存在しないターゲットは書きません）。
+# 📌 存在しないターゲットは書きません（実装済みのものだけを並べます）。
+#    未実装分はヘルプの「Phase 3 で追加予定」に列挙しています。
 
 .DEFAULT_GOAL := help
 
 .PHONY: help \
         check-kiro-web-all check-kiro-web-quick check-kiro-web-ignore \
         check-kiro-web-links check-kiro-web-structure check-kiro-web-coverage \
-        check-kiro-web-counts \
+        check-kiro-web-counts check-kiro-web-consistency \
         extract-kiro-web-changelog
 
 SCRIPTS := ./scripts/kiro-web-docs
@@ -64,6 +64,8 @@ help:
 	@echo "  make check-kiro-web-counts     # 件数系の正準値（S1・S2・S5・S6・S7・S12）"
 	@echo "                                 #   節見出しの宣言件数と表の実体・内訳と合計・"
 	@echo "                                 #   公式 HTML との一致（DOCS_HTML_DIR があれば）"
+	@echo "  make check-kiro-web-consistency # 上限値の水平展開（S8〜S11・S13・S14）・"
+	@echo "                                 #   食い違い注記の対称性（F-W20）・出典日の記載"
 	@echo ""
 	@echo "保守用:"
 	@echo "  make extract-kiro-web-changelog INDEX=<html>          # 索引からスラッグ・日付・タイトル"
@@ -71,7 +73,6 @@ help:
 	@echo "    ARGS=--text で人が読む形式。折りたたみ節は RSC のみにあるため必ず本スクリプトを使う"
 	@echo ""
 	@echo "Phase 3 で追加予定:"
-	@echo "  make check-kiro-web-consistency # 上限値・保持期間系 SSoT・食い違い注記"
 	@echo "  make check-kiro-web-notation   # 表記規約（IDE/CLI 混入・存在しない版番号の創作）"
 	@echo "  make check-kiro-web-urls       # 外部 URL の到達性（★外部依存・all には含めない）"
 	@echo "  make check-kiro-web-freshness  # 新エントリ検知（★外部依存・all には含めない）"
@@ -84,7 +85,7 @@ help:
 # push / nightly / 手動でのみ実行する（先行2サイトと同じ運用）。
 # G3（公開判定）ではこのターゲットの exit 0 を条件とする。
 check-kiro-web-all: check-kiro-web-links check-kiro-web-structure check-kiro-web-coverage \
-                    check-kiro-web-counts
+                    check-kiro-web-counts check-kiro-web-consistency
 	@echo ""
 	@echo "✅ kiro-web-docs 全チェックが完了しました"
 	@echo "   （外部 URL の到達性と新エントリ検知は別ターゲットです）"
@@ -137,6 +138,13 @@ check-kiro-web-counts:
 	else \
 	    $(SCRIPTS)/check-counts.py; \
 	fi
+
+# 上限・保持期間系の正準値（S8〜S11・S13・S14）が**複数ページで食い違っていないか**を見る。
+# check-counts.py が「表の実体 vs 宣言件数」を見るのに対し、こちらは
+# 「文書 A の値 vs 文書 B の値 vs SSoT 定数」を見る（水平展開漏れの検出）。
+# 併せて Free Tier の食い違い注記の対称性（F-W20）と、本文ページの出典日も検証する。
+check-kiro-web-consistency:
+	@$(SCRIPTS)/check-consistency.py
 
 # ------------------------------------------------------------
 # 保守用（取得済み HTML を対象にするため check-*-all には含めない）
