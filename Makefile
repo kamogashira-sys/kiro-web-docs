@@ -21,7 +21,7 @@
 .PHONY: help \
         check-kiro-web-all check-kiro-web-quick check-kiro-web-ignore \
         check-kiro-web-links check-kiro-web-structure check-kiro-web-coverage \
-        check-kiro-web-counts check-kiro-web-consistency \
+        check-kiro-web-counts check-kiro-web-consistency check-kiro-web-notation \
         extract-kiro-web-changelog
 
 SCRIPTS := ./scripts/kiro-web-docs
@@ -66,6 +66,9 @@ help:
 	@echo "                                 #   公式 HTML との一致（DOCS_HTML_DIR があれば）"
 	@echo "  make check-kiro-web-consistency # 上限値の水平展開（S8〜S11・S13・S14）・"
 	@echo "                                 #   食い違い注記の対称性（F-W20）・出典日の記載"
+	@echo "  make check-kiro-web-notation   # 表記規約 (a)〜(g)（他製品コマンドの混入・"
+	@echo "                                 #   製品名の揺れ・非 ISO 日付・**存在しない版番号の創作**・"
+	@echo "                                 #   取得日の混入・autolink 事故・推測表現）"
 	@echo ""
 	@echo "保守用:"
 	@echo "  make extract-kiro-web-changelog INDEX=<html>          # 索引からスラッグ・日付・タイトル"
@@ -73,7 +76,6 @@ help:
 	@echo "    ARGS=--text で人が読む形式。折りたたみ節は RSC のみにあるため必ず本スクリプトを使う"
 	@echo ""
 	@echo "Phase 3 で追加予定:"
-	@echo "  make check-kiro-web-notation   # 表記規約（IDE/CLI 混入・存在しない版番号の創作）"
 	@echo "  make check-kiro-web-urls       # 外部 URL の到達性（★外部依存・all には含めない）"
 	@echo "  make check-kiro-web-freshness  # 新エントリ検知（★外部依存・all には含めない）"
 
@@ -85,7 +87,8 @@ help:
 # push / nightly / 手動でのみ実行する（先行2サイトと同じ運用）。
 # G3（公開判定）ではこのターゲットの exit 0 を条件とする。
 check-kiro-web-all: check-kiro-web-links check-kiro-web-structure check-kiro-web-coverage \
-                    check-kiro-web-counts check-kiro-web-consistency
+                    check-kiro-web-counts check-kiro-web-consistency \
+                    check-kiro-web-notation
 	@echo ""
 	@echo "✅ kiro-web-docs 全チェックが完了しました"
 	@echo "   （外部 URL の到達性と新エントリ検知は別ターゲットです）"
@@ -145,6 +148,14 @@ check-kiro-web-counts:
 # 併せて Free Tier の食い違い注記の対称性（F-W20）と、本文ページの出典日も検証する。
 check-kiro-web-consistency:
 	@$(SCRIPTS)/check-consistency.py
+
+# 表記規約（D-W10）。(a) 他製品のコマンド・固有機能の混入／(b) 製品名の揺れ／
+# (c) 非 ISO 日付／(d) **存在しない版番号の創作**（Web に版番号は無い — F-W2）／
+# (e) 取得日の本文混入／(f) 裸 URL 直後の全角文字による autolink 事故／(g) 推測表現。
+# ⚠️ (d) の許可リスト（TLS 1.2・Mozilla/5.0・IDE の実在版）は**実行時に全件表示**する
+#    （暗黙に見逃さないため）。(e)(g) は規約そのものを書いた .github/ の文書を対象外にする。
+check-kiro-web-notation:
+	@$(SCRIPTS)/check-notation.py
 
 # ------------------------------------------------------------
 # 保守用（取得済み HTML を対象にするため check-*-all には含めない）
