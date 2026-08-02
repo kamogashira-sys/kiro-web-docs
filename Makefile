@@ -22,6 +22,7 @@
         check-kiro-web-all check-kiro-web-quick check-kiro-web-ignore \
         check-kiro-web-links check-kiro-web-structure check-kiro-web-coverage \
         check-kiro-web-counts check-kiro-web-consistency check-kiro-web-notation \
+        check-kiro-web-urls check-kiro-web-urls-important check-kiro-web-freshness \
         extract-kiro-web-changelog
 
 SCRIPTS := ./scripts/kiro-web-docs
@@ -75,9 +76,13 @@ help:
 	@echo "  make extract-kiro-web-changelog ENTRY=\"<html...>\"     # 本文・粒度・折りたたみ項目"
 	@echo "    ARGS=--text で人が読む形式。折りたたみ節は RSC のみにあるため必ず本スクリプトを使う"
 	@echo ""
-	@echo "Phase 3 で追加予定:"
-	@echo "  make check-kiro-web-urls       # 外部 URL の到達性（★外部依存・all には含めない）"
-	@echo "  make check-kiro-web-freshness  # 新エントリ検知（★外部依存・all には含めない）"
+	@echo "個別に実行（★外部サイトに依存。all / CI には含めない）:"
+	@echo "  make check-kiro-web-urls           # 公開文書の外部 URL の到達性（全件）"
+	@echo "  make check-kiro-web-urls-important # 重要 URL のみ（切り分け用）"
+	@echo "  make check-kiro-web-freshness      # 新エントリ・docs 更新の検知"
+	@echo "                                     #   sitemap＋索引の2系統・S2/S3/S4 の照合・"
+	@echo "                                     #   page/N の出現監視（F-W15）"
+	@echo "    OFFLINE=<snapshot-dir> でネットワークを使わず検証できます"
 
 # ------------------------------------------------------------
 # まとめて実行
@@ -156,6 +161,30 @@ check-kiro-web-consistency:
 #    （暗黙に見逃さないため）。(e)(g) は規約そのものを書いた .github/ の文書を対象外にする。
 check-kiro-web-notation:
 	@$(SCRIPTS)/check-notation.py
+
+# ------------------------------------------------------------
+# 個別ターゲット（★外部サイトに依存。all / CI（PR）には含めない）
+# ------------------------------------------------------------
+# ネットワーク障害やレート制限で失敗し得るため独立ターゲットにする。
+# 末尾スラッシュなしは 301・空 UA は 403（F-W11）。詳細はスクリプト冒頭を参照。
+check-kiro-web-urls:
+	@$(SCRIPTS)/check-urls.sh
+
+# 重要 URL のみ。全件チェックが外部要因で落ちたときの切り分けに使う。
+check-kiro-web-urls-important:
+	@$(SCRIPTS)/check-urls.sh --important
+
+# 新エントリ・docs 更新の検知（sitemap＋索引の2系統。フィードは補助）。
+# ⚠️ フィード単独では検知できない（Web エントリが 0 件・配信対象かは未確認 — F-W4）。
+# ⚠️ changelog に現れない docs 更新があるため S4（docs の最新更新日）も見る（F-W16）。
+# OFFLINE=<dir> を渡すとスナップショットで検証する（ネットワークを使わない）。
+OFFLINE ?=
+check-kiro-web-freshness:
+	@if [ -n "$(OFFLINE)" ]; then \
+	    $(SCRIPTS)/check-freshness.py --offline "$(OFFLINE)"; \
+	else \
+	    $(SCRIPTS)/check-freshness.py; \
+	fi
 
 # ------------------------------------------------------------
 # 保守用（取得済み HTML を対象にするため check-*-all には含めない）

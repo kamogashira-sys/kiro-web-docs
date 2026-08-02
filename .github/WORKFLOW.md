@@ -38,7 +38,7 @@ graph TD
 | 2 | **公式ドキュメント（HTML を正）** | `https://kiro.dev/docs/web/<path>/` | 機能仕様・設定・リファレンス値 |
 | 3 | **公式ドキュメント索引** | `https://kiro.dev/llms.txt` | **ページ全量と IDE / CLI / Web / Shared の区分判定のみ** |
 | 4 | **sitemap** | `https://kiro.dev/sitemap.xml` | エントリ・ページ全量の機械検証（**新エントリ検知の主系統**） |
-| 5 | フィード（Atom・RSS） | `https://kiro.dev/feed.atom` | **補助のみ**（Web エントリは現時点で 0 件） |
+| 5 | フィード（Atom・RSS） | `https://kiro.dev/changelog/feed.atom` | **補助のみ**（Web エントリは現時点で 0 件） |
 | 6 | Kiro Web 実機 | `https://app.kiro.dev` | 公式記述の曖昧さの解消（**有料サブスクが必要**） |
 | 7 | 公式ブログ（3本） | `https://kiro.dev/blog/` | 背景・意図の補足 |
 | — | GitHub Issues | `github.com/kirodotdev/Kiro` | **一次情報ではない**（掲載根拠にしない） |
@@ -74,7 +74,7 @@ curl -sS -A "Mozilla/5.0" -o /tmp/web-idx.html "https://kiro.dev/changelog/web/"
 python3 scripts/kiro-web-docs/extract-changelog.py --index /tmp/web-idx.html
 
 # ③ フィード（補助）— term="Web" が出たら主系統への昇格を検討
-curl -sS -A "Mozilla/5.0" https://kiro.dev/feed.atom | grep -c 'term="Web"'
+curl -sS -A "Mozilla/5.0" https://kiro.dev/changelog/feed.atom | grep -c 'term="Web"'
 ```
 
 > ⚠️ **`/changelog/web/page/2/` は必ず除外**してください。現時点では 404 ですが、
