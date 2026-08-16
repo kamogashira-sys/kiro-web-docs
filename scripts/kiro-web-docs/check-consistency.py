@@ -29,6 +29,12 @@
        同じページに「未確認」または「食い違い」の注記が必要
     5. **出典日の記載**: 本文ページに `Page updated:` 由来の出典日があるか
        （check-structure.py は出典 URL の有無を見る。**日付は本スクリプトが見る**）
+    6. **出典日の水平展開**（作業5-5・2026-08-16 追加）: 同一の公式ページ URL に対する
+       `Page updated` の記述が、複数ファイルにまたがるときに食い違っていないか。
+       既知の実例: `docs/web/using-the-agent/` の出典日が `01_agent-modes.md` では
+       June 11, 2026、`04_limits.md` では April 21, 2026 と**食い違っていた**（未検出のまま
+       放置されていた）。1本のファイルの中では正しくても、**同じ公式ページを複数ファイルが
+       引用するときに転記元の版がずれる**という失敗様式に対応する。
 
 ⚠️ 実装上の注意（Phase 2a・3-1 の教訓）:
     - **数値だけを探さない。** 「10」「5」「90」は文書に無数に現れる。
@@ -123,6 +129,15 @@ MONTHS_RE = (r"(?:January|February|March|April|May|June|July|August|"
 SOURCE_DATE_RE = re.compile(rf"Page updated:\s*{MONTHS_RE}\s+\d{{1,2}},\s*\d{{4}}")
 ENTRY_DATE_RE = re.compile(rf"[（(]{MONTHS_RE}\s+\d{{1,2}},\s*\d{{4}}[)）]")
 MEASURED_DATE_RE = re.compile(r"実測日\**\s*[:：]\s*\d{4}-\d{2}-\d{2}")
+
+# 出典日の水平展開チェック用（作業5-5）:
+# 「<URL>（Page updated: 月名 D, YYYY）」の対を抜き出す。
+# 出典行は `<url1>（Page updated: ...）・<url2>（Page updated: ...）` のように
+# `・` 区切りで複数対が並ぶ（例: 01_agent-modes.md:6）。URL と直後の日付を1組として拾う。
+URL_DATE_PAIR_RE = re.compile(
+    r"<(https://kiro\.dev/[^>\s]+)>\s*[（(]Page updated:\s*("
+    + MONTHS_RE + r"\s+\d{1,2},\s*\d{4})[)）]"
+)
 
 
 def repo_root():
@@ -261,6 +276,39 @@ def check_source_dates(errors, notes):
     )
 
 
+def check_source_date_consistency(errors, notes):
+    """(6) 出典日の水平展開: 同一 URL の Page updated が複数ファイル間で食い違っていないか。"""
+    # url -> {date: [ (path, line), ... ]}
+    by_url = {}
+    body_docs = [d for d in public_docs()
+                 if os.path.isfile(d) and os.path.basename(d) != "README.md"]
+    for path in body_docs:
+        txt = open(path, encoding="utf-8").read()
+        for m in URL_DATE_PAIR_RE.finditer(txt):
+            url, date = m.group(1), m.group(2)
+            by_url.setdefault(url, {}).setdefault(date, []).append(
+                (path, line_of(txt, m.start()))
+            )
+
+    inconsistent = 0
+    for url, date_map in sorted(by_url.items()):
+        if len(date_map) <= 1:
+            continue
+        inconsistent += 1
+        detail = "; ".join(
+            f"{date}（{', '.join(f'{p}:{l}' for p, l in locs)}）"
+            for date, locs in sorted(date_map.items())
+        )
+        errors.append(
+            f"出典日の不整合: {url} の Page updated がファイル間で食い違っています: {detail}"
+        )
+
+    total_urls = len(by_url)
+    notes.append(
+        f"出典日の水平展開: 一意な公式 URL {total_urls} 件中 {inconsistent} 件で不整合"
+    )
+
+
 def main():
     os.chdir(repo_root())
     print("=== kiro-web-docs 記述整合チェック（上限値の水平展開・注記の対称性） ===")
@@ -279,6 +327,9 @@ def main():
 
     print("🔍 本文ページの出典日を検証中...")
     check_source_dates(errors, notes)
+
+    print("🔍 出典日の水平展開を検証中（作業5-5）...")
+    check_source_date_consistency(errors, notes)
 
     print("")
     print("=== チェック結果 ===")
