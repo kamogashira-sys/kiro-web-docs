@@ -55,7 +55,7 @@ LOCAL_ONLY = ("05_meta", "06_embedded-docs", "work_plans", "work_records")
 SSOT = {
     "S1": {"value": 7, "label": "changelog エントリ数",
            "doc": f"{DOC_ROOT}/02_update/01_changelog.md"},
-    "S2": {"value": 20, "label": "docs Web ページ数",
+    "S2": {"value": 15, "label": "docs Web ページ数",
            "doc": f"{DOC_ROOT}/00_information/01_official-site-structure.md"},
     "S5": {"value": 73, "label": "Common dependencies 許可ドメイン数",
            "doc": f"{DOC_ROOT}/04_reference/01_allowed-domains.md"},

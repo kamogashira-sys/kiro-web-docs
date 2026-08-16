@@ -54,9 +54,9 @@ DOC_STRUCTURE = f"{DOC_ROOT}/00_information/01_official-site-structure.md"
 
 # SSoT（本スクリプトが守る分）
 SSOT_S1 = 7            # changelog エントリ数
-SSOT_S2 = 20           # docs Web ページ数
+SSOT_S2 = 15           # docs Web ページ数（2026-08-12 の公式サイト再構成で 20→15。5ページ移転）
 SSOT_S3 = "2026-07-01"  # 最新エントリ日付
-SSOT_S4 = "2026-07-23"  # docs の最新更新日（JSON-LD dateModified の最大値）
+SSOT_S4 = "2026-08-14"  # docs の最新更新日（JSON-LD dateModified の最大値）
 
 BASE = "https://kiro.dev"
 # ⚠️ 末尾スラッシュ必須（無しは 301・本文0バイト — F-W11）。
