@@ -86,13 +86,13 @@ curl -sS -A "Mozilla/5.0" https://kiro.dev/changelog/feed.atom | grep -c 'term="
 **changelog に載らない docs 更新が実際にあります。** 最新エントリ（2026-07-01）より新しい更新が4件ありました
 （`data-protection` July 14 / `gitlab` July 16 / `specs` July 22 / `sandbox/environment-configuration` July 23）。
 
-→ **docs 全20ページの `dateModified`（JSON-LD）を監視**します。これが SSoT の S4 です。
+→ **docs 全15ページの `dateModified`（JSON-LD）を監視**します。これが SSoT の S4 です。
 
 ### 機能仕様・設定情報
 
 ```bash
 # HTML を正とする（末尾スラッシュ必須・空 UA は 403）
-curl -sS -A "Mozilla/5.0" -o /tmp/web-specs.html "https://kiro.dev/docs/web/specs/"
+curl -sS -A "Mozilla/5.0" -o /tmp/web-setup.html "https://kiro.dev/docs/web/setup/"
 
 # ページ全量と Web / IDE / CLI / Shared の区分を確認
 curl -sS -A "Mozilla/5.0" https://kiro.dev/llms.txt
@@ -106,7 +106,7 @@ curl -sS -A "Mozilla/5.0" https://kiro.dev/llms.txt
 | **プレースホルダの潰れ** | `web/sandbox/mcp`・`web/sandbox/environment-configuration` | HTML「Use the `${key_name}` syntax」→ `.md`「Use the **`$`** syntax」。**裸の `` `$` `` に潰れて読者が何を書くか分からなくなる**。コードブロック内は保持されるが本文のインラインコード側が壊れる |
 
 他18ページは見出し集合が一致しますが、**見出しの一致は本文の値の一致を意味しません**。
-**表の値・パス・件数は全20ページで HTML から取ってください。**
+**表の値・パス・件数は全15ページで HTML から取ってください。**
 
 ### 記述粒度（changelog）
 
@@ -155,7 +155,7 @@ python3 scripts/kiro-web-docs/extract-changelog.py --entry /tmp/web-entry.html
 ```markdown
 Kiro Web の Specs はチャット入力欄から選択します。
 
-**出典**: [Specs](https://kiro.dev/docs/web/specs/)（Page updated: July 22, 2026）
+**出典**: [Setup & First Run](https://kiro.dev/docs/web/setup/)（Page updated: August 14, 2026）
 ```
 
 ### 方法2: 参照セクション

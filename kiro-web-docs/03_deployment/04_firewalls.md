@@ -3,13 +3,18 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/firewalls/>（Page updated: May 27, 2026）
+**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026**）
 
 > ⚠️ **本ページは公式ページの HTML 版のみを出典にしています。**
-> このページの `.md` 版（`docs/web/firewalls.md`）は **Web / privacy-and-security / cli の
+> このページの `.md` 版（旧 `docs/web/firewalls.md`）は **Web / privacy-and-security / cli の
 > 3サーフェス分が連結**されており、Kiro Web 以外の内容が混ざっています
 > （3サーフェスの `.md` は 12,349 バイトで完全に同一）。
-> 詳細は [00_information/02_information-sources.md](../00_information/02_information-sources.md#b-3製品分の内容が連結される1ページ) を参照してください。
+> 詳細は [00_information/02_information-sources.md](../00_information/02_information-sources.md#b-3製品分の内容が連結される旧1ページ2026-08-12に移転) を参照してください。
+>
+> **2026-08-04 の移転後、旧 `docs/web/firewalls.md` は404になりました**（実測）。
+> 移転先 `docs/privacy-and-security/firewalls.md` は10,844バイトで依然連結状態ですが
+> （`Optional URLs`・`Proxy configuration`等の他サーフェス見出しが混在）、
+> 3サーフェスすべてが完全一致するかは**再実測が必要**（作業5-4で対応）。
 
 ネットワークにファイアウォール・プロキシサーバー・データ境界がある場合、Kiro がバックエンドサービスに到達できるよう**特定の URL を許可リストに登録する必要があります**。
 
@@ -141,7 +146,7 @@ IAM Identity Center と外部 IdP のグループには、環境ごとに置き�
 - [02_identity-center.md](02_identity-center.md) — AWS Identity Center の要件
 - [03_data-protection.md](03_data-protection.md) — データ保護（テレメトリ）
 - [01_features/05_sandbox.md](../01_features/) — サンドボックスのネットワークアクセス（**別の許可リスト**）
-- 公式: <https://kiro.dev/docs/web/firewalls/>
+- 公式: <https://kiro.dev/docs/privacy-and-security/firewalls/>（移転先）
 
 > ⚠️ **サンドボックスの許可ドメインは本ページの一覧とは別です。** サンドボックス内から
 > 依存関係を取得するためのドメイン（73 件）は

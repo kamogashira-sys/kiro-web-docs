@@ -25,7 +25,7 @@
 | セクション | 内容 |
 |-----------|------|
 | [00_information](00_information/) | 公式サイトの構造・情報源の使い分けと落とし穴（2ページ） |
-| [01_features](01_features/) | 機能詳細ガイド（6ページ） |
+| [01_features](01_features/) | 機能詳細ガイド（7ページ） |
 | [02_update](02_update/) | 更新履歴（全7エントリ・折りたたみ21項目も全量掲載） |
 | [03_deployment](03_deployment/) | 導入・運用（4ページ） |
 | [04_reference](04_reference/) | リファレンス（4ページ・検証可能な正準値） |
@@ -42,7 +42,7 @@ Kiro IDE（`1.0.NNN`）や Kiro CLI と違い、**Kiro Web の更新にバージ
 |------|------|
 | 更新の識別 | **日付（ISO）＋スラッグ** |
 | changelog エントリ数 | **7**（2025-12-02 〜 2026-07-01） |
-| 公式ドキュメントのページ数 | **20** |
+| 公式ドキュメントのページ数 | **15**（2026-08-12の公式サイト再構成で20→15） |
 | 提供形態 | ホスト型サービス（**インストール不要**） |
 | 段階 | **Preview** |
 
@@ -76,7 +76,7 @@ Kiro IDE（`1.0.NNN`）や Kiro CLI と違い、**Kiro Web の更新にバージ
 | Kiro IDE | [kiro-ide-docs](https://github.com/kamogashira-sys/kiro-ide-docs) |
 | Kiro CLI | [q-cli-docs](https://github.com/kamogashira-sys/q-cli-docs) |
 
-公式が「同一」と明記しているもの（[Steering](01_features/04_steering.md#3つのインターフェースで同じ動作をします公式明記)）と、公式が差分を明記しているもの（[Specs](01_features/02_specs.md#kiro-ide-との違い公式が明記している3点)）は区別して書いています。
+公式が「同一」と明記しているもの（[Steering](01_features/04_steering.md#3つのインターフェースで同じ動作をします公式明記)）と、公式が差分を明記していたもの（[Specs](01_features/02_specs.md#kiro-ide-との違い2026-08-12-の移転時点で失われた記述)）は区別して書いています。
 
 ---
 

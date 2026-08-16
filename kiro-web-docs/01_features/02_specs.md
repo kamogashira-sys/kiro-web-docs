@@ -3,9 +3,10 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/specs/>（Page updated: July 22, 2026）
+**出典**: <https://kiro.dev/docs/specs/>（Page updated: August 12, 2026・**Features 区分の全製品共通ページに移転**。旧 `docs/web/specs/` は2026-08-12以前は Page updated: July 22, 2026）
 
-> このページは Kiro Web の docs で3番目に新しい更新です（2026-08-01 時点）。
+> ⚠️ **旧 `docs/web/specs/` は2026-08-12に `docs/specs/`（Features 区分の全製品共通ページ）へ移転しました。**
+> 2026-08-01時点では「Kiro Web の docs で3番目に新しい更新」でしたが、この順位は移転前の記録です。
 
 Specs は、いきなりコードを書き始めるのではなく、**要件・設計・タスクの計画を作ってからエージェントに実装させる**進め方です。計画はブラウザ上でレビューして修正できます。
 
@@ -17,7 +18,7 @@ Specs は、いきなりコードを書き始めるのではなく、**要件・
 2. [spec セッションの開始](#spec-セッションの開始)
 3. [生成される3つの成果物](#生成される3つの成果物)
 4. [タスクの実行](#タスクの実行)
-5. [Kiro IDE との違い（公式が明記している3点）](#kiro-ide-との違い公式が明記している3点)
+5. [Kiro IDE との違い（2026-08-12 の移転時点で失われた記述）](#kiro-ide-との違い2026-08-12-の移転時点で失われた記述)
 
 ---
 
@@ -114,22 +115,36 @@ Specs は、いきなりコードを書き始めるのではなく、**要件・
 
 ---
 
-## Kiro IDE との違い（公式が明記している3点）
+## Kiro IDE との違い（2026-08-12 の移転時点で失われた記述）
 
-公式ページには「**Differences from the IDE**」という節があり、**Kiro IDE の Specs と web で異なる点**が3つ挙げられています。
+> ⚠️ **本節は公式サイトの再構成（2026-08-12）により、出典が現存しないページのスナップショットに基づきます。**
+> 旧 `docs/web/specs/`（Page updated: July 22, 2026）には「**Differences from the IDE**」という節があり、
+> **Kiro IDE の Specs と web で異なる点**が3つ挙げられていました。
+> **移転先 `docs/specs/`（Page updated: August 12, 2026・Features 区分の全製品共通ページ）を実測したところ、
+> この節および「Kiro Web」への言及は0件でした。** 移転時点でこの記述は失われたと判断できます。
 
-| # | Kiro Web での挙動 | Kiro IDE（公式の対比） |
+旧ページに記載されていた3点差分（出典: 06_embedded-docs の 2026-08-01 スナップショット）:
+
+| # | Kiro Web での挙動（旧記載） | Kiro IDE（公式の対比） |
 |---|----------------|-------------------|
 | 1 | **チャット入力ボックスから Spec を選ぶ** | **専用の Specs ペイン**から選ぶ |
 | 2 | **1つの spec セッションに複数リポジトリを追加**でき、エージェントがそれら全体で計画する | （公式は Web 側の特徴として記述） |
 | 3 | **ブラウザで成果物をレビュー・編集し、ローカルにダウンロードできる** | （同上） |
 
-> **これは公式が明記している差分です。** 本サイトが推測したものではありません。
+> **これは移転前に公式が明記していた差分です。** 本サイトが推測したものではありません。
 >
-> 同時に公式は「**same spec types as the IDE**」（spec の種類は IDE と同じ）とも書いています。
-> **「種類は同じ、操作方法とリポジトリの扱いが違う」**というのが公式の説明です。
+> **2 の「複数リポジトリを追加できる」という機能自体**は、移転先にも
+> 「Kiro Web」という語を使わない一般化された表現で残っています
+> （"You can add multiple repositories to a single spec session, and the agent plans and
+> coordinates changes across all of them."）。**IDE との対比という文脈は失われましたが、
+> 機能の記述自体は消えていません。**
+>
+> 1・3 について、移転先に同等の記述が残っているかは確認できていません（**未確認**）。
+>
+> 旧ページは同時に「**same spec types as the IDE**」（spec の種類は IDE と同じ）とも書いていました。
 
-公式は IDE 側の完全なワークフローについて `docs/specs`（**Kiro IDE 版のドキュメント — 別製品**）を案内しています。IDE 版の解説は姉妹サイト [kiro-ide-docs](https://github.com/kamogashira-sys/kiro-ide-docs) にあります。
+公式は現在、IDE と Web を区別しない共通ページ `docs/specs/`（**Features 区分**）で Specs を説明しています。
+IDE 版の解説は姉妹サイト [kiro-ide-docs](https://github.com/kamogashira-sys/kiro-ide-docs) にあります。
 
 ---
 
@@ -139,7 +154,7 @@ Specs は、いきなりコードを書き始めるのではなく、**要件・
 - [04_steering.md](04_steering.md) — Steering（spec の生成にも影響する）
 - [06_repository-integration.md](06_repository-integration.md) — 複数リポジトリの扱い
 - [02_update/01_changelog.md](../02_update/01_changelog.md#2026-06-11-gitlab-support-and-specs-in-the-browser) — Specs がブラウザに来たときのエントリ
-- 公式: <https://kiro.dev/docs/web/specs/>
+- 公式: <https://kiro.dev/docs/specs/>（移転先）
 
 ---
 

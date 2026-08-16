@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: June 11, 2026）・<https://kiro.dev/docs/web/first-task/>（Page updated: April 21, 2026）
+**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: August 14, 2026・**旧 `docs/web/first-task/` は2026-08-14以前にPage updated: April 21, 2026・現在は本ページへ統合**）
 
 Kiro Web はブラウザから使うサービスなので、**インストールはありません**。「サインイン」と「リポジトリプロバイダの接続」が導入作業になります。
 
@@ -63,11 +63,11 @@ Kiro Web はブラウザから使うサービスなので、**インストール
 | 制約 | 内容 |
 |------|------|
 | **リージョン** | Preview 中は **US East（N. Virginia）`us-east-1` のみ** |
-| **管理者の有効化が必要** | Kiro を構成している AWS アカウントで **Settings > Kiro Settings** から有効化しないと、利用者はアクセスできない |
+| **管理者の有効化が必要** | Kiro を構成している AWS アカウントで **Settings > Kiro Settings** の **Cloud Sessions (Preview)** から有効化しないと、利用者はアクセスできない（2026-08-14 更新。旧称は「Autonomous agents」） |
 
 ### 公式の手順
 
-1. **管理者が組織向けに Kiro Web エージェントを有効化する**
+1. **管理者が組織向けに Cloud Sessions を有効化する**（旧称「Kiro Web エージェントの有効化」）
 2. Identity Center の資格情報で <https://app.kiro.dev> にサインインする
 3. **Kiro Profile が必要**（**Q Developer Profile では動作しません**）
 4. リポジトリプロバイダ（GitHub または GitLab）を接続する
@@ -138,7 +138,7 @@ Kiro Web は **パーソナルアクセストークン（PAT）** で GitLab に
 
 ## 最初のタスクを実行する
 
-**出典**: <https://kiro.dev/docs/web/first-task/>（Page updated: April 21, 2026）
+**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: August 14, 2026・**「最初のタスクを実行する」節は旧 `docs/web/first-task/` の内容を統合したもの**）
 
 ### 1. セッションを開始する
 
@@ -205,7 +205,7 @@ Kiro Web は **パーソナルアクセストークン（PAT）** で GitLab に
 - [03_data-protection.md](03_data-protection.md) — データ保護（保存リージョン・暗号化・オプトアウト）
 - [04_firewalls.md](04_firewalls.md) — ファイアウォール・プロキシの設定
 - [01_features](../01_features/) — 機能詳細ガイド
-- 公式: <https://kiro.dev/docs/web/setup/>・<https://kiro.dev/docs/web/first-task/>
+- 公式: <https://kiro.dev/docs/web/setup/>（`first-task` は本ページに統合済み）
 
 ---
 

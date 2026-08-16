@@ -3,11 +3,11 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/firewalls/>（Page updated: May 27, 2026）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: July 16, 2026）
+**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026。タブ構成（IDE/CLI/Web）に変更されたが Web タブの34行は変化なし（実測確認済み）**）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: July 16, 2026）
 
 > ⚠️ **本ページの値はすべて公式ページの HTML 版から取っています。**
 > `firewalls` の `.md` 版は3サーフェス分が連結されているため使用していません
-> （[00_information/02_information-sources.md](../00_information/02_information-sources.md#b-3製品分の内容が連結される1ページ)）。
+> （[00_information/02_information-sources.md](../00_information/02_information-sources.md#b-3製品分の内容が連結される旧1ページ2026-08-12に移転)）。
 
 ---
 
@@ -25,7 +25,7 @@
 
 ## 1. Kiro Web 本体のエンドポイント（34 行）
 
-**出典**: <https://kiro.dev/docs/web/firewalls/>（HTML 版）
+**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（HTML 版・移転先。Surface-specific URLs のタブ構成のうち Web タブを対象）
 
 自社ネットワークのファイアウォール・プロキシで許可します。考え方と構成別の必要グループは [03_deployment/04_firewalls.md](../03_deployment/04_firewalls.md) を参照してください。
 
@@ -230,7 +230,7 @@ GitLab インスタンスがインターネット経由で到達可能で、**IP
 - [01_features/05_sandbox.md](../01_features/05_sandbox.md) — サンドボックスのネットワークアクセスレベル
 - [01_features/06_repository-integration.md](../01_features/06_repository-integration.md) — GitHub / GitLab 連携
 - [02_environment-variables.md](02_environment-variables.md) — 環境変数・シークレット
-- 公式: <https://kiro.dev/docs/web/firewalls/>・<https://kiro.dev/docs/web/sandbox/internet-access/>・<https://kiro.dev/docs/web/gitlab/>
+- 公式: <https://kiro.dev/docs/privacy-and-security/firewalls/>（移転先）・<https://kiro.dev/docs/web/sandbox/internet-access/>・<https://kiro.dev/docs/web/gitlab/>
 
 ---
 

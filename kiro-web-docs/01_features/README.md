@@ -16,6 +16,7 @@
 | [04_steering.md](04_steering.md) | **Steering**（**公式が3インターフェースで同一と明記**・学習はタスク作成者のみ） | `web/steering/` |
 | [05_sandbox.md](05_sandbox.md) | **サンドボックス**（動作5段階・ネットワーク4レベル・**サンドボックスの外側で動くもの**） | `web/sandbox/` ＋配下4 |
 | [06_repository-integration.md](06_repository-integration.md) | **GitHub / GitLab 連携**（2層の権限・PR 作成者・トークンの絞り方・混在利用） | `web/github/`・`web/gitlab/` |
+| [07_cloud-sessions.md](07_cloud-sessions.md) | **Cloud Sessions**（Kiro Web の全セッションの実行環境そのもの。IDE/CLI/Mobile との相互運用） | `docs/cloud-sessions/`（Features 区分の全製品共通ページ） |
 
 ---
 
@@ -26,7 +27,7 @@
 | 公式の記述 | 該当機能 | 本サイトの扱い |
 |-----------|---------|--------------|
 | **「同じ」と明記** | [Steering](04_steering.md#3つのインターフェースで同じ動作をします公式明記) | 「公式が同一と明記している」と書く。**推測で差分を作らない** |
-| **差分を明記** | [Specs](02_specs.md#kiro-ide-との違い公式が明記している3点)（3点） | 公式の差分をそのまま示す |
+| **差分を明記** | [Specs](02_specs.md#kiro-ide-との違い2026-08-12-の移転時点で失われた記述)（3点） | 公式の差分をそのまま示す |
 | **Web 固有** | [Powers](../04_reference/03_mcp-configuration.md)・[Automations](03_automations.md) | Web の機能として扱う |
 
 ---

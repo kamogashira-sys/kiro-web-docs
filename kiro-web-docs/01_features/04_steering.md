@@ -5,7 +5,7 @@
 >
 > ただし Steering については、**公式が「3つのインターフェースで同じように動作する」と明記しています**（[下記](#3つのインターフェースで同じ動作をします公式明記)）。
 
-**出典**: <https://kiro.dev/docs/web/steering/>（Page updated: May 27, 2026）
+**出典**: <https://kiro.dev/docs/steering/>（Page updated: August 12, 2026・**移転先。旧 `docs/web/steering/` は2026-08-12以前は Page updated: May 27, 2026**）
 
 Steering は、**Markdown ファイルを通じてエージェントに永続的な知識を与える**仕組みです。毎回セッションで規約を説明する代わりに、確立したパターン・ライブラリ・標準に一貫して従わせられます。
 
@@ -72,7 +72,7 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 > [2026-05-07 のエントリ](../02_update/01_changelog.md#2026-05-07-introducing-kiro-web-preview)でも
 > 公式は「using the same format that works in Kiro IDE and Kiro CLI」と説明しています。
 
-同名でも仕様が異なる機能（例: [Specs](02_specs.md#kiro-ide-との違い公式が明記している3点)）とは扱いが違う点に注意してください。
+同名でも仕様が異なる機能（例: [Specs](02_specs.md#kiro-ide-との違い2026-08-12-の移転時点で失われた記述)）とは扱いが違う点に注意してください。
 
 ---
 
@@ -132,7 +132,7 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 - [02_specs.md](02_specs.md) — Specs（公式が IDE との差分を明記している機能）
 - [03_automations.md](03_automations.md) — Automations（誰もいない状態で実行されるため規約が重要）
 - [06_repository-integration.md](06_repository-integration.md) — PR フィードバックへの対応
-- 公式: <https://kiro.dev/docs/web/steering/>
+- 公式: <https://kiro.dev/docs/steering/>（移転先）
 
 ---
 
