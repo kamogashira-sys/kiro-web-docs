@@ -23,6 +23,13 @@
 # fail-safe:
 #   - **ネットワークそのものが不通なら exit 0 ＋ 案内**（CI やオフラインで赤くしない）
 #   - 到達性の失敗（404・301 等）は exit 1
+#
+# 移転スタブ検出（2026-08 の公式サイト再構成で判明。kiro-ide-docs から移植・F-W: 2026-08-16）:
+#   旧 URL 体系のページが HTTP 200 を返すが実体を持たない「移転案内スタブ」になる場合がある。
+#   スタブは HTTP リダイレクトを一切行わない（meta refresh と JS のみで遷移する。
+#   ステータスコードだけを見る検査では検出できない）。
+#   本文に `moved to <a href="..."` が含まれるかどうかでのみ判定できる（実測で確認済み）。
+#   対象は kiro.dev/docs/ 配下の 200/204 のみ（パフォーマンスと誤検知防止のため）。
 
 set -uo pipefail
 
@@ -110,8 +117,17 @@ fi
 
 echo ""
 
+# $1=URL -> 移転先パスを標準出力へ（移転スタブでなければ空文字）
+check_moved_stub() {
+  local url="$1" body target
+  body=$(curl -s -A "$UA" --max-time 15 --retry 2 --retry-delay 1 "$url" 2>/dev/null || echo "")
+  target=$(printf '%s' "$body" | grep -oE 'moved to <a href="[^"]+"' | head -1 | sed -E 's/.*href="([^"]+)".*/\1/')
+  echo "$target"
+}
+
 fail=0
 ok=0
+stub_checked=0
 declare -a failures=()
 
 while IFS= read -r url; do
@@ -120,6 +136,18 @@ while IFS= read -r url; do
   code=$(curl -sS --max-time 20 -o /dev/null -w '%{http_code}' -A "$UA" "$url" 2>/dev/null || echo "000")
   case "$code" in
     200|204)
+      # kiro.dev/docs/ 配下のみ移転スタブ判定を行う（誤検知防止・パフォーマンス）
+      case "$url" in
+        https://kiro.dev/docs/*)
+          stub_checked=$((stub_checked + 1))
+          moved_to=$(check_moved_stub "$url")
+          if [ -n "$moved_to" ]; then
+            failures+=("$code $url  → 移転スタブ（実体なし）。移転先: $moved_to")
+            fail=1
+            continue
+          fi
+          ;;
+      esac
       ok=$((ok + 1))
       ;;
     301|302|307|308)
@@ -137,6 +165,7 @@ while IFS= read -r url; do
   esac
 done < /tmp/kw_urls.txt
 
+echo "移転スタブ判定を実施した kiro.dev/docs/ URL: $stub_checked 件"
 echo "到達 OK: $ok 件"
 if [ ${#failures[@]} -gt 0 ]; then
   echo ""
