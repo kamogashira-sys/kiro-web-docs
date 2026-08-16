@@ -3,7 +3,11 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: June 18, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: August 4, 2026）
+
+> **2026-08-04 の更新で新設**: 公式は「全 Kiro サーフェスに共通する MCP の一般的な設定・概念は
+> `docs/mcp/` を参照、Powers の一般的な文書は `docs/powers/` を参照」という案内を
+> ページ冒頭に追加しました。本ページは Kiro Web 固有の設定に絞って記載します。
 
 > ⚠️ **本ページの設定例はすべて公式ページの HTML 版から取っています。**
 > このページの `.md` 版は **`${key_name}` が裸の `` `$` `` に潰れており**、設定の書き方が
@@ -69,7 +73,7 @@
 > MCP サーバーは**サンドボックスの外**で動き、シークレットも読めます
 > （[02_environment-variables.md](02_environment-variables.md#secrets-exfiltration-warning)）。
 
-公式は追加の指針として `docs/cli/mcp/security` にリンクしています。**これは Kiro CLI 版のページ（別製品のドキュメント）**ですが、公式が Web のページから参照しているものです。
+公式は追加の指針として `docs/mcp/security`（2026-08-04 の更新で URL が変更。旧 `docs/cli/mcp/security` から**全製品共通のページ**に統合）にリンクしています。
 
 ---
 

@@ -51,6 +51,7 @@ SECTION_FILES = {
         "04_steering.md",
         "05_sandbox.md",
         "06_repository-integration.md",
+        "07_cloud-sessions.md",
     ],
     "02_update": [
         "01_changelog.md",

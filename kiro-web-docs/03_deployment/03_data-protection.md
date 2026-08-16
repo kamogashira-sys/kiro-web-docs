@@ -3,10 +3,10 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/data-protection/>（Page updated: July 14, 2026）
+**出典**: <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）
 
-> このページは **Kiro Web の docs で2番目に新しい更新**です（2026-08-01 時点）。
-> 最新の changelog エントリ（2026-07-01）より後に更新されているため、changelog には現れていません。
+> このページは2026-08-04に更新され、2026-08-12以前の公式サイト再構成で
+> `docs/privacy-and-security/data-protection/` へ移転しました。
 
 ---
 
@@ -38,18 +38,31 @@
 
 ### 何が保存されるか
 
-公式は、Kiro Web が次のものを保存すると説明しています。
+公式は、Kiro が次のものを保存すると説明しています（2026-08-04 更新で IDE/CLI/Web 共通の記述に変更）。
 
-- タスクの説明（task descriptions）
-- チャットメッセージ（chat messages）
-- コードの変更（code changes）
-- タスクを実行して応答を生成するための追加コンテキスト
+- 質問・応答（questions, responses）
+- コード等の追加コンテキスト（additional context such as code and metadata）
+- 不正利用検知のため、一部の場合に上記を保存（[不正利用の検知](#不正利用の検知)）
+
+> ⚠️ **記述が「Kiro Web が保存する」から「Kiro が保存する」に変わりました。**
+> 旧記述（task descriptions・chat messages・code changes）から
+> 新記述（questions・responses・additional context）に文言が変わっていますが、
+> **実質的に指している内容は同種**と判断できます。公式による説明変更の意図は不明のため、
+> 変更があったという事実のみを記載します。
 
 ### 保存されるリージョン
 
-> During the preview, all Kiro Web content, such as task descriptions, chat messages, and code changes, is stored in the US East (N. Virginia) Region.
+> If you are a Kiro Free Tier user or a Kiro individual subscriber, your content, such as prompts and responses, will be stored in the US East (N. Virginia) Region.
 
-**Preview 中は、すべての Kiro Web のコンテンツが US East（N. Virginia）リージョンに保存されます。**
+**Kiro Free Tier 利用者・個人サブスクライバーの場合、コンテンツは US East（N. Virginia）リージョンに保存されます。**
+
+> ⚠️ **2026-08-04 の更新で「Preview中は全コンテンツがUS East」という記述が、
+> 利用者区分別の記述に変わりました。** 新たに「Kiro enterprise user の場合、
+> プロファイルが構成されているリージョンに保存される場合がある」という記述が追加されています
+> （"your content ... may be stored in the region where your profile is configured"）。
+> **Kiro Web に enterprise 利用者区分が存在するかは [02_identity-center.md](02_identity-center.md) の
+> 対象（AWS Identity Center 利用）と関連する可能性がありますが、この記述が Kiro Web の
+> Identity Center 利用者にも適用されるかは公式から判別できないため未確認です。**
 
 ---
 
@@ -61,21 +74,34 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 
 公式は次のように明記しています。
 
-> Cross-region inference doesn't affect where your data is stored. All data remains stored in the US East (N. Virginia) Region during the preview.
+> Cross region inference doesn't affect where your data is stored.
+
+**保存先と処理先は別です。** 2026-08-04 の更新で「All data remains stored in the US East (N. Virginia) Region during the preview」という**Preview全体を対象にした一文が削除**され、保存先はデータの保存節（[前述](#保存されるリージョン)・利用者区分別）を参照する形に変わりました。
 
 | 項目 | リージョン |
 |------|----------|
-| **データの保存先** | **US East（N. Virginia）のみ**（Preview 中） |
-| **推論の処理先** | 米国内の**別のリージョンになる場合がある**（下表） |
+| **データの保存先** | Free Tier・個人サブスクライバーは **US East（N. Virginia）のみ**（[前述](#保存されるリージョン)） |
+| **推論の処理先** | 保存先と異なるリージョンになる場合がある（下表） |
 
-### 対応リージョン（3件）
+### 対応リージョン（2026-08-04 の更新でヨーロッパが追加）
+
+> ⚠️ **本サイトの正準値 S12（推論リージョン3件）に影響する変更です。** 実測を記録します。
 
 | 対応地域 | 推論リージョン |
 |---------|--------------|
-| United States | **US East（N. Virginia）`us-east-1`**<br>**US West（Oregon）`us-west-2`**<br>**US East（Ohio）`us-east-2`** |
+| United States | **US East（N. Virginia）`us-east-1`**<br>**US West（Oregon）`us-west-2`**<br>**US East（Ohio）`us-east-2`**<br>AWS GovCloud (US-East)<br>AWS GovCloud (US-West) |
+| **Europe（2026-08-04 新設）** | Europe (Frankfurt) `eu-central-1`<br>Europe (Ireland) `eu-west-1`<br>Europe (Paris) `eu-west-3`<br>Europe (Stockholm) `eu-north-1`<br>Europe (Milan) `eu-south-1`<br>Europe (Spain) `eu-south-2` |
 
-> つまり、**データ保存は N. Virginia に限定されますが、処理は米国内3リージョンに分散されます。**
-> データ境界の要件がある場合はこの区別が重要です。
+> **この表が Kiro Web にそのまま適用されるかは未確認です。** 本ページは2026-08-04の更新で
+> IDE/CLI/Web共通の記述に変わっており（[前述](#何が保存されるか)）、GovCloud・欧州リージョンの
+> 追加が Kiro Web のユーザーにも実際に関係するかは公式から判別できません。
+> 従来の「米国内3リージョン」という記述（S12=3）は**この共通ページの旧内容**であり、
+> 現時点でKiro Web固有の対応リージョン数を確定できないため、**S12は実測差分の記録に留め、
+> 正準値としての更新は見送ります**（Phase 5 で再検討）。
+
+> 実験的機能向けの「グローバルクロスリージョン推論」も新設されていますが、
+> **「実験的タグが付いたモデル・機能のみ」に限定される**ため、Kiro Web の通常機能への
+> 影響は未確認です。
 
 ---
 
@@ -97,6 +123,12 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 > ⚠️ **カスタマー管理キー（CMK）は Kiro Web ではサポートされません。**
 > これは Identity Center の共有設定が適用されない項目の1つです
 > （[02_identity-center.md](02_identity-center.md#制限--適用されない共有設定)）。
+>
+> **2026-08-04 の移転後、移転先ページには「Kiro enterprise で管理者が CMK を設定できる」という
+> 新しい記述が追加されています。** この記述が Kiro Web にも適用されるのか、
+> IDE/CLI のみを指すのかは公式ページから判別できないため**未確認**です。
+> 上記の Identity Center 経由の非対応記述（共有設定として適用されない）と矛盾するかどうかも
+> 現時点では判断できません。
 
 ---
 
@@ -106,19 +138,26 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 
 公式は次のように説明しています。
 
-> We may use certain content from Kiro Web Free Tier and Kiro individual subscribers for service improvement.
+> We may use certain content from Kiro Free Tier and Kiro individual subscribers for service improvement.
+
+> ⚠️ **2026-08-04 の更新で「Kiro Web Free Tier」から「Kiro Free Tier」に文言が変わりました**
+> （「Web」が削除）。これも本ページが IDE/CLI/Web 共通の記述に変わったことによる変化と考えられますが、
+> Kiro Web の Free Tier 利用者を指す実質的な内容は変わっていないと判断できます。
 
 | 利用者区分 | サービス改善への利用 |
 |-----------|------------------|
-| **Kiro Web Free Tier** | 対象になりうる |
+| **Kiro Free Tier** | 対象になりうる |
 | **個人サブスクライバー**（individual subscribers） | 対象になりうる |
 | **エンタープライズ利用者** | **対象外**（「We do not use content from Kiro enterprise users for service improvement」） |
 
 公式は「個人サブスクライバー」を、**有料の Kiro サブスクリプションを持ち、ソーシャルログイン（GitHub・Google など）または AWS Builder ID でアクセスする利用者**と定義しています。
 
+> **2026-08-04 の更新で新規追加**: Amazon Q Developer Pro サブスクリプションで
+> AWS アカウント経由で Kiro にアクセスする場合、コンテンツはサービス改善に使われません。
+
 ### 対象となるコンテンツ
 
-タスクの説明・チャットメッセージ・その他の入力・Kiro が生成した応答とコード。
+質問・その他の入力・Kiro が生成した応答とコード（2026-08-04 更新で「タスクの説明・チャットメッセージ」から文言変更）。
 
 公式が挙げている用途は、よくある質問へのより良い応答の提供、運用上の問題の修正、デバッグ、**モデルの訓練**です。
 
@@ -130,7 +169,7 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 
 公式は次のように説明しています。
 
-> By default, Kiro Web collects usage data, errors, crash reports, and other metrics as well as content for service improvement from Kiro Free Tier users and Kiro individual subscribers.
+> By default, Kiro collects usage data, errors, crash reports, and other metrics as well as content for service improvement from Kiro Free Tier users and Kiro individual subscribers.
 
 **既定では収集されます**（Free Tier 利用者・個人サブスクライバー）。
 
@@ -180,12 +219,12 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 <a id="free-tier-conflict"></a>
 ## ⚠️ Free Tier に関する公式ページ間の食い違い
 
-**2026-08-01 時点で未解決**です。
+**2026-08-01 時点で未解決**でした。**2026-08-04 に本ページが移転先へ更新され、食い違いは継続しています**（Phase 4 で `docs/web/` トップの2026-08-14更新内容を確認する）。
 
 | 出典 | Page updated | 記述の要旨 |
 |------|-------------|-----------|
 | `docs/web/`・`docs/web/setup/` | 2026-06-11 | Kiro Web の利用には **Pro 以上**が必要。**「Kiro Web is not available on the free tier」** |
-| **本ページ**（`docs/web/data-protection/`） | **2026-07-14**（より新しい） | **「Kiro Web Free Tier」**という区分が繰り返し登場し、Free Tier 利用者のデータ保持（60 日）・オプトアウト・不正利用検知が記述されている |
+| **本ページ**（`docs/privacy-and-security/data-protection/`・移転先） | **2026-08-04**（より新しい） | **「Kiro Web Free Tier」**という区分が繰り返し登場し、Free Tier 利用者のデータ保持（60 日）・オプトアウト・不正利用検知が記述されている |
 
 ### 本サイトの扱い
 
@@ -207,7 +246,7 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 - [02_identity-center.md](02_identity-center.md) — CMK 非対応・共有設定の制限
 - [04_firewalls.md](04_firewalls.md) — テレメトリのエンドポイント
 - [04_reference/04_limits.md](../04_reference/) — 保持期間などの値の一覧
-- 公式: <https://kiro.dev/docs/web/data-protection/>
+- 公式: <https://kiro.dev/docs/privacy-and-security/data-protection/>（移転先）
 
 ---
 

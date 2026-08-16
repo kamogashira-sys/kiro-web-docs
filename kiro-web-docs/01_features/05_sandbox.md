@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/sandbox/>（Page updated: June 11, 2026）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: July 23, 2026）・<https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: June 18, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/>（Page updated: June 11, 2026）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: July 23, 2026）・<https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: August 4, 2026）
 
 サンドボックスは、**エージェントがタスクを実行する隔離された環境**です。**タスクごとに専用のサンドボックス**が作られます。
 
@@ -134,7 +134,7 @@
 
 ## Powers と MCP サーバー
 
-**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>
+**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: August 4, 2026）
 
 エージェントにツールとコンテキストを追加する方法が2種類あります。
 

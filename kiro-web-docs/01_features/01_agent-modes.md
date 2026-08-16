@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: June 11, 2026）・<https://kiro.dev/docs/web/using-the-agent/chatting/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/autonomous-mode/>（Page updated: April 21, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/using-the-agent/chatting/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/autonomous-mode/>（Page updated: August 4, 2026）
 
 ---
 
@@ -141,7 +141,7 @@ PR にはその後もフィードバックを与えられます。**エージェ
 
 ## タスクの作り方
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/creating-tasks/>
+**出典**: <https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: August 4, 2026）
 
 ### `app.kiro.dev` から
 
@@ -234,7 +234,7 @@ PR にはその後もフィードバックを与えられます。**エージェ
 | 項目 | 内容 |
 |------|------|
 | 設計上の制約 | **まとまった量のテキストを再現しないよう設計されている** |
-| アクセスできないもの | **ペイウォールや認証の背後にあるページ** |
+| 対応するページ | **公開アクセス可能なページ**（2026-08-04 更新で「ペイウォールや認証の背後にあるページにアクセスできない」という記述から変更） |
 | ログ | **検索は引用付きでセッションに記録される**（エージェントが参照した情報源を確認できる） |
 
 ---

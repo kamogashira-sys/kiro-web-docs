@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/github/>（Page updated: June 11, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: July 16, 2026）
+**出典**: <https://kiro.dev/docs/web/github/>（Page updated: August 7, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: July 16, 2026）
 
 Kiro Web は **GitHub と GitLab の両方**に対応しています。**1つのセッションで両方を混在**させることもできます。
 
@@ -166,7 +166,7 @@ Kiro Web は **GitHub と GitLab の両方**に対応しています。**1つの
 | **コメントを削除する** |
 | **コマンドを使う前に自分の見解を返信する** |
 
-`app.kiro.dev/agent` のタスクビューからフィードバックを与えることもできます。
+`app.kiro.dev` のタスクビューからフィードバックを与えることもできます（2026-08-07 更新で URL パスの言及が `app.kiro.dev/agent` から `app.kiro.dev` に変更）。
 
 ### GitHub Action のフィードバック
 
@@ -294,8 +294,11 @@ Kiro Web は **GitHub と GitLab の両方**に対応しています。**1つの
 - **アクセスの取り消し**は、GitLab でパーソナルアクセストークンを削除するか、**Settings の Agent タブから GitLab を切断**する
 
 > 出典の [03_deployment/01_setup.md](../03_deployment/01_setup.md#gitlab-を接続する) は
-> `setup` ページ（Page updated: June 11, 2026）に基づき「`api` スコープ」を案内していますが、
-> **より新しい `gitlab` ページ（July 16, 2026）は fine-grained token を推奨**しています。
+> `setup` ページ（Page updated: August 14, 2026・**この更新は `first-task` の統合によるもので、
+> `api` スコープの案内自体は変更されていません**）に基づき「`api` スコープ」を案内していますが、
+> `gitlab` ページ（July 16, 2026）は fine-grained token を推奨しています。
+> **2026-08-14 の更新で `setup` の更新日が `gitlab` より新しくなりましたが、
+> `api` スコープ案内の記述は変わっていないため、依然 fine-grained token の推奨を優先してください。**
 > 新規に作成する場合は fine-grained token を検討してください。
 
 ---

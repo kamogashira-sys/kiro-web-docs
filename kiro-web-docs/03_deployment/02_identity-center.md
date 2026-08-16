@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/identity-center/>（Page updated: June 11, 2026）
+**出典**: <https://kiro.dev/docs/web/identity-center/>（Page updated: August 14, 2026）
 
 組織で AWS Identity Center を使っている場合、Kiro Web の利用には**追加の要件**があります。また、**管理者が設定した共有設定の一部が Kiro Web には適用されません**。
 
@@ -20,15 +20,26 @@
 
 ## 組織で Kiro Web を有効化する（管理者作業）
 
-公式は「Administrators must enable the Kiro Web agent before users in the organization can access it」として、**利用者がアクセスする前に管理者が有効化する必要がある**と説明しています。
+> ⚠️ **2026-08-14 の更新で有効化する項目の名前が変わりました。**
+> 旧称「**Autonomous agents**」は「**Cloud Sessions (Preview)**」になりました。
+> 公式は次のように説明しています。
+>
+> > **Cloud Sessions (Preview)** was previously labeled **Kiro Web (Preview)**. Organizations that already enabled Kiro Web (Preview) stay enabled. For organizations setting up Kiro for the first time, an administrator must opt in before users can start Kiro Web sessions.
+>
+> **既に「Kiro Web (Preview)」を有効化していた組織は有効のまま維持されます。** 新規に設定する組織は、
+> 利用者がセッションを開始する前に管理者がオプトインする必要があります。
+> **このトグルは Kiro Web だけでなく、Agent Focus Mode のクラウドセッションと
+> Kiro CLI（**別製品**）の `kiro-cli --cloud` も対象範囲に含みます**（[Cloud Sessions](../01_features/07_cloud-sessions.md)）。
+
+公式は「Administrators must enable Cloud Sessions before users in the organization can start Kiro Web sessions」として、**利用者がアクセスする前に管理者が有効化する必要がある**と説明しています。
 
 手順は3ステップです。
 
 1. **Kiro を構成している AWS アカウント**に移動する
 2. **Settings > Kiro Settings** に移動する
-3. **Autonomous agents** をオンにする
+3. **Cloud Sessions (Preview)** をオンにする
 
-> 有効化する項目の名前は **「Autonomous agents」** です（「Kiro Web」という名前の項目ではありません）。
+> 有効化する項目の名前は **「Cloud Sessions (Preview)」**です（2026-08-14以前は「Autonomous agents」という名前でした）。
 
 ---
 

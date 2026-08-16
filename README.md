@@ -25,7 +25,7 @@
 | セクション | 内容 |
 |-----------|------|
 | [00_information](kiro-web-docs/00_information/) | 公式サイトの構造・情報源の使い分けと落とし穴 |
-| [01_features](kiro-web-docs/01_features/) | 機能詳細ガイド（モード・Specs・Automations・Steering・サンドボックス・リポジトリ連携） |
+| [01_features](kiro-web-docs/01_features/) | 機能詳細ガイド（モード・Specs・Automations・Steering・サンドボックス・リポジトリ連携・Cloud Sessions） |
 | [02_update](kiro-web-docs/02_update/) | 更新履歴（[changelog 全7エントリ](kiro-web-docs/02_update/01_changelog.md)） |
 | [03_deployment](kiro-web-docs/03_deployment/) | 導入・運用（セットアップ・Identity Center・データ保護・ファイアウォール） |
 | [04_reference](kiro-web-docs/04_reference/) | リファレンス（許可ドメイン・環境変数・MCP 設定・上限値） |
@@ -39,7 +39,7 @@ Kiro IDE（`1.0.NNN`）や Kiro CLI と違い、**Kiro Web の更新にバージ
 | 項目 | 内容 |
 |------|------|
 | changelog エントリ数 | **7**（2025-12-02 〜 2026-07-01） |
-| 公式ドキュメントのページ数 | **20** |
+| 公式ドキュメントのページ数 | **15**（2026-08-12の公式サイト再構成で20→15） |
 | 提供形態 | ホスト型サービス（**インストール不要**） |
 
 > 版番号が存在しない**理由**は公式に説明がないため**未確認**です。

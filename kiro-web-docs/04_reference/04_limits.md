@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/automations/>（Page updated: June 18, 2026）・<https://kiro.dev/docs/web/data-protection/>（Page updated: July 14, 2026）・<https://kiro.dev/changelog/web/start-without-a-repo-switch-modes-anytime/>（June 2, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/automations/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）・<https://kiro.dev/changelog/web/start-without-a-repo-switch-modes-anytime/>（June 2, 2026）
 
 > 本ページの値はすべて公式ページの HTML 版と公式 changelog から取っており、本サイトの検証スクリプトが公式との一致を機械的に確認しています。
 
@@ -76,7 +76,7 @@
 
 ## オートメーションの上限
 
-**出典**: <https://kiro.dev/docs/web/automations/>（Page updated: June 18, 2026）
+**出典**: <https://kiro.dev/docs/web/automations/>（Page updated: August 4, 2026）
 
 | 項目 | 値 | 公式の記述 |
 |------|---|-----------|
@@ -131,7 +131,7 @@
 
 ## リージョンとデータの所在
 
-**出典**: <https://kiro.dev/docs/web/data-protection/>（Page updated: July 14, 2026）
+**出典**: <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026・移転先）
 
 ### データの保存先（1 リージョン）
 

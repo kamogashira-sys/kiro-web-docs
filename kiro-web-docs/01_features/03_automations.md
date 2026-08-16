@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
 
-**出典**: <https://kiro.dev/docs/web/automations/>（Page updated: June 18, 2026）
+**出典**: <https://kiro.dev/docs/web/automations/>（Page updated: August 4, 2026）
 
 Automations は、**セッションを自分で開始せずに、スケジュールに従ってプロンプトをリポジトリに対して実行させる**機能です。
 
