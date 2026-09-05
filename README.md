@@ -2,7 +2,7 @@
 
 **Kiro Web**（<https://app.kiro.dev>）のアップデート情報・機能詳細・リファレンスを、日本語でまとめた**非公式**ドキュメントサイトです。
 
-> ⚠️ **Kiro Web は Preview 段階**です。仕様が変わることがあります。各ページには公式ドキュメントの**出典 URL と出典日**を記載しています。
+> **Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。** 各ページには公式ドキュメントの**出典 URL と出典日**を記載しています。
 
 ---
 
@@ -13,7 +13,7 @@
 | **Kiro Web がどんなものか知りたい** | [2つのモード（協調 / Autonomous）](kiro-web-docs/01_features/01_agent-modes.md) |
 | **使い始めたい** | [セットアップと最初のタスク](kiro-web-docs/03_deployment/01_setup.md) |
 | **組織で導入したい** | [AWS Identity Center](kiro-web-docs/03_deployment/02_identity-center.md) / [ファイアウォール設定](kiro-web-docs/03_deployment/04_firewalls.md) |
-| **何が変わったか知りたい** | [更新履歴（全7エントリ）](kiro-web-docs/02_update/01_changelog.md) |
+| **何が変わったか知りたい** | [更新履歴（全19エントリ）](kiro-web-docs/02_update/01_changelog.md) |
 | **設定値を調べたい** | [リファレンス早見表](kiro-web-docs/04_reference/04_limits.md#-早見表) |
 
 **[→ サイト本体の目次](kiro-web-docs/README.md)**
@@ -26,7 +26,7 @@
 |-----------|------|
 | [00_information](kiro-web-docs/00_information/) | 公式サイトの構造・情報源の使い分けと落とし穴 |
 | [01_features](kiro-web-docs/01_features/) | 機能詳細ガイド（モード・Specs・Automations・Steering・サンドボックス・リポジトリ連携・Cloud Sessions） |
-| [02_update](kiro-web-docs/02_update/) | 更新履歴（[changelog 全7エントリ](kiro-web-docs/02_update/01_changelog.md)） |
+| [02_update](kiro-web-docs/02_update/) | 更新履歴（[changelog 全19エントリ](kiro-web-docs/02_update/01_changelog.md)） |
 | [03_deployment](kiro-web-docs/03_deployment/) | 導入・運用（セットアップ・Identity Center・データ保護・ファイアウォール） |
 | [04_reference](kiro-web-docs/04_reference/) | リファレンス（許可ドメイン・環境変数・MCP 設定・上限値） |
 
@@ -38,8 +38,8 @@ Kiro IDE（`1.0.NNN`）や Kiro CLI と違い、**Kiro Web の更新にバージ
 
 | 項目 | 内容 |
 |------|------|
-| changelog エントリ数 | **7**（2025-12-02 〜 2026-07-01） |
-| 公式ドキュメントのページ数 | **15**（2026-08-12の公式サイト再構成で20→15） |
+| changelog エントリ数 | **19**（2025-12-02 〜 2026-09-01） |
+| 公式ドキュメントのページ数 | **18**（snapshot: 2026-09-05） |
 | 提供形態 | ホスト型サービス（**インストール不要**） |
 
 > 版番号が存在しない**理由**は公式に説明がないため**未確認**です。
@@ -80,7 +80,7 @@ Kiro は IDE・CLI・Web の3つのインターフェースを持つ**別製品*
 | [#2](https://github.com/kamogashira-sys/kiro-web-docs/issues/2) | バージョン番号が存在しない理由（公式に説明なし） |
 | [#3](https://github.com/kamogashira-sys/kiro-web-docs/issues/3) | フィードが Kiro Web を配信対象にしているか |
 | [#4](https://github.com/kamogashira-sys/kiro-web-docs/issues/4) | 公式に記載が見つからない上限値5項目 |
-| [#5](https://github.com/kamogashira-sys/kiro-web-docs/issues/5) | Preview から GA に移行したときの記述見直し |
+| [#5](https://github.com/kamogashira-sys/kiro-web-docs/issues/5) | GA 移行後の記述見直し |
 
 **[→ 未確認事項の一覧](https://github.com/kamogashira-sys/kiro-web-docs/issues?q=is%3Aissue+is%3Aopen+label%3A%E6%9C%AA%E7%A2%BA%E8%AA%8D)**
 

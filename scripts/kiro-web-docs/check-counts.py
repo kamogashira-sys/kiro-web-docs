@@ -53,9 +53,9 @@ LOCAL_ONLY = ("05_meta", "06_embedded-docs", "work_plans", "work_records")
 # SSoT（正準値）— 件数系。値の出典は kiro-web-docs/05_meta/10_update-guide.md §7
 # ------------------------------------------------------------
 SSOT = {
-    "S1": {"value": 7, "label": "changelog エントリ数",
+    "S1": {"value": 19, "label": "changelog エントリ数",
            "doc": f"{DOC_ROOT}/02_update/01_changelog.md"},
-    "S2": {"value": 15, "label": "docs Web ページ数",
+    "S2": {"value": 18, "label": "docs Web ページ数",
            "doc": f"{DOC_ROOT}/00_information/01_official-site-structure.md"},
     "S5": {"value": 73, "label": "Common dependencies 許可ドメイン数",
            "doc": f"{DOC_ROOT}/04_reference/01_allowed-domains.md"},

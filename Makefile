@@ -38,7 +38,7 @@ SCRIPTS := ./scripts/kiro-web-docs
 #    そのまま渡しても HTML は見つからない。**最新の日付ディレクトリを自動解決**する。
 #    明示指定したいときは HTML_DIR=<dir> を渡す。
 SNAPSHOT_ROOT ?= kiro-web-docs/06_embedded-docs
-HTML_DIR ?= $(shell ls -d $(SNAPSHOT_ROOT)/*/changelog 2>/dev/null | sort | tail -1)
+HTML_DIR ?= $(shell ls -d $(SNAPSHOT_ROOT)/*/changelog/entries 2>/dev/null | sort | tail -1)
 # docs 側のスナップショット（件数系の正準値を公式の実体と照合するのに使う）
 DOCS_HTML_DIR ?= $(shell ls -d $(SNAPSHOT_ROOT)/*/docs 2>/dev/null | sort | tail -1)
 

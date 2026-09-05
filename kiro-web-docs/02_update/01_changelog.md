@@ -1,12 +1,12 @@
-# Kiro Web 更新履歴（全7エントリ）
+# Kiro Web 更新履歴（全19エントリ）
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の更新履歴です。**
 > Kiro IDE / Kiro CLI の更新は別製品のものです（姉妹サイトを参照してください）。
-> **Kiro Web は Preview 段階**です。
+> **Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
 **出典**: [公式 changelog（Web 系列）](https://kiro.dev/changelog/web/)
-**収録範囲**: 公式 changelog の `web` 系列**全7エントリ**（2025-12-02 〜 2026-07-01）
-**情報の基準日**: 2026-08-01（この日に公式ページを取得して作成）
+**収録範囲**: 公式 changelog の `web` 系列**全19エントリ**（2025-12-02 〜 2026-09-01）
+**情報の基準日**: 2026-09-05（公式 snapshot の取得日。出典日は各公式エントリの公開日）
 
 ---
 
@@ -35,6 +35,18 @@ Kiro IDE の `1.0.242` のような版番号が Kiro Web には**存在しませ
 
 | 日付 | エントリ | 種類 | 主な内容 |
 |------|---------|------|---------|
+| 2026-09-01 | [Use Cloud Configuration in Local Sessions](#2026-09-01-use-cloud-configuration-in-local-sessions) | 機能紹介型 | 公式 changelog の告知 |
+| 2026-09-01 | [Kiro Web Is Now Generally Available](#2026-09-01-kiro-web-is-now-generally-available) | 機能紹介型 | 公式 changelog の告知 |
+| 2026-08-31 | [Pick a Branch When You Pick a Repository](#2026-08-31-pick-a-branch-when-you-pick-a-repository) | 機能紹介型 | 公式 changelog の告知 |
+| 2026-08-27 | [Sessions Name Themselves](#2026-08-27-sessions-name-themselves) | 機能紹介型 | 公式 changelog の告知 |
+| 2026-08-22 | [Organize Sessions into Groups](#2026-08-22-organize-sessions-into-groups) | 機能紹介型 | 公式 changelog の告知 |
+| 2026-08-19 | [Recent Repositories in the Repository Selector](#2026-08-19-recent-repositories-in-the-repository-selector) | 機能紹介型 | 公式 changelog の告知 |
+| 2026-08-17 | [Access Kiro Web with Okta or Microsoft Entra ID](#2026-08-17-kiro-web-access-with-okta-and-microsoft-entra-id) | 機能紹介型 | 公式 changelog の告知 |
+| 2026-08-11 | [Sync your local .kiro configuration to the cloud](#2026-08-11-cloud-configuration) | 機能紹介型 | 公式 changelog の告知 |
+| 2026-07-23 | [Playwright and Agent-Browser Support](#2026-07-23-playwright-and-agent-browser-support) | 機能紹介型 | 公式 changelog の告知 |
+| 2026-07-20 | [Inspect GitHub Pull Requests Inside Kiro Web](#2026-07-20-github-pull-request-workflow-inside-kiro-web) | 機能紹介型 | 公式 changelog の告知 |
+| 2026-07-16 | [GitLab Fine-Grained Access Token Support](#2026-07-16-gitlab-fine-grained-access-token-support) | 機能紹介型 | 公式 changelog の告知 |
+| 2026-07-13 | [Workspace File Explorer for Cloud Sessions](#2026-07-13-workspace-file-explorer-for-cloud-sessions) | 機能紹介型 | 公式 changelog の告知 |
 | 2026-07-01 | [IAM Roles and Authorize Powers for Third-Party Services](#2026-07-01-iam-roles-and-authorize-powers-for-third-party-services) | 機能紹介型 | サンドボックス用 IAM ロール・Powers の認可フロー |
 | 2026-06-19 | [Introducing Automations](#2026-06-19-introducing-automations) | 機能紹介型 | 定期実行（Automations） |
 | 2026-06-11 | [GitLab Support and Specs in the Browser](#2026-06-11-gitlab-support-and-specs-in-the-browser) | 機能紹介型 | GitLab 対応・ブラウザでの Specs |
@@ -44,6 +56,8 @@ Kiro IDE の `1.0.242` のような版番号が Kiro Web には**存在しませ
 | 2025-12-02 | [Introducing Kiro autonomous agent](#2025-12-02-introducing-kiro-autonomous-agent) | 機能紹介型 | autonomous agent のプレビュー提供開始 |
 
 ---
+
+<a id="2026-07-01-iam-roles-and-authorize-powers-for-third-party-services"></a>
 
 ## 2026-07-01: IAM Roles and Authorize Powers for Third-Party Services
 
@@ -67,6 +81,8 @@ Kiro Web がタスク実行時にユーザーに代わって引き受ける IAM 
 
 ---
 
+<a id="2026-06-19-introducing-automations"></a>
+
 ## 2026-06-19: Introducing Automations
 
 **出典**: <https://kiro.dev/changelog/web/introducing-automations/>（June 19, 2026）
@@ -80,6 +96,8 @@ Kiro Web の **Automations** から定期タスクを設定します。1つの�
 > 機能の詳細は [01_features/03_automations.md](../01_features/)、上限値は [04_reference/04_limits.md](../04_reference/) を参照してください。
 
 ---
+
+<a id="2026-06-11-gitlab-support-and-specs-in-the-browser"></a>
 
 ## 2026-06-11: GitLab Support and Specs in the Browser
 
@@ -100,6 +118,8 @@ GitHub と同じように GitLab リポジトリで作業できます。エー�
 > 詳細は [01_features/02_specs.md](../01_features/) を参照してください。
 
 ---
+
+<a id="2026-06-02-start-without-a-repo-switch-modes-anytime"></a>
 
 ## 2026-06-02: Start Without a Repo, Switch Modes Anytime
 
@@ -137,6 +157,8 @@ Vibe セッションでは、**最初のプロンプトを送った後でも** A
 
 ---
 
+<a id="2026-05-19-session-stability-stop-control-and-mobile-layout-fixes"></a>
+
 ## 2026-05-19: Session Stability, Stop Control, and Mobile Layout Fixes
 
 **出典**: <https://kiro.dev/changelog/web/session-stability-stop-control-and-mobile-layout-fixes/>（May 19, 2026）
@@ -161,6 +183,8 @@ Vibe セッションでは、**最初のプロンプトを送った後でも** A
 - セッションが期限切れの利用者に**不要な再認証**が求められる問題を修正しました
 
 ---
+
+<a id="2026-05-07-introducing-kiro-web-preview"></a>
 
 ## 2026-05-07: Introducing Kiro Web (Preview)
 
@@ -201,6 +225,8 @@ Vibe セッションでは、**最初のプロンプトを送った後でも** A
 
 ---
 
+<a id="2025-12-02-introducing-kiro-autonomous-agent"></a>
+
 ## 2025-12-02: Introducing Kiro autonomous agent
 
 **出典**: <https://kiro.dev/changelog/web/introducing-kiro-autonomous-agent/>（December 2, 2025）
@@ -239,3 +265,105 @@ Kiro autonomous agent は、機能の実装からバグ修正まで、**開発�
 ---
 
 [← 02_update に戻る](README.md)
+
+---
+
+## 追加された公式エントリ（2026-07-13〜2026-09-01）
+
+以下の各節は、G1 で保存・hash 検証した公式 changelog HTML の日付、公式タイトル、URL を収録する。取得時点の抽出器が本文構造を返さないエントリについて、本文の意味を補完・翻訳していない。
+
+<a id="2026-09-01-use-cloud-configuration-in-local-sessions"></a>
+
+## 2026-09-01: Use Cloud Configuration in Local Sessions
+
+**出典**: <https://kiro.dev/changelog/web/use-cloud-configuration-in-local-sessions/>（2026-09-01）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **Use Cloud Configuration in Local Sessions** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。
+
+<a id="2026-09-01-kiro-web-is-now-generally-available"></a>
+
+## 2026-09-01: Kiro Web Is Now Generally Available
+
+**出典**: <https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/>（2026-09-01）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **Kiro Web Is Now Generally Available** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。
+
+<a id="2026-08-31-pick-a-branch-when-you-pick-a-repository"></a>
+
+## 2026-08-31: Pick a Branch When You Pick a Repository
+
+**出典**: <https://kiro.dev/changelog/web/pick-a-branch-when-you-pick-a-repository/>（2026-08-31）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **Pick a Branch When You Pick a Repository** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。
+
+<a id="2026-08-27-sessions-name-themselves"></a>
+
+## 2026-08-27: Sessions Name Themselves
+
+**出典**: <https://kiro.dev/changelog/web/sessions-name-themselves/>（2026-08-27）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **Sessions Name Themselves** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。
+
+<a id="2026-08-22-organize-sessions-into-groups"></a>
+
+## 2026-08-22: Organize Sessions into Groups
+
+**出典**: <https://kiro.dev/changelog/web/organize-sessions-into-groups/>（2026-08-22）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **Organize Sessions into Groups** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。
+
+<a id="2026-08-19-recent-repositories-in-the-repository-selector"></a>
+
+## 2026-08-19: Recent Repositories in the Repository Selector
+
+**出典**: <https://kiro.dev/changelog/web/recent-repositories-in-the-repository-selector/>（2026-08-19）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **Recent Repositories in the Repository Selector** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。
+
+<a id="2026-08-17-kiro-web-access-with-okta-and-microsoft-entra-id"></a>
+
+## 2026-08-17: Access Kiro Web with Okta or Microsoft Entra ID
+
+**出典**: <https://kiro.dev/changelog/web/kiro-web-access-with-okta-and-microsoft-entra-id/>（2026-08-17）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **Access Kiro Web with Okta or Microsoft Entra ID** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。
+
+<a id="2026-08-11-cloud-configuration"></a>
+
+## 2026-08-11: Sync your local .kiro configuration to the cloud
+
+**出典**: <https://kiro.dev/changelog/web/cloud-configuration/>（2026-08-11）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **Sync your local .kiro configuration to the cloud** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。
+
+<a id="2026-07-23-playwright-and-agent-browser-support"></a>
+
+## 2026-07-23: Playwright and Agent-Browser Support
+
+**出典**: <https://kiro.dev/changelog/web/playwright-and-agent-browser-support/>（2026-07-23）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **Playwright and Agent-Browser Support** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。
+
+<a id="2026-07-20-github-pull-request-workflow-inside-kiro-web"></a>
+
+## 2026-07-20: Inspect GitHub Pull Requests Inside Kiro Web
+
+**出典**: <https://kiro.dev/changelog/web/github-pull-request-workflow-inside-kiro-web/>（2026-07-20）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **Inspect GitHub Pull Requests Inside Kiro Web** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。
+
+<a id="2026-07-16-gitlab-fine-grained-access-token-support"></a>
+
+## 2026-07-16: GitLab Fine-Grained Access Token Support
+
+**出典**: <https://kiro.dev/changelog/web/gitlab-fine-grained-access-token-support/>（2026-07-16）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **GitLab Fine-Grained Access Token Support** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。
+
+<a id="2026-07-13-workspace-file-explorer-for-cloud-sessions"></a>
+
+## 2026-07-13: Workspace File Explorer for Cloud Sessions
+
+**出典**: <https://kiro.dev/changelog/web/workspace-file-explorer-for-cloud-sessions/>（2026-07-13）
+
+公式 changelog の Web 系列にあるエントリです。公式タイトルは **Workspace File Explorer for Cloud Sessions** です。本サイトでは、公式 HTML から確認できた日付・タイトル・URL を収録しています。本文構造を抽出できないため、一次情報にない機能説明を追加していません。

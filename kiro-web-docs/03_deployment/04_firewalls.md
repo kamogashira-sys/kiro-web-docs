@@ -1,7 +1,7 @@
 # ファイアウォール・プロキシ・データ境界
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
-> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
+> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
 **出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026**）
 

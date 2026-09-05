@@ -1,7 +1,7 @@
 # 許可ドメイン・URL・IP の一覧
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
-> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
+> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
 **出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026。タブ構成（IDE/CLI/Web）に変更されたが Web タブの34行は変化なし（実測確認済み）**）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: July 16, 2026）
 

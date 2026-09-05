@@ -1,7 +1,7 @@
 # エージェントの2つのモード（協調モード / Autonomous モード）
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
-> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
+> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
 **出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/using-the-agent/chatting/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/autonomous-mode/>（Page updated: August 4, 2026）
 

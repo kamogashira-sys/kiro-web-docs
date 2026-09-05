@@ -1,7 +1,7 @@
 # Specs（要件・設計・タスクを作ってから実装する）
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
-> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
+> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
 **出典**: <https://kiro.dev/docs/specs/>（Page updated: August 12, 2026・**Features 区分の全製品共通ページに移転**。旧 `docs/web/specs/` は2026-08-12以前は Page updated: July 22, 2026）
 

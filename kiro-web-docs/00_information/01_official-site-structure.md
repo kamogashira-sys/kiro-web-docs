@@ -2,7 +2,7 @@
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）に関する情報源の構造をまとめたものです。**
 > Kiro IDE / Kiro CLI とは別製品であり、公式サイト上でも別のツリーに置かれています。
-> **Kiro Web は Preview 段階**です。
+> **Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
 **出典**: <https://kiro.dev/docs/web/>・<https://kiro.dev/changelog/web/>・<https://kiro.dev/sitemap.xml>・<https://kiro.dev/llms.txt>
 **実測日**: 2026-08-16（本ページの全数値はこの日に取得した一次情報の実測値。2026-08-01時点の値は移転前の記録として注記）
@@ -39,7 +39,7 @@
 > 本サイトが扱う `docs/web/` の増減（20→15）とその移転先（IDE/共有区分内の `docs/specs/`・`docs/steering/`・
 > `docs/privacy-and-security/`）のみを対象とします。
 
-**Kiro Web の一次情報は `docs/web/` の 15 ページと `changelog/web/` の 7 エントリ**です。この 22 件が本サイトの収録範囲の中核になります（2026-08-01 時点は27件。5ページの移転により減少）。
+**Kiro Web の一次情報は `docs/web/` の 18 ページと `changelog/web/` の 19 エントリ**です。この **37 件**が本サイトの収録範囲の中核になります。2026-08-01 時点の 27 件とページ移転の記録は、前記の当時実測値として参照してください。
 
 ---
 
@@ -47,8 +47,8 @@
 
 | # | 場所 | 内容 | 本サイトでの位置づけ |
 |---|------|------|------------------|
-| 1 | <https://kiro.dev/changelog/web/> | 更新履歴（**7 エントリ**・2025-12-02 〜 2026-07-01） | **更新内容と日付の正**。[02_update](../02_update/01_changelog.md) に全量掲載 |
-| 2 | <https://kiro.dev/docs/web/> | 公式ドキュメント（**15 ページ**） | **機能仕様・設定・リファレンス値の正** |
+| 1 | <https://kiro.dev/changelog/web/> | 更新履歴（**19 エントリ**・2025-12-02 〜 2026-09-01） | **更新内容と日付の正**。[02_update](../02_update/01_changelog.md) に全量掲載 |
+| 2 | <https://kiro.dev/docs/web/> | 公式ドキュメント（**18 ページ**） | **機能仕様・設定・リファレンス値の正** |
 | 3 | <https://kiro.dev/blog/> | 関連ブログ（**3 本**） | 背景の補足のみ。本文の主たる根拠にしない |
 | 4 | <https://app.kiro.dev> | Kiro Web 本体 | 実機。利用には有料サブスクリプションが必要 |
 
@@ -70,7 +70,7 @@
 
 | 系列 | URL | エントリ数 | 本サイトの扱い |
 |------|-----|-----------|--------------|
-| **Web** | `changelog/web/` | **7** | ✅ **全件収録** |
+| **Web** | `changelog/web/` | **19** | ✅ **全件収録** |
 | IDE | `changelog/ide/` | 23 | ❌ 別製品（姉妹サイト [kiro-ide-docs](https://github.com/kamogashira-sys/kiro-ide-docs)） |
 | CLI | `changelog/cli/` | 27 | ❌ 別製品（姉妹サイト [q-cli-docs](https://github.com/kamogashira-sys/q-cli-docs)） |
 | Models | `changelog/models/` | 17 | ❌ 収録しない（必要時に出典として参照） |
@@ -86,9 +86,9 @@
 | IDE | `page/2`・`page/3` |
 | CLI | `page/2`・`page/3` |
 | Models | `page/2` |
-| **Web** | **現時点では存在しない**（`changelog/web/page/2/` は 404） |
+| **Web** | **`page/2` が存在**（snapshot: 2026-09-05） |
 
-Web は現在7エントリなので1ページに収まっていますが、**`/changelog/<系列>/page/N/` はこの公式サイトの一般的な仕組み**です。Web でもエントリが増えれば現れます。本サイトの検証スクリプトは、この URL を新エントリとして数えないようにしています。
+Web は現在19エントリで `page/2` を含む複数ページです。**`/changelog/<系列>/page/N/` はこの公式サイトの一般的な仕組み**であり、本サイトの検証スクリプトはこの URL を新エントリとして数えず、索引ページとして巡回します。
 
 ### Kiro Web の更新にバージョン番号はありません
 
@@ -262,7 +262,7 @@ sitemap の docs ページ（2026-08-16 実測: 237 件。2026-08-01 時点は23
 ## 🔗 関連ページ
 
 - [02_information-sources.md](02_information-sources.md) — 情報源の使い分けと落とし穴（`.md` の壊れ方・折りたたみ節）
-- [02_update/01_changelog.md](../02_update/01_changelog.md) — 更新履歴（全7エントリ）
+- [02_update/01_changelog.md](../02_update/01_changelog.md) — 更新履歴（全19エントリ）
 - 公式ドキュメント: <https://kiro.dev/docs/web/>
 - 公式 changelog: <https://kiro.dev/changelog/web/>
 

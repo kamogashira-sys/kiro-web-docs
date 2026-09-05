@@ -1,7 +1,7 @@
 # セットアップと最初のタスク
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
-> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
+> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
 **出典**: <https://kiro.dev/docs/web/setup/>（Page updated: August 14, 2026・**旧 `docs/web/first-task/` は2026-08-14以前にPage updated: April 21, 2026・現在は本ページへ統合**）
 

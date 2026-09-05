@@ -2,7 +2,7 @@
 
 **Kiro Web**（<https://app.kiro.dev>）に関する日本語ドキュメントの本体です。
 
-> ⚠️ **Kiro Web は Preview 段階**です。仕様が変わることがあります。
+> **Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 > 各ページに公式ドキュメントの**出典 URL と出典日**を記載しています。
 
 ---
@@ -14,7 +14,7 @@
 | **Kiro Web がどんなものか知りたい** | [01_features/01_agent-modes.md](01_features/01_agent-modes.md)（2つのモード） |
 | **使い始めたい** | [03_deployment/01_setup.md](03_deployment/01_setup.md)（セットアップと最初のタスク） |
 | **組織で導入したい** | [03_deployment/02_identity-center.md](03_deployment/02_identity-center.md) → [03_deployment/04_firewalls.md](03_deployment/04_firewalls.md) |
-| **何が変わったか知りたい** | [02_update/01_changelog.md](02_update/01_changelog.md)（全7エントリ） |
+| **何が変わったか知りたい** | [02_update/01_changelog.md](02_update/01_changelog.md)（全19エントリ） |
 | **設定値をピンポイントで調べたい** | [04_reference/](04_reference/)（[早見表](04_reference/04_limits.md#-早見表)） |
 | **公式情報の読み方を知りたい** | [00_information/02_information-sources.md](00_information/02_information-sources.md)（落とし穴5つ） |
 
@@ -26,7 +26,7 @@
 |-----------|------|
 | [00_information](00_information/) | 公式サイトの構造・情報源の使い分けと落とし穴（2ページ） |
 | [01_features](01_features/) | 機能詳細ガイド（7ページ） |
-| [02_update](02_update/) | 更新履歴（全7エントリ・折りたたみ21項目も全量掲載） |
+| [02_update](02_update/) | 更新履歴（全19エントリ） |
 | [03_deployment](03_deployment/) | 導入・運用（4ページ） |
 | [04_reference](04_reference/) | リファレンス（4ページ・検証可能な正準値） |
 
@@ -41,10 +41,10 @@ Kiro IDE（`1.0.NNN`）や Kiro CLI と違い、**Kiro Web の更新にバージ
 | 項目 | 内容 |
 |------|------|
 | 更新の識別 | **日付（ISO）＋スラッグ** |
-| changelog エントリ数 | **7**（2025-12-02 〜 2026-07-01） |
-| 公式ドキュメントのページ数 | **15**（2026-08-12の公式サイト再構成で20→15） |
+| changelog エントリ数 | **19**（2025-12-02 〜 2026-09-01） |
+| 公式ドキュメントのページ数 | **18**（snapshot: 2026-09-05） |
 | 提供形態 | ホスト型サービス（**インストール不要**） |
-| 段階 | **Preview** |
+| 段階 | **一般提供（GA）**（2026-09-01） |
 
 > 版番号が存在しない**理由**は公式に説明がないため**未確認**です。
 

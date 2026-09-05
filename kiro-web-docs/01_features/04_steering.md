@@ -1,7 +1,7 @@
 # Steering（エージェントを継続的に導く）
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
-> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
+> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 >
 > ただし Steering については、**公式が「3つのインターフェースで同じように動作する」と明記しています**（[下記](#3つのインターフェースで同じ動作をします公式明記)）。
 

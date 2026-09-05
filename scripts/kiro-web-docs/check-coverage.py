@@ -82,11 +82,18 @@ def parse_doc(text):
     for i, m in enumerate(heads):
         end = heads[i + 1].start() if i + 1 < len(heads) else len(text)
         body = text[m.end():end]
-        entries[m.group(1)] = {
+        slugs = set(SLUG_IN_DOC_RE.findall(body))
+        # A calendar date is not unique: the official changelog can publish
+        # multiple entries on one day. Rev.4's canonical identity is date+slug.
+        if len(slugs) == 1:
+            key = (m.group(1), next(iter(slugs)))
+        else:
+            key = (m.group(1), m.group(2))
+        entries[key] = {
             "date": m.group(1),
             "title": m.group(2),
             "body": body,
-            "slugs": set(SLUG_IN_DOC_RE.findall(body)),
+            "slugs": slugs,
         }
     return entries
 
@@ -165,7 +172,8 @@ def main():
         return 2
 
     doc = parse_doc(text)
-    truth = {e["date"]: e for e in entries if e.get("date")}
+    truth = {(e["date"], e["slug"]): e for e in entries
+             if e.get("date") and e.get("slug")}
 
     print(f"一次情報: {origin}")
     print(f"  一次情報のエントリ数: {len(truth)}")

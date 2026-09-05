@@ -83,10 +83,10 @@ curl -sS -A "Mozilla/5.0" https://kiro.dev/changelog/feed.atom | grep -c 'term="
 
 ### changelog に現れない docs 更新の検知
 
-**changelog に載らない docs 更新が実際にあります。** 最新エントリ（2026-07-01）より新しい更新が4件ありました
+**changelog に載らない docs 更新が実際にあります。** 最新エントリ（2026-09-01）と docs の `dateModified` を snapshot で照合します
 （`data-protection` July 14 / `gitlab` July 16 / `specs` July 22 / `sandbox/environment-configuration` July 23）。
 
-→ **docs 全15ページの `dateModified`（JSON-LD）を監視**します。これが SSoT の S4 です。
+→ **docs 全18ページの `dateModified`（JSON-LD）を監視**します。これが SSoT の S4 です。
 
 ### 機能仕様・設定情報
 

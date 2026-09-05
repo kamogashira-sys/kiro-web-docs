@@ -1,7 +1,7 @@
 # 情報源の使い分けと落とし穴
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の情報を公式サイトから読み取るときの注意をまとめたものです。**
-> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は Preview 段階**です。
+> Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
 **出典**: <https://kiro.dev/docs/web/>・<https://kiro.dev/changelog/web/>
 **実測日**: 2026-08-16（本ページの全数値はこの日に取得した一次情報の実測値。2026-08-01時点の値は移転前の記録として比較のため残している）
