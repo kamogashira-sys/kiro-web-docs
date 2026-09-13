@@ -74,13 +74,13 @@ Kiro は IDE・CLI・Web の3つのインターフェースを持つ**別製品*
 
 公式に確認できていないことは、**何が分かっていないかを Issue に記録**して公式の是正・仕様確定を待っています。
 
-| Issue | 内容 |
-|-------|------|
-| [#1](https://github.com/kamogashira-sys/kiro-web-docs/issues/1) | **Kiro Web に Free Tier があるか** — 公式ページ間で記述が食い違っている（未解決） |
-| [#2](https://github.com/kamogashira-sys/kiro-web-docs/issues/2) | バージョン番号が存在しない理由（公式に説明なし） |
-| [#3](https://github.com/kamogashira-sys/kiro-web-docs/issues/3) | フィードが Kiro Web を配信対象にしているか |
-| [#4](https://github.com/kamogashira-sys/kiro-web-docs/issues/4) | 公式に記載が見つからない上限値5項目 |
-| [#5](https://github.com/kamogashira-sys/kiro-web-docs/issues/5) | GA 移行後の記述見直し |
+| Issue | 内容 | 状態 |
+|-------|------|------|
+| [#1](https://github.com/kamogashira-sys/kiro-web-docs/issues/1) | **Kiro Web に Free Tier があるか** — 公式ページ間で記述が食い違っている | 未解決 |
+| [#2](https://github.com/kamogashira-sys/kiro-web-docs/issues/2) | バージョン番号が存在しない理由（公式に説明なし） | 未確認 |
+| [#3](https://github.com/kamogashira-sys/kiro-web-docs/issues/3) | フィードが Kiro Web を配信対象にしているか | **解決**（2026-09-13・Atom / RSS とも直近25件中 7 件が `Web`） |
+| [#4](https://github.com/kamogashira-sys/kiro-web-docs/issues/4) | 公式に記載が見つからない上限値5項目 | 未確認 |
+| [#5](https://github.com/kamogashira-sys/kiro-web-docs/issues/5) | GA 移行後の記述見直し | **解決**（2026-09-13・公式 docs に製品段階の `Preview` は 0 件） |
 
 **[→ 未確認事項の一覧](https://github.com/kamogashira-sys/kiro-web-docs/issues?q=is%3Aissue+is%3Aopen+label%3A%E6%9C%AA%E7%A2%BA%E8%AA%8D)**
 
