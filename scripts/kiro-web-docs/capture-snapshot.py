@@ -17,6 +17,7 @@ import os
 import re
 import sys
 import tempfile
+import time
 from datetime import datetime
 from pathlib import Path
 from urllib.error import HTTPError, URLError
@@ -98,22 +99,52 @@ def save_atomic(path: Path, body: bytes) -> tuple[int, str]:
 
 
 class Capture:
-    def __init__(self, root: Path):
+    def __init__(self, root: Path, retries: int = 0, delay: float = 0.0):
         self.root = root
         self.records: list[dict[str, str]] = []
         self.opener = build_opener()
+        # ⚠️ CI から公式サイトへ都度取得するために追加（2026-09-13）。
+        #    retries: **一時障害のみ**再試行する。404 は何度試しても 404 なので
+        #             再試行しない（存在しないものを待つ意味がない）。
+        #    delay:   リクエスト間の待機。公式サイトへの負荷を抑える。
+        self.retries = max(0, retries)
+        self.delay = max(0.0, delay)
+        self._requested = 0
+
+    # 再試行する対象。HTTP 5xx と通信レベルの失敗のみ。
+    RETRIABLE_STATUS = range(500, 600)
+
+    def _fetch(self, request_url: str):
+        """1 リクエストを実行する。一時障害なら指数バックオフで再試行する。"""
+        last = None
+        for attempt in range(self.retries + 1):
+            if self._requested and self.delay:
+                time.sleep(self.delay)
+            self._requested += 1
+            try:
+                request = Request(request_url, headers={"User-Agent": UA})
+                with self.opener.open(request, timeout=30) as response:
+                    return (response.getcode(), response.geturl(),
+                            response.headers.get_content_type(), response.read())
+            except HTTPError as exc:
+                last = exc
+                if exc.code not in self.RETRIABLE_STATUS:
+                    raise
+            except (URLError, OSError) as exc:
+                last = exc
+            if attempt < self.retries:
+                wait = self.delay + 2.0 * (2 ** attempt)
+                print(f"   ↻ 再試行 {attempt + 1}/{self.retries}（{wait:.1f}s 待機）: "
+                      f"{request_url} … {last}", file=sys.stderr)
+                time.sleep(wait)
+        raise last if last else ValueError("取得に失敗しました")
 
     def add(self, request_url: str, kind: str, relative_path: str, **extra: str) -> dict[str, str]:
         record = {key: "" for key in FIELDS}
         record.update({"request_url": request_url, "kind": kind, **extra})
         requested_at = timestamp()
         try:
-            request = Request(request_url, headers={"User-Agent": UA})
-            with self.opener.open(request, timeout=30) as response:
-                status = response.getcode()
-                final_url = response.geturl()
-                content_type = response.headers.get_content_type()
-                body = response.read()
+            status, final_url, content_type, body = self._fetch(request_url)
             record.update({
                 "final_url": final_url, "http_status": str(status),
                 "content_type": content_type, "retrieved_at_jst": requested_at,
@@ -218,6 +249,11 @@ def require_success(records: list[dict[str, str]], kinds: set[str]) -> list[str]
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--output", required=True, help="v2 snapshot root (new or empty directory)")
+    # CI から公式サイトへ都度取得するための引数（2026-09-13 追加）。
+    parser.add_argument("--retries", type=int, default=0,
+                        help="一時障害（HTTP 5xx・通信エラー）の再試行回数（既定 0）")
+    parser.add_argument("--delay", type=float, default=0.0,
+                        help="リクエスト間の待機秒数（既定 0。CI では 0.5 を推奨）")
     args = parser.parse_args()
     root = Path(args.output).resolve()
     if root.exists() and any(root.iterdir()):
@@ -225,7 +261,7 @@ def main() -> int:
         return 2
     root.mkdir(parents=True, exist_ok=True)
 
-    cap = Capture(root)
+    cap = Capture(root, retries=args.retries, delay=args.delay)
     sitemap = cap.add(f"{BASE}/sitemap.xml", "sitemap", "meta/sitemap.xml")
     llms = cap.add(f"{BASE}/llms.txt", "llms", "meta/llms.txt")
     cap.add(f"{BASE}/changelog/feed.atom", "feed", "meta/feed.atom")

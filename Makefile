@@ -23,7 +23,8 @@
         check-kiro-web-links check-kiro-web-structure check-kiro-web-coverage \
         check-kiro-web-counts check-kiro-web-consistency check-kiro-web-notation \
         check-kiro-web-urls check-kiro-web-urls-important check-kiro-web-freshness \
-        extract-kiro-web-changelog
+        extract-kiro-web-changelog \
+        capture-kiro-web-snapshot verify-kiro-web-with-snapshot
 
 SCRIPTS := ./scripts/kiro-web-docs
 
@@ -92,6 +93,47 @@ help:
 # ネットワーク障害やレート制限で CI が赤くなるのを避けるため、それらは
 # push / nightly / 手動でのみ実行する（先行2サイトと同じ運用）。
 # G3（公開判定）ではこのターゲットの exit 0 を条件とする。
+# ------------------------------------------------------------
+# 一次情報スナップショットの取得と、それを使う検証
+# ------------------------------------------------------------
+# ⚠️ スナップショットは .gitignore 対象（再配布しない）。取得しても**コミットしない**。
+#
+# CI から公式サイトへ都度取得するために使う（2026-09-13 追加）。
+#   RETRIES: 一時障害（HTTP 5xx・通信エラー）の再試行回数
+#   DELAY  : リクエスト間の待機秒数（公式サイトへの負荷を抑える）
+CAPTURE_DATE ?= $(shell date +%Y%m%d)
+RETRIES ?= 3
+DELAY ?= 0.5
+
+capture-kiro-web-snapshot:
+	@if [ -d "$(SNAPSHOT_ROOT)/$(CAPTURE_DATE)" ]; then \
+	    echo "⚠️  $(SNAPSHOT_ROOT)/$(CAPTURE_DATE) は既に存在します（取得しません）"; \
+	    echo "   別の日付で取りたい場合: make capture-kiro-web-snapshot CAPTURE_DATE=YYYYMMDD"; \
+	else \
+	    $(SCRIPTS)/capture-snapshot.py --output "$(SNAPSHOT_ROOT)/$(CAPTURE_DATE)" \
+	        --retries $(RETRIES) --delay $(DELAY); \
+	fi
+
+# スナップショットが必要な3つの検証だけを実行する。
+# ⚠️ スナップショットが無ければ**失敗させる**（「スキップして exit 0」にしない）。
+#    このターゲットは「スナップショットで検証する」ことが目的なので、
+#    スキップは目的の不達であり成功ではない。
+verify-kiro-web-with-snapshot:
+	@if [ -z "$(HTML_DIR)" ] || [ ! -d "$(HTML_DIR)" ]; then \
+	    echo "❌ 一次情報スナップショットがありません: $(SNAPSHOT_ROOT)"; \
+	    echo "   make capture-kiro-web-snapshot で取得してください"; \
+	    exit 1; \
+	fi
+	@echo "使用するスナップショット:"
+	@echo "  changelog: $(HTML_DIR)"
+	@echo "  docs:      $(DOCS_HTML_DIR)"
+	@echo ""
+	$(SCRIPTS)/check-coverage.py --html-dir "$(HTML_DIR)"
+	$(SCRIPTS)/check-counts.py --html-dir "$(DOCS_HTML_DIR)"
+	$(SCRIPTS)/check-consistency.py --docs-html-dir "$(DOCS_HTML_DIR)"
+	@echo ""
+	@echo "✅ スナップショットを使う検証（網羅性・件数の公式照合・出典日照合）が完了しました"
+
 check-kiro-web-all: check-kiro-web-links check-kiro-web-structure check-kiro-web-coverage \
                     check-kiro-web-counts check-kiro-web-consistency \
                     check-kiro-web-notation
