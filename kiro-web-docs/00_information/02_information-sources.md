@@ -189,7 +189,7 @@
 | `docs/steering`（移転先） | 2026-09-02 | 収録 |
 | `docs/cloud-sessions`（移転先） | 2026-09-02 | 収録 |
 | `web/sandbox/environment-configuration` | **2026-09-10** | 収録（**docs で最も新しい更新**） |
-| `web/cloud-configuration` | 2026-09-02 | **未収録**（[後述](#本サイトが未収録の公式ページ3件)） |
+| `web/cloud-configuration` | 2026-09-02 | 収録（**2026-09-13 に収録**・[後述](#公式ページと本サイトの対応)） |
 
 → **「最新の changelog エントリの日付」だけを見ていると、仕様変更を見落とします。**
 本サイトは各ページに**公式の出典日**（`Page updated` の日付）を記載し、docs 側の更新も監視対象にしています。
@@ -208,21 +208,28 @@
 > → **出典日の追随だけでは不十分**であり、かつ**出典日そのものが古いまま放置される事故も起きます**。
 > 本サイトは対策として、出典日を公式の `dateModified` と**機械照合**するようにしました（後述）。
 
-### 本サイトが未収録の公式ページ（3件）
+<a id="公式ページと本サイトの対応"></a>
+### 公式ページと本サイトの対応（18/18）
 
-**Kiro Web の公式 18 ページのうち、次の 3 ページは本サイトに対応する解説を置いていません**（2026-09-13 時点）。
-気づいていないのではなく、**現時点で未収録であることを明示**します。
+**Kiro Web の公式 18 ページすべてに、対応する解説を置いています**（2026-09-13 時点）。
 
-| ページ | 更新日 | 公式の節（h2 見出し・2026-09-13 実測） |
-|-------|-------|---------|
-| `web/cloud-configuration` | 2026-09-02 | What you can upload / Upload and review / How Powers sync / Apply cloud configuration to local sessions / Limits / After uploading |
-| `web/using-the-agent/file-explorer` | 2026-08-22 | Open files from the conversation / Browse the workspace / View and download files / Limits |
-| `web/memory` | **取得できず**（JSON-LD の `dateModified` が無い） | How Kiro builds memory / Memory vs. steering |
+2026-09-13 の作業で、**それまで未収録だった次の 3 ページを収録**しました。
 
-> `web/cloud-configuration` の内容の一部は
-> [01_features/07_cloud-sessions.md](../01_features/07_cloud-sessions.md#構成情報の扱い)（Configuration Sync）で触れていますが、
-> **ページ全体を対象にした解説はありません**。
-> `web/memory` は**公式ページに更新日が無い**ため、本サイトの出典日の規則（`Page updated` の転記）を満たせません。
+| ページ | 更新日 | 公式の節（h2 見出し） | 本サイトの解説 |
+|-------|-------|-----------------|------------|
+| `web/memory` | **取得できず**（JSON-LD の `dateModified` が無い） | How Kiro builds memory / Memory vs. steering | [01_features/08_memory.md](../01_features/08_memory.md) |
+| `web/cloud-configuration`（Configuration Sync） | 2026-09-02 | What you can upload / Upload and review / How Powers sync / Apply cloud configuration to local sessions / Limits / After uploading | [01_features/09_configuration-sync.md](../01_features/09_configuration-sync.md) |
+| `web/using-the-agent/file-explorer` | 2026-08-22 | Open files from the conversation / Browse the workspace / View and download files / Limits | [01_features/10_file-explorer.md](../01_features/10_file-explorer.md) |
+
+> ⚠️ **`web/memory` だけは出典日を書けません。**
+> 公式ページに JSON-LD の `dateModified` も `Page updated` の表示もないため、
+> **転記する日付が存在しません**（Web 18 ページ中このページのみ）。
+>
+> 本サイトは出典日を全ページ必須にし、**snapshot の `dateModified` と機械照合**していますが、
+> このページだけは**照合の対象外**になります。
+> 書き忘れと区別できるよう、`08_memory.md` に「出典日がありません」と明示し、
+> **検証スクリプト側にも免除対象として登録**しています
+> （免除を増やしたら 2 箇所の許可リストが一致することを機械的に確認します）。
 
 ---
 

@@ -181,11 +181,11 @@ docs/web/                                  … Kiro Web の入口
 ├── using-the-agent/                       … エージェントの使い方
 │   ├── chatting/                          … チャット
 │   ├── creating-tasks/                    … タスクの作成
-│   └── file-explorer/                     … ワークスペースのファイル閲覧 ★未収録
+│   └── file-explorer/                     … ワークスペースのファイル閲覧
 ├── autonomous-mode/                       … Autonomous モード
 ├── automations/                           … Automations（定期実行）
-├── cloud-configuration/                   … 個人の .kiro 構成の同期 ★未収録
-├── memory/                                … メモリ ★未収録・更新日なし
+├── cloud-configuration/                   … 個人の .kiro 構成の同期（Configuration Sync）
+├── memory/                                … Memory（★更新日なし）
 ├── sandbox/                               … サンドボックス
 │   ├── environment-configuration/         … 環境の構成
 │   ├── environment-variables/             … 環境変数・シークレット
@@ -196,9 +196,12 @@ docs/web/                                  … Kiro Web の入口
 └── identity-center/                       … AWS Identity Center
 ```
 
-> ★ **3ページは本サイトに対応する解説がありません**（2026-09-13 時点）。
-> 理由と各ページの節構成は
-> [02_information-sources.md](02_information-sources.md#本サイトが未収録の公式ページ3件) に記録しています。
+> **18ページすべてに対応する解説があります**（2026-09-13 時点）。
+> 対応表は [02_information-sources.md](02_information-sources.md#公式ページと本サイトの対応) にあります。
+>
+> ★ `memory/` は**公式ページに更新日がありません**（Web 18 ページ中このページのみ）。
+> JSON-LD の `dateModified` も `Page updated` の表示もないため、
+> 本サイトの**出典日の機械照合が効きません**（[落とし穴](02_information-sources.md)を参照）。
 
 各ページの本サイトでの配置は [サイト本体の README](../README.md) と各セクションの README を参照してください。
 

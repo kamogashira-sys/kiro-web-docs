@@ -16,6 +16,9 @@
     S11 セッション保持期間      = 90 日
     S13 サンドボックスディスク  = 128GB
     S14 Free Tier 入力保持 / GPT 分類器 = 60 日 / 30 日
+    S15 Configuration Sync の1項目サイズ = 4,000,000 バイト
+    S16 Skill のファイル数上限  = 25
+    S17 カスタム Power のファイル数上限 = 50
 
 検証内容:
     1. **値の一意性**: 各正準値の「単位付きの記述」が、文書全体で SSoT 以外の値に
@@ -94,6 +97,33 @@ SSOT = [
     {
         "id": "S13", "label": "サンドボックスディスク", "value": "128",
         "pattern": re.compile(r"(\d+)\s*GB"),
+    },
+    # 2026-09-13 追加（`web/cloud-configuration` = Configuration Sync の収録に伴う）。
+    #
+    # ⚠️ 実装当初、次の 2 つの誤検知を実際に起こした。文脈語は**その値に固有のもの**にする。
+    #   (1) S15 を「桁区切り数字＋バイト」だけで拾うと、`.md` のファイルサイズ
+    #       （`12,349 バイト`）や単位の説明（`4MB`（4,194,304 バイト））まで拾う。
+    #   (2) `(\d+)` の直前に `[^\n|]{0,10}` のような緩い部分があると、
+    #       **`25` の途中から `5` を拾う**（表の `**25** ファイル` で発生）。
+    #       `(?<!\d)` で桁の途中からの一致を禁じる。
+    {
+        "id": "S15", "label": "Configuration Sync の1項目サイズ", "value": "4000000",
+        "pattern": re.compile(
+            r"(?:1\s*項目あたりのサイズ|Each uploaded item can be up to)"
+            r"[^\n]{0,24}?\**\s*(?<!\d)(\d{1,3}(?:,\d{3})+|\d{7,})\s*\**\s*"
+            r"(?:バイト|bytes)"),
+    },
+    {
+        "id": "S16", "label": "Skill のファイル数上限", "value": "25",
+        "pattern": re.compile(
+            r"(?:Skill に含められるファイル数|A Skill can contain up to)"
+            r"[^\n]{0,24}?\**\s*(?<!\d)(\d+)\s*\**\s*(?:ファイル|files)"),
+    },
+    {
+        "id": "S17", "label": "カスタム Power のファイル数上限", "value": "50",
+        "pattern": re.compile(
+            r"(?:カスタム Power に含められるファイル数|A custom Power can contain up to)"
+            r"[^\n]{0,24}?\**\s*(?<!\d)(\d+)\s*\**\s*(?:ファイル|files)"),
     },
 ]
 
@@ -182,6 +212,13 @@ LINKED_DOC_NAMES = {"specs", "steering", "cloud-sessions"}
 # スナップショットに `dateModified` が無い（＝照合できない）ページ。
 # `web/memory/` は取得できない（F-12）。取りこぼしを黙認しないため明示する。
 NO_DATE_MODIFIED = {"https://kiro.dev/docs/web/memory/"}
+
+# 公式ページ自体に更新日が無いため、出典日を転記できない本文ページ（F-12）。
+# ⚠️ 上の NO_DATE_MODIFIED（URL 集合）と対応する。
+#    両方を手で書くと片方だけ増えて食い違うので、下の整合チェックで一致を強制する。
+NO_SOURCE_DATE_DOCS = {
+    f"{DOC_ROOT}/01_features/08_memory.md",   # https://kiro.dev/docs/web/memory/
+}
 
 
 def iso_from_page_updated(date_text):
@@ -403,11 +440,44 @@ def check_unconfirmed_near_s14(errors, notes):
     notes.append("S14: 記述のあるページに未確認注記があることを確認しました")
 
 
+def check_exemption_lists(errors, notes):
+    """(5b) 出典日の免除リスト2本（URL 集合とページ集合）が食い違っていないか。
+
+    ⚠️ 同じ事実（「公式に更新日が無い」）を 2 箇所に手で書いているため、
+       片方だけ増減すると**片方のチェックだけが緩む**。件数の一致を強制する。
+    """
+    if len(NO_DATE_MODIFIED) != len(NO_SOURCE_DATE_DOCS):
+        errors.append(
+            "出典日の免除リストが食い違っています: "
+            f"NO_DATE_MODIFIED {len(NO_DATE_MODIFIED)} 件 / "
+            f"NO_SOURCE_DATE_DOCS {len(NO_SOURCE_DATE_DOCS)} 件"
+            "（公式に更新日が無いページを追加・削除したら両方を直してください）"
+        )
+        return
+    # 免除ページが、免除 URL を出典として書いているか
+    for doc in sorted(NO_SOURCE_DATE_DOCS):
+        if not os.path.isfile(doc):
+            errors.append(f"出典日の免除対象が存在しません: {doc}")
+            continue
+        txt = open(doc, encoding="utf-8").read()
+        if not any(url in txt for url in NO_DATE_MODIFIED):
+            errors.append(
+                f"{doc}: 出典日を免除していますが、"
+                "免除対象の公式 URL が本文にありません"
+                f"（対象: {', '.join(sorted(NO_DATE_MODIFIED))}）"
+            )
+    notes.append(
+        f"出典日の免除リスト: URL {len(NO_DATE_MODIFIED)} 件 = "
+        f"ページ {len(NO_SOURCE_DATE_DOCS)} 件（一致）"
+    )
+
+
 def check_source_dates(errors, notes):
     """(5) 本文ページに出典日（`Page updated:` の転記）があるか。"""
     body_docs = [d for d in public_docs()
                  if os.path.isfile(d) and os.path.basename(d) != "README.md"]
     missing = []
+    exempt = []
     kinds = {"Page updated": 0, "エントリ日付": 0, "実測日": 0}
     for path in body_docs:
         txt = open(path, encoding="utf-8").read()
@@ -417,6 +487,11 @@ def check_source_dates(errors, notes):
             kinds["エントリ日付"] += 1
         elif MEASURED_DATE_RE.search(txt):
             kinds["実測日"] += 1
+        elif path in NO_SOURCE_DATE_DOCS:
+            # 公式ページ自体に更新日が無い（F-12）。転記できないものは要求できない。
+            # ⚠️ ただし**黙って免除しない**。下の notes で全件を表示し、
+            #    ページ本文にも「出典日が無い」旨の注記があることを必須にする。
+            exempt.append(path)
         else:
             missing.append(path)
     for path in missing:
@@ -424,11 +499,26 @@ def check_source_dates(errors, notes):
             f"{path}: 出典日（`Page updated: 月名 D, YYYY`）の記載がありません"
             "（いつ時点の情報かを読者が判断できない）"
         )
+    for path in exempt:
+        txt = open(path, encoding="utf-8").read()
+        if "出典日がありません" not in txt:
+            errors.append(
+                f"{path}: 公式に更新日が無いページですが、"
+                "「出典日がありません」という注記が本文にありません"
+                "（読者が「書き忘れ」と区別できない）"
+            )
     notes.append(
-        f"出典日: 本文 {len(body_docs)} ページ中 {len(body_docs) - len(missing)} ページに記載あり"
+        f"出典日: 本文 {len(body_docs)} ページ中 {len(body_docs) - len(missing) - len(exempt)}"
+        f" ページに記載あり"
         f"（Page updated {kinds['Page updated']} / エントリ日付 {kinds['エントリ日付']} / "
         f"実測日 {kinds['実測日']}）"
     )
+    if exempt:
+        notes.append(
+            f"出典日の免除: {len(exempt)} 件（公式ページ自体に更新日が無い・F-12）"
+        )
+        for path in exempt:
+            notes.append(f"  ⚠️ {path}")
 
 
 def check_source_date_consistency(errors, notes):
@@ -489,6 +579,7 @@ def main():
     check_unconfirmed_near_s14(errors, notes)
 
     print("🔍 本文ページの出典日を検証中...")
+    check_exemption_lists(errors, notes)
     check_source_dates(errors, notes)
 
     print("🔍 出典日の水平展開を検証中（作業5-5）...")

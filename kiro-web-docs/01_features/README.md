@@ -17,6 +17,14 @@
 | [05_sandbox.md](05_sandbox.md) | **サンドボックス**（動作5段階・ネットワーク4レベル・**サンドボックスの外側で動くもの**） | `web/sandbox/` ＋配下4 |
 | [06_repository-integration.md](06_repository-integration.md) | **GitHub / GitLab 連携**（2層の権限・PR 作成者・トークンの絞り方・混在利用） | `web/github/`・`web/gitlab/` |
 | [07_cloud-sessions.md](07_cloud-sessions.md) | **Cloud Sessions**（Kiro Web の全セッションの実行環境そのもの。IDE/CLI/Mobile との相互運用） | `docs/cloud-sessions/`（Features 区分の全製品共通ページ） |
+| [08_memory.md](08_memory.md) | **Memory**（エージェントが自動で学習する。**Steering との違い**・削除のみ可能） | `web/memory/`（**公式に更新日がありません**） |
+| [09_configuration-sync.md](09_configuration-sync.md) | **Configuration Sync**（個人の `.kiro` をクラウドへ。6フォルダ・6ステータス・**`mcp.json` の `env` は平文**） | `web/cloud-configuration/` |
+| [10_file-explorer.md](10_file-explorer.md) | **ファイルエクスプローラ**（セッションのワークスペースを閲覧・ダウンロード） | `web/using-the-agent/file-explorer/` |
+
+> **ファイル番号は追加順です（公式の並び順ではありません）。**
+> 公式（`llms.txt`）の並びは Setup → Identity Center → Working with the agent（＋ **File explorer**）
+> → Autonomous mode → Automations → **Memory** → **Configuration Sync** → Sandbox の順です。
+> 公式順に振り直すと相互リンクが一斉に壊れるため、**番号は追加順に固定**しています。
 
 ---
 
