@@ -56,10 +56,12 @@ DOC_LIMITS = f"{DOC_ROOT}/04_reference/04_limits.md"
 DOC_STRUCTURE = f"{DOC_ROOT}/00_information/01_official-site-structure.md"
 
 # SSoT（本スクリプトが守る分）
-SSOT_S1 = 19           # changelog エントリ数（20260905 snapshot）
+SSOT_S1 = 19           # changelog エントリ数（20260913 snapshot）
 SSOT_S2 = 18           # docs Web ページ数（llms.txt Web URL 集合）
 SSOT_S3 = "2026-09-01"  # 最新エントリ日付
-SSOT_S4 = "2026-09-02"  # verified docs の最新 JSON-LD dateModified
+# ⚠️ S4 は **Web docs（docs/web/ 配下 18 ページ）だけ**を対象にした最大値。
+#    Shared / §8.3 のリンク先ページ（docs/specs 等）は含めない（含めると意味が変わる）。
+SSOT_S4 = "2026-09-10"  # verified docs の最新 JSON-LD dateModified（web/sandbox/environment-configuration）
 
 BASE = "https://kiro.dev"
 # ⚠️ 末尾スラッシュ必須（無しは 301・本文0バイト — F-W11）。
@@ -392,12 +394,20 @@ def main():
     # ---- docs の更新日（S4）----
     print("🔍 docs の dateModified を取得中...")
     docs_dates = {}
+    offline_web_doc_files = 0
     if args.offline:
         docs_dir = os.path.join(args.offline, "docs")
         if os.path.isdir(docs_dir):
             for name in sorted(os.listdir(docs_dir)):
                 if not name.endswith(".html"):
                     continue
+                # ⚠️ **Web docs（S2/S4 の集合）だけを数える。**
+                #    snapshot の docs/ には Shared 区分（`shared_*`）と §8.3 のリンク先
+                #    （`linked_*`）も入っているため、prefix で除外しないと S2 が過大になる
+                #    （実測: 18 → 22 になり誤検知した）。
+                if not name.startswith("docs_web"):
+                    continue
+                offline_web_doc_files += 1
                 html = open(os.path.join(docs_dir, name), encoding="utf-8",
                             errors="replace").read()
                 m = DATE_MODIFIED_RE.search(html)
@@ -491,7 +501,10 @@ def main():
 
     # ---- 4. S2（docs ページ数）----
     if args.offline:
-        n_docs = len(docs_dates)
+        # ⚠️ `len(docs_dates)` で数えてはいけない。`web/memory/` は **dateModified を持たない**
+        #    ため 1 件少なくなり、S2 が常に不一致になる（実測で 17 vs 18 になった）。
+        #    Web docs の **ファイル数**で数える（`shared_*`・`linked_*` は Web 集合外なので除く）。
+        n_docs = offline_web_doc_files
     else:
         llms = f.get(f"{BASE}/llms.txt", "meta/llms.txt")
         n_docs = 0

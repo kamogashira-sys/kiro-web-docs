@@ -66,7 +66,8 @@ help:
 	@echo "                                 #   節見出しの宣言件数と表の実体・内訳と合計・"
 	@echo "                                 #   公式 HTML との一致（DOCS_HTML_DIR があれば）"
 	@echo "  make check-kiro-web-consistency # 上限値の水平展開（S8〜S11・S13・S14）・"
-	@echo "                                 #   食い違い注記の対称性（F-W20）・出典日の記載"
+	@echo "                                 #   食い違い注記の対称性（F-W20）・出典日の記載・"
+	@echo "                                 #   出典日 vs 公式 dateModified（DOCS_HTML_DIR があれば）"
 	@echo "  make check-kiro-web-notation   # 表記規約 (a)〜(g)（他製品コマンドの混入・"
 	@echo "                                 #   製品名の揺れ・非 ISO 日付・**存在しない版番号の創作**・"
 	@echo "                                 #   取得日の混入・autolink 事故・推測表現）"
@@ -150,9 +151,15 @@ check-kiro-web-counts:
 # 上限・保持期間系の正準値（S8〜S11・S13・S14）が**複数ページで食い違っていないか**を見る。
 # check-counts.py が「表の実体 vs 宣言件数」を見るのに対し、こちらは
 # 「文書 A の値 vs 文書 B の値 vs SSoT 定数」を見る（水平展開漏れの検出）。
+# docs の HTML スナップショットがあれば、本文の出典日（`Page updated`）が公式の
+# JSON-LD `dateModified` と一致するかも検証する（無い場合は「未検証です」と表示する）。
 # 併せて Free Tier の食い違い注記の対称性（F-W20）と、本文ページの出典日も検証する。
 check-kiro-web-consistency:
-	@$(SCRIPTS)/check-consistency.py
+	@if [ -n "$(DOCS_HTML_DIR)" ] && [ -d "$(DOCS_HTML_DIR)" ]; then \
+	    $(SCRIPTS)/check-consistency.py --docs-html-dir "$(DOCS_HTML_DIR)"; \
+	else \
+	    $(SCRIPTS)/check-consistency.py; \
+	fi
 
 # 表記規約（D-W10）。(a) 他製品のコマンド・固有機能の混入／(b) 製品名の揺れ／
 # (c) 非 ISO 日付／(d) **存在しない版番号の創作**（Web に版番号は無い — F-W2）／

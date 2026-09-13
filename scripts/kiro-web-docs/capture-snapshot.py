@@ -33,6 +33,20 @@ FIELDS = [
 ]
 DATE_MODIFIED_RE = re.compile(r'\\?"dateModified\\?"\s*:\s*\\?"(\d{4}-\d{2}-\d{2})')
 MISSING_DATE_MODIFIED_ALLOWLIST = {"https://kiro.dev/docs/web/memory/"}
+# Shared 区分（更新手順書 §8.1）。**S2/S4 の Web 集合には入れない**。
+# 本サイトが出典として引用しているため dateModified の照合対象にする。
+SHARED_DOCS = {
+    f"{BASE}/docs/privacy-and-security/data-protection/": "docs/shared_privacy-and-security_data-protection.html",
+    f"{BASE}/docs/privacy-and-security/firewalls/": "docs/shared_privacy-and-security_firewalls.html",
+}
+# §8.3 のリンク先ページ（他サーフェス／全製品共通ページ）。Shared 区分とは別枠。
+LINKED_DOCS = {
+    f"{BASE}/docs/specs/": "docs/linked_specs.html",
+    f"{BASE}/docs/steering/": "docs/linked_steering.html",
+    f"{BASE}/docs/cloud-sessions/": "docs/linked_cloud-sessions.html",
+}
+# dateModified を必須とする kind。Web 集合以外も出典日照合に使うため抽出する。
+DATE_MODIFIED_KINDS = {"web-doc", "shared-doc", "linked-doc"}
 TITLE_RE = re.compile(r"(?is)<title[^>]*>\s*(.*?)\s*</title>")
 PAGE_PATH_RE = re.compile(r"^/changelog/web/page/(\d+)/$")
 ENTRY_PATH_RE = re.compile(r"^/changelog/web/([a-z0-9-]+)/$")
@@ -118,7 +132,7 @@ class Capture:
                 "bytes": str(size), "sha256": digest, "save_path": relative_path,
                 "result": "success", "title": text_title(body),
             })
-            if kind == "web-doc":
+            if kind in DATE_MODIFIED_KINDS:
                 date_match = DATE_MODIFIED_RE.search(body.decode("utf-8", errors="replace"))
                 record["date_modified"] = date_match.group(1) if date_match else ""
                 if record["date_modified"]:
@@ -271,9 +285,11 @@ def main() -> int:
     web_urls = web_urls_from_llms(llms_text)
     for url in sorted(web_urls):
         cap.add(url, "web-doc", doc_filename(url))
-    # This shared page is intentionally outside the Web S2/S4 set.
-    cap.add(f"{BASE}/docs/privacy-and-security/data-protection/", "shared-doc",
-            "docs/shared_privacy-and-security_data-protection.html")
+    # These pages are intentionally outside the Web S2/S4 set (see SHARED_DOCS / LINKED_DOCS).
+    for url, save_path in sorted(SHARED_DOCS.items()):
+        cap.add(url, "shared-doc", save_path)
+    for url, save_path in sorted(LINKED_DOCS.items()):
+        cap.add(url, "linked-doc", save_path)
 
     success_entries = {r["slug"] for r in cap.records if r["kind"] == "changelog-entry" and r["result"] == "success"}
     success_docs = {r["request_url"] for r in cap.records if r["kind"] == "web-doc" and r["result"] == "success"}
@@ -289,13 +305,20 @@ def main() -> int:
         "date_modified_urls": sorted(dates),
         "unverified_date_modified_urls": sorted(unverified_dates),
         "max_entry_date": max((item["date"] for item in index_entries.values() if item["date"]), default=None),
+        # ⚠️ S4 は **Web docs 18 ページのみ**から算出する。Shared / §8.3 のページを混ぜてはいけない。
         "max_docs_date_modified": max((r["date_modified"] for r in cap.records if r["kind"] == "web-doc"), default=None),
+        # 出典日照合（check-consistency.py）が使う。Web 集合の外にある引用先ページの実測日。
+        "extra_doc_date_modified": {
+            r["request_url"]: r["date_modified"]
+            for r in sorted(cap.records, key=lambda x: x["request_url"])
+            if r["kind"] in ("shared-doc", "linked-doc") and r["result"] == "success"
+        },
     }
     (root / "meta").mkdir(exist_ok=True)
     (root / "meta/validation.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     cap.write_manifest()
 
-    errors = require_success(cap.records, {"sitemap", "llms", "feed", "changelog-index", "changelog-entry", "web-doc", "shared-doc"})
+    errors = require_success(cap.records, {"sitemap", "llms", "feed", "changelog-index", "changelog-entry", "web-doc", "shared-doc", "linked-doc"})
     if sitemap_entries != set(index_entries) or sitemap_entries != success_entries:
         errors.append("changelog の sitemap/index/manifest 成功 slug 集合が一致しません")
     if web_urls != success_docs or web_urls != (dates | unverified_dates):
