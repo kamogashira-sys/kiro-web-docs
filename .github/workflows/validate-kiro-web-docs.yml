@@ -53,26 +53,20 @@ jobs:
       - name: 全チェック（ネットワーク不要）
         run: make check-kiro-web-all
 
-      # ⚠️ 重要: CI には一次情報スナップショット（06_embedded-docs/）が無い。
+      # ⚠️ 重要: このジョブには一次情報スナップショット（06_embedded-docs/）が無い。
       # .gitignore 対象のため clone されず、次の2つが「スキップして exit 0」になる。
       #   - check-kiro-web-coverage … changelog の網羅性と**折りたたみ項目数**の一致
       #   - check-kiro-web-counts の公式 HTML 照合部分
-      # つまり **CI の green は網羅性を保証しません**。
       #
-      # 特に Kiro Web では、公式サイトで折りたたまれている 21 項目が
-      # 素の HTML に存在しない（F-W22）。転記漏れは**静かに起きる**ため、
-      # スナップショットを持つローカル環境での確認が不可欠。
-      # このステップは、その事実をログに残して誤読を防ぐためにある。
+      # **これらは下の verify-with-snapshot ジョブが公式から都度取得して検証する。**
+      # 本ジョブの green だけでは網羅性を保証しない、という関係は変わらない。
       - name: 網羅性チェックの状態を明示
         run: |
           if ls kiro-web-docs/06_embedded-docs/*/changelog/*.html >/dev/null 2>&1; then
             echo "::notice::一次情報スナップショットがあるため網羅性を検証しました"
           else
-            echo "::warning::一次情報スナップショット（06_embedded-docs/）が無いため" \
-                 "網羅性チェックと公式 HTML との照合はスキップされました。" \
-                 "CI の green は changelog の網羅性・折りたたみ項目数の一致を保証しません。" \
-                 "ローカルで make check-kiro-web-coverage と make check-kiro-web-counts を" \
-                 "実行してください（取得手順は 05_meta/10_update-guide.md §5）"
+            echo "::notice::本ジョブでは網羅性チェックと公式 HTML との照合はスキップされました。" \
+                 "これらは verify-with-snapshot ジョブが公式から都度取得して検証します。"
           fi
 
       # 外部サイトに依存するチェックは PR では実行しない（レート制限・一時障害で
@@ -85,7 +79,8 @@ jobs:
 
       # 新エントリ・docs 更新の検知。
       # sitemap（主系統1）＋索引 RSC（主系統2）で判定する。
-      # ⚠️ フィードには依存しない（Web エントリ 0 件・配信対象かは未確認 — F-W4）。
+      # ⚠️ フィードには依存しない（**25件のローリングウィンドウ**のため、Web 全 19 エントリ
+      #    のうち 7 件しか入らない。網羅性の根拠にできない — 2026-09-13 実測）。
       # ⚠️ **docs の最新更新日（S4）も見る**。changelog に現れない更新があるため（F-W16）。
       # ⚠️ ここでの failure は「文書のバグ」ではなく「更新作業が必要」の合図。
       #    また `changelog/web/page/N` が出現した場合もここで落ちる（F-W15。
@@ -93,3 +88,74 @@ jobs:
       - name: 新エントリ・docs 更新の検知（nightly と手動のみ）
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: make check-kiro-web-freshness
+
+  # ============================================================
+  # 公式から一次情報を都度取得して検証するジョブ
+  # ============================================================
+  # 2026-09-13 追加。それまで CI は snapshot を持たないため、
+  #   - changelog の網羅性（折りたたみ項目 21 件を含む）
+  #   - 件数の正準値と公式 HTML の照合（S2 / S5 / S6 / S7）
+  #   - 出典日と公式 `dateModified` の照合（54 箇所）
+  # を検証できず、「未検証です」と出力してスキップしていた（誤 green ではないが、
+  # **CI だけでは守れていなかった**）。公式から都度取得して塞ぐ。
+  #
+  # 設計上の判断:
+  #   - **PR でも実行する。** 上の validate ジョブは「外部依存は PR でやらない」方針だが、
+  #     このジョブは外部依存そのものが目的であり、PR 時点で守れないと意味がない。
+  #     一時障害は再試行（--retries 3）で吸収する。
+  #   - **取得したスナップショットはコミットしない。** kiro.dev の複製であり再配布しない。
+  #     置き場（06_embedded-docs/）は .gitignore 対象。
+  #   - **スキップを成功にしない。** 取得できなければ verify も失敗する
+  #     （`verify-kiro-web-with-snapshot` はスナップショット不在で exit 1）。
+  #   - 公式サイトへの負荷を抑えるため `--delay 0.5` を入れる（実測 49 リクエスト・約 40 秒）。
+  verify-with-snapshot:
+    runs-on: ubuntu-latest
+    # validate が落ちる状態（文書自体の不整合）で公式へ取りに行かない。
+    needs: validate
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # 失敗したときに「外部要因」か「文書の問題」かを切り分けられるよう、
+      # 取得と検証をステップとして分ける。
+      - name: 一次情報スナップショットを公式から取得
+        id: capture
+        run: |
+          make capture-kiro-web-snapshot \
+            CAPTURE_DATE=ci-${{ github.run_id }} RETRIES=3 DELAY=0.5
+
+      - name: 取得失敗時の切り分け情報
+        if: failure() && steps.capture.outcome == 'failure'
+        run: |
+          echo "::error::公式サイトからの取得に失敗しました。" \
+               "これは**文書の問題ではなく外部要因の可能性**があります。" \
+               "manifest.tsv に全リクエストの結果が記録されています。" \
+               "一時的な障害であればワークフローの再実行で解消します。"
+          find kiro-web-docs/06_embedded-docs -name manifest.tsv \
+            -exec sh -c 'echo "--- {} ---"; grep -v "success" "{}" | head -20' \;
+
+      # 網羅性・件数の公式照合・出典日照合。
+      # スナップショットが無ければ**失敗する**（スキップして成功にしない）。
+      - name: スナップショットを使う検証（網羅性・件数・出典日）
+        run: |
+          make verify-kiro-web-with-snapshot \
+            HTML_DIR=kiro-web-docs/06_embedded-docs/ci-${{ github.run_id }}/changelog/entries \
+            DOCS_HTML_DIR=kiro-web-docs/06_embedded-docs/ci-${{ github.run_id }}/docs
+
+      # スナップショットが公開ツリーに混入していないことを確認する。
+      # 取得物は .gitignore 対象なので git status はクリーンなはず。
+      - name: 取得物が公開ツリーに混入していないか
+        run: |
+          make check-kiro-web-ignore
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::取得したスナップショットが git の管理対象に入っています（再配布事故）"
+            git status --porcelain
+            exit 1
+          fi
+          echo "取得物は .gitignore 対象です（git status はクリーン）"
