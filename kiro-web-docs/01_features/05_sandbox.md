@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/sandbox/>（Page updated: June 11, 2026）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: July 23, 2026）・<https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: August 4, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/>（Page updated: August 22, 2026）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: September 10, 2026）・<https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: September 2, 2026）
 
 サンドボックスは、**エージェントがタスクを実行する隔離された環境**です。**タスクごとに専用のサンドボックス**が作られます。
 
@@ -12,11 +12,12 @@
 ## 📑 このページの内容
 
 1. [動作の流れ（5段階）](#動作の流れ5段階)
-2. [設定できる4項目](#設定できる4項目)
-3. [ネットワークアクセスレベル（4種類）](#ネットワークアクセスレベル4-種類)
-4. [環境の自動構成](#環境の自動構成)
-5. [Powers と MCP サーバー](#powers-と-mcp-サーバー)
-6. [サンドボックスの外側で動くもの](#サンドボックスの外側で動くもの)
+2. [ブラウザ操作（headless Chrome 同梱）](#ブラウザ操作headless-chrome-同梱)
+3. [設定できる4項目](#設定できる4項目)
+4. [ネットワークアクセスレベル（4種類）](#ネットワークアクセスレベル4-種類)
+5. [環境の自動構成](#環境の自動構成)
+6. [Powers と MCP サーバー](#powers-と-mcp-サーバー)
+7. [サンドボックスの外側で動くもの](#サンドボックスの外側で動くもの)
 
 ---
 
@@ -41,6 +42,44 @@
 
 > ディスク容量は**公式ドキュメントではなく changelog にのみ**記載があり、
 > しかも公式サイトで折りたたまれている項目の中にあります。
+
+---
+
+## ブラウザ操作（headless Chrome 同梱）
+
+**出典**: <https://kiro.dev/docs/web/sandbox/>（Page updated: August 22, 2026）
+
+**すべてのサンドボックスに headless Chrome ブラウザが入っています。** ブラウザは
+**サンドボックスと同じ隔離環境の中**で動き、ブラウザ操作用のツールが**あらかじめインストール**されています。
+
+| 同梱されるもの | 種類 |
+|--------------|------|
+| **Playwright MCP server** | MCP サーバー |
+| **`agent-browser`** | CLI |
+| **Chrome DevTools MCP server** | MCP サーバー |
+
+エージェントはこれらを使って、**サンドボックス内で動いている Web アプリケーションを開いて操作**できます。
+公式が挙げる用途は次の3つです。
+
+| 用途（公式の説明） |
+|----------------|
+| **自分が加えた UI の変更を検証する** |
+| **ブラウザ上で起きるバグを再現する** |
+| **複数ステップの Web ワークフローを実行する** |
+
+### セットアップは不要です
+
+公式は次のように説明しています。
+
+> No setup is required; ask the agent to verify a page or interact with a running web app and it picks the right tool.
+
+**セットアップは不要**で、「このページを確認して」「動いている Web アプリを操作して」と頼めば
+**エージェントが適切なツールを選びます**。
+
+> **サンドボックスの外側のページに到達する場合**は、ネットワークアクセスの設定が関わります。
+> [ネットワークアクセスレベル（4 種類）](#ネットワークアクセスレベル4-種類)を参照してください。
+
+> この機能は [2026-07-23 のエントリ](../02_update/01_changelog.md#2026-07-23-playwright-and-agent-browser-support)で告知されました。
 
 ---
 
@@ -112,7 +151,7 @@
 
 ## 環境の自動構成
 
-**出典**: <https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: July 23, 2026 — **Kiro Web の docs で最も新しい更新**）
+**出典**: <https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: September 10, 2026 — **Kiro Web の docs で最も新しい更新**）
 
 公式は、エージェントが**プロジェクトの種類を検出して自動的にサンドボックスを構成する**と説明しています。判断材料はリポジトリの構成ファイルです。
 
@@ -134,7 +173,7 @@
 
 ## Powers と MCP サーバー
 
-**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: August 4, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: September 2, 2026）
 
 エージェントにツールとコンテキストを追加する方法が2種類あります。
 
@@ -145,8 +184,10 @@
 
 | 項目 | 対応状況 |
 |------|---------|
-| **ローカル MCP サーバー** | ✅ 対応 |
-| **リモート MCP サーバー** | ❌ **現時点では利用できません** |
+| **ローカル MCP サーバー** | ✅ 対応（**stdio**。サンドボックス内のプロセスとして実行） |
+| **リモート MCP サーバー** | ✅ 対応（**HTTP/SSE**。URL 経由で接続し、ヘッダーを指定可能） |
+
+> **Connections access only** ネットワークモードでは、MCP server settings は使用できません。MCP を設定する前に、[Internet Access](#ネットワークアクセスレベル4-種類) でネットワークモードを確認してください。
 
 設定方法・OAuth 認可・セキュリティ警告は [04_reference/03_mcp-configuration.md](../04_reference/03_mcp-configuration.md) を参照してください。
 

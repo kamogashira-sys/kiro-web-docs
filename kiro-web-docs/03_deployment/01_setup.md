@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: August 14, 2026・**旧 `docs/web/first-task/` は2026-08-14以前にPage updated: April 21, 2026・現在は本ページへ統合**）
+**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: September 2, 2026・**旧 `docs/web/first-task/` は2026-08-14以前にPage updated: April 21, 2026・現在は本ページへ統合**）
 
 Kiro Web はブラウザから使うサービスなので、**インストールはありません**。「サインイン」と「リポジトリプロバイダの接続」が導入作業になります。
 
@@ -56,14 +56,18 @@ Kiro Web はブラウザから使うサービスなので、**インストール
 
 ## AWS Identity Center の場合
 
-### ⚠️ Preview 中の重要な制約（公式の警告）
+### ⚠️ 重要な制約（公式の警告）
 
 公式は警告として次の2点を挙げています。
 
 | 制約 | 内容 |
 |------|------|
-| **リージョン** | Preview 中は **US East（N. Virginia）`us-east-1` のみ** |
-| **管理者の有効化が必要** | Kiro を構成している AWS アカウントで **Settings > Kiro Settings** の **Cloud Sessions (Preview)** から有効化しないと、利用者はアクセスできない（2026-08-14 更新。旧称は「Autonomous agents」） |
+| **リージョン** | **US East（N. Virginia）`us-east-1` のみ** |
+| **管理者の有効化が必要** | Kiro を構成している AWS アカウントで **Settings > Kiro Settings** の **Cloud Sessions** をオンにしないと、利用者はアクセスできない |
+
+> **トグルの名称は変わっています。** 2026-08-14 時点は **Cloud Sessions (Preview)**（さらに旧称は「Autonomous agents」）でしたが、
+> 2026-09-02 更新時点では **Cloud Sessions** です。
+> 詳細は [02_identity-center.md](02_identity-center.md#組織で-cloud-sessions-を有効にする) を参照してください。
 
 ### 公式の手順
 
@@ -138,7 +142,7 @@ Kiro Web は **パーソナルアクセストークン（PAT）** で GitLab に
 
 ## 最初のタスクを実行する
 
-**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: August 14, 2026・**「最初のタスクを実行する」節は旧 `docs/web/first-task/` の内容を統合したもの**）
+**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: September 2, 2026・**「最初のタスクを実行する」節は旧 `docs/web/first-task/` の内容を統合したもの**）
 
 ### 1. セッションを開始する
 
@@ -173,6 +177,19 @@ Kiro Web は **パーソナルアクセストークン（PAT）** で GitLab に
 > **⚠️ 公式の警告**: 信頼できるリポジトリだけを選んでください。**特に公開リポジトリと
 > 非公開リポジトリを混在させるときは注意が必要です。** エージェントは
 > **リポジトリのコードにある指示から学習し、それに従います。その指示が悪意あるものであっても同様です。**
+
+#### 最近使ったリポジトリ（Recent）
+
+**同じプロバイダで何度かセッションを開始すると**、リポジトリセレクタに
+そのプロバイダの **Recent** セクションが出て、**最近使ったリポジトリ**が並びます。
+一覧を全部スクロールせずに選べます。
+
+| 条件 | 動作 |
+|------|------|
+| **表示される条件** | 最近使ったリポジトリが**2件以上**あるとき |
+| **検索中** | **非表示**になります（検索結果を**1本のランキング**として見せるため） |
+
+> この機能は [2026-08-19 のエントリ](../02_update/01_changelog.md#2026-08-19-recent-repositories-in-the-repository-selector)で告知されました。
 
 ### 4. モードによって進み方が変わる
 

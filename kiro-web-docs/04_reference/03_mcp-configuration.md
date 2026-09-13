@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: August 4, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: September 2, 2026）
 
 > **2026-08-04 の更新で新設**: 公式は「全 Kiro サーフェスに共通する MCP の一般的な設定・概念は
 > `docs/mcp/` を参照、Powers の一般的な文書は `docs/powers/` を参照」という案内を
@@ -122,19 +122,16 @@
 
 ## 対応しているサーバーの種類
 
-公式は次のように明記しています。
+公式は、Kiro Web が次の MCP サーバーをサポートすると明記しています。
 
-> Only local MCP servers are currently supported. Remote MCP servers are not available at this time.
+| 種類 | 接続方法 | 公式が明記する動作 |
+|------|---------|------------------|
+| **ローカル MCP サーバー** | **stdio** | サンドボックス内のプロセスとして実行 |
+| **リモート MCP サーバー** | **HTTP/SSE** | URL 経由で接続し、ヘッダーを指定可能 |
 
-| 種類 | 対応状況 |
-|------|---------|
-| **ローカル MCP サーバー** | ✅ 対応 |
-| **リモート MCP サーバー** | ❌ **現時点では利用できません** |
+> **Connections access only** ネットワークモードでは、**MCP server settings は使用できません**。MCP を設定する前に、[Internet Access](01_allowed-domains.md) のネットワークモードを確認してください。
 
-> 設定画面では種類として「HTTP または local」を選べますが、公式ページの
-> 「Supported servers」節は**ローカルのみ対応**と明記しています。
-> この2つの記述の関係について公式の説明はないため**未確認**です。
-> リモートサーバーを前提にした構成は組めないものとして扱ってください。
+設定画面では、サーバー種別として **HTTP または local** を選択します。
 
 ---
 

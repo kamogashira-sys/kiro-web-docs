@@ -5,7 +5,7 @@
 > Kiro IDE・Kiro CLI・Mobile にも共通します。ただし**Kiro Web のすべてのセッションは Cloud Session です**
 > （後述）。そのため本サイトに収録し、Web からの利用に焦点を当てて記述します。
 
-**出典**: <https://kiro.dev/docs/cloud-sessions/>（Page updated: August 14, 2026）
+**出典**: <https://kiro.dev/docs/cloud-sessions/>（Page updated: September 2, 2026）
 
 ---
 
@@ -17,7 +17,7 @@
 4. [前提条件](#前提条件)
 5. [構成情報の扱い](#構成情報の扱い)
 6. [サーフェス間の移動](#サーフェス間の移動)
-7. [Preview 中の制限](#preview-中の制限)
+7. [現時点の制限](#現時点の制限)
 
 ---
 
@@ -59,9 +59,20 @@
 
 公式は次のように明記しています。
 
-> Every Kiro Web session is a cloud session; the browser is the native surface for this feature, with no setup beyond signing in.
+> Every Kiro Web session is a cloud session; the browser is the native surface for this feature. After your administrator enables **Cloud Sessions** and, if your organization uses an external IdP, configures the IdP for Kiro Web, you do not need to complete any per-user setup beyond signing in.
 
-**Kiro Web の全セッションが Cloud Session です。** ブラウザは Cloud Sessions の**ネイティブなサーフェス**であり、サインイン以外の追加設定は不要です。
+**Kiro Web の全セッションが Cloud Session です。** ブラウザは Cloud Sessions の**ネイティブなサーフェス**です。
+
+| 前提 | 内容 |
+|------|------|
+| **管理者が Cloud Sessions を有効にする** | 必須（[02_identity-center.md](../03_deployment/02_identity-center.md#組織で-cloud-sessions-を有効にする)） |
+| **外部 IdP を使う組織** | **Kiro Web 向けに IdP を構成する**必要がある |
+| **利用者ごとの作業** | 上記が済んでいれば、**サインイン以外に必要な設定はありません** |
+
+> ⚠️ **2026-09-02 更新で前提が明記されました。** 移転前は
+> 「the browser is the native surface for this feature, **with no setup beyond signing in**」
+> （サインイン以外の設定は不要）とだけ書かれていましたが、現行は
+> **管理者による有効化と外部 IdP の構成が前提**であることが加わっています（2026-09-13 実測）。
 
 > つまり、**本サイトの [01_agent-modes.md](01_agent-modes.md) 等で説明している「セッション」は、
 > すべてこのページで説明する Cloud Session の Web からの利用形態です。** 用語上は区別していますが、
@@ -119,9 +130,16 @@
 
 | # | 前提条件 |
 |---|---------|
-| 1 | **有料の Kiro サブスクリプション**（Pro 以上） |
+| 1 | **Pro / Pro+ / Pro Max / Power のいずれかのサブスクリプション**。Cloud Session は**既存のクレジットモデル**を使い、**クラウド計算資源に対する別料金はかかりません** |
 | 2 | リポジトリで作業する場合、接続済みの [GitHub](06_repository-integration.md) または [GitLab](06_repository-integration.md) アカウント |
-| 3 | **AWS Identity Center 組織の場合**: 管理者が Kiro を構成している AWS アカウントの **Settings > Kiro Settings** で **Cloud Sessions (Preview)** を有効化する必要がある（[03_deployment/02_identity-center.md](../03_deployment/02_identity-center.md)）。Preview 中は **US East（N. Virginia）`us-east-1` のみ** |
+| 3 | **AWS Identity Center 組織の場合**: 管理者が Kiro を構成している AWS アカウントの **Settings > Kiro Settings** で **Cloud Sessions** を有効化する必要がある（[03_deployment/02_identity-center.md](../03_deployment/02_identity-center.md)）。Cloud Session が動くのは **US East（N. Virginia）`us-east-1` のみ** |
+| 4 | **Okta または Microsoft Entra ID を外部 IdP に使う組織の場合**: 管理者が **Cloud Sessions** を有効化し、**既存の Kiro OIDC アプリケーションに `https://app.kiro.dev/signin/oauth` を追加**する必要がある（[2026-08-17 のエントリ](../02_update/01_changelog.md#2026-08-17-kiro-web-access-with-okta-and-microsoft-entra-id)） |
+
+> ⚠️ **2026-09-02 更新で前提条件が変わりました（2026-09-13 実測）。**
+> ① サブスクリプションが「有料（Pro 以上）」から **Pro / Pro+ / Pro Max / Power の列挙**になり、
+> **クレジットモデルを使い別料金は無い**ことが明記されました。
+> ② リージョンの記述から「**Preview 中は**」という限定が外れました。
+> ③ **外部 IdP（Okta / Microsoft Entra ID）を使う組織向けの項目が追加**されました。
 
 ---
 
@@ -129,13 +147,25 @@
 
 公式は次のように説明しています。
 
-> Project configuration travels with the repo: steering, specs, custom agents, hooks, and MCP servers committed under `.kiro/` in your repository apply in cloud sessions automatically, because the sandbox clones the repository.
-> Personal configuration stays local: your `~/.kiro/` directory isn't applied automatically.
+> - **Project configuration travels with the repo:** steering, specs, custom agents, hooks, and MCP servers committed under `.kiro/` in your repository apply in cloud sessions automatically, because the sandbox clones the repository.
+> - **Personal configuration can sync through your account:** your local `~/.kiro/` directory stays local and isn't applied to a cloud session. Use **Settings > Configuration Sync** in Kiro Web to upload supported personal configuration. Manage the cloud copy from its feature-specific settings page, including account-backed Powers under **Settings > Powers**.
 
 | 構成の種類 | 扱い |
 |-----------|------|
 | **プロジェクト構成**（リポジトリの `.kiro/` 配下） | **リポジトリと一緒に移動**。Steering・Specs・カスタムエージェント・Hooks・MCP サーバーはサンドボックスがリポジトリをクローンする際に自動的に適用される |
-| **個人構成**（`~/.kiro/`） | **自動適用されません**。個人の Steering・カスタムエージェント・Skills・Hooks を持ち込むには、[Kiro Web の Settings](https://app.kiro.dev/settings/cloud-config) の **Cloud configuration** から同期する必要がある |
+| **個人構成**（`~/.kiro/`） | **ローカルに留まり、Cloud Session には適用されません**。持ち込むには [Kiro Web の Settings](https://app.kiro.dev/settings/cloud-config) の **Configuration Sync** からアップロードする |
+| **アップロード後のクラウド側の管理** | **機能ごとの設定ページ**で行う（アカウント側で持つ **Powers** は **Settings > Powers**） |
+
+> ⚠️ **2026-09-02 更新で表現が変わりました。** 移転前は
+> 「Personal configuration stays local: your `~/.kiro/` directory isn't applied automatically.」でしたが、
+> 現行は「**Personal configuration can sync through your account**」（アカウント経由で同期できる）が見出しになり、
+> 設定画面の名称も **Cloud configuration** から **Configuration Sync** に変わっています（2026-09-13 実測）。
+
+公式はセッション内で何が起きるかを表にまとめており、個人構成の行は次のとおりです。
+
+| 項目 | ローカルマシン | クラウドサンドボックス |
+|------|------------|----------------|
+| **Local personal configuration（`~/.kiro/`）** | **Stays local** | **Not applied; use personal Cloud configuration for supported account-backed items** |
 
 > 本サイトの [04_steering.md](04_steering.md) は**リポジトリの `.kiro/steering/`** を前提に説明しています。これは「プロジェクト構成」に該当するため、Cloud Session でも自動的に適用されます。
 
@@ -161,17 +191,33 @@
 
 ---
 
-## Preview 中の制限
+## 現時点の制限
 
-公式が明記している制限は5点です。
+**出典**: <https://kiro.dev/docs/cloud-sessions/>（Page updated: September 2, 2026）
+
+公式が「**Current limitations**」として明記している制限は5点です。
 
 | # | 制限 | 内容 |
 |---|------|------|
-| 1 | **リポジトリ構成は固定** | セッション作成時に選んだリポジトリで固定される（CLI は `/repo` で後から追加可能）。別のリポジトリで作業するには新しいセッションを開始する |
-| 2 | **ブランチ選択不可** | リポジトリ接続時にブランチを選べない。セッション開始後にエージェントへブランチのチェックアウト・作成を依頼する |
-| 3 | **Supervised モード非対応** | Cloud Session は Autopilot または Autonomous のみ。変更ごとの承認は利用できない |
-| 4 | **リネーム不可** | IDE・CLI から Cloud Session の名前を変更できない |
-| 5 | **サーフェスごとの機能差** | 各サーフェスで一部のコマンド・機能が未対応（Preview の成熟に伴い縮小予定） |
+| 1 | **並列実行数の上限** | **クラウドセッションは同時に 10 本まで**実行できる |
+| 2 | **リポジトリ構成は固定** | セッション作成時に選んだリポジトリで固定される（**CLI は `/repo` で後から追加可能**）。別のリポジトリで作業するには新しいセッションを開始する |
+| 3 | **Supervised モード非対応** | Cloud Session は **Autopilot または Autonomous** のみ。**変更ごとの承認は利用できない** |
+| 4 | **リネーム不可** | **IDE・CLI から** Cloud Session の名前を変更できない |
+| 5 | **サーフェスごとの機能差** | 各サーフェスで一部のコマンド・機能が未対応。**この差はサーフェスとリリースによって異なる** |
+
+> ⚠️ **節の名前と内容が変わりました（2026-09-13 実測）。**
+> 移転前は「Preview 中の制限」という位置づけで、**ブランチ選択ができない**という項目と
+> 「Preview の成熟に伴い縮小予定」という説明がありましたが、現行は
+> **「Current limitations（現時点の制限）」**になり、**ブランチ選択の項目は無くなり**、
+> 代わりに**並列実行数の上限（10 本）**が加わっています。
+>
+> **ブランチ選択については [2026-08-31 のエントリ「Pick a Branch When You Pick a Repository」](../02_update/01_changelog.md#2026-08-31-pick-a-branch-when-you-pick-a-repository)が公開されています。**
+> ただしこのエントリは**タイトルと日付以外の本文を抽出できない型**（W-L2）のため、
+> **具体的な操作方法は公式から確認できていません**。
+
+> **上限「10」は[並列タスクの上限](../04_reference/04_limits.md#並列実行は-10-件までです)とは別の指標です**
+> （あちらは1セッション群で同時実行できる**タスク**の数、こちらは同時に持てる**クラウドセッション**の数）。
+> **偶然どちらも 10 です。**
 
 ---
 

@@ -215,11 +215,15 @@ Kiro Web の Specs はチャット入力欄から選択します。
 
 **公式に差分が明記されているもの（これは書けます）**:
 
-| 機能 | 公式の記述 |
-|------|-----------|
-| **Specs** | `docs/web/specs/` に「Differences from the IDE」節あり（①専用ペインではなくチャット入力欄から選ぶ ②複数リポジトリを1セッションに ③ブラウザで確認・ダウンロード）。同時に「same spec types as the IDE」とも書かれている |
-| **Steering** | 「Steering files work the **same way** across Kiro IDE, Kiro CLI, and Kiro Web」→ **公式が同一と明記している**と書く（推測で差分を作らない） |
-| **MCP / Powers** | Web は **Powers**（同梱統合群）＋ **MCP servers**（手動設定）の2系統。**ローカルのみ対応・リモート未対応** |
+> ⚠️ **2026-09-13 実測で 3 行すべてが陳腐化していました。** 旧 `docs/web/specs/`・`docs/web/steering/` は
+> 全製品共通ページへ移転し、移転先には Web 固有の差分記述が引き継がれていません。
+> **この表の記述は書く前に必ず現行ページで再確認してください。**
+
+| 機能 | 公式の記述（2026-09-13 実測） |
+|------|-----------------------------|
+| **Specs** | 現行 `docs/specs/` に「Differences from the IDE」節は**ありません**（旧 `docs/web/specs/` にはありました）。「same spec types as the IDE」も**ありません**。Web 固有として残るのは「チャット入力欄から Spec を選ぶ」「1 セッションに複数リポジトリ」「ブラウザで確認して IDE で開く」 |
+| **Steering** | 「Steering files work the **same way** across Kiro IDE, Kiro CLI, and Kiro Web」は現行 `docs/steering/` に**ありません**（旧 `docs/web/steering/` とブログ `blog/introducing-kiro-web` にあります）。**ブログは本文の主たる根拠にしない**方針のため「公式が同一と明記」とは書けません。現行ページの Web 固有記述は「PR へのフィードバックで steer できる」「Web では冒頭で明確化の質問をする」 |
+| **MCP / Powers** | Web は **Powers**（同梱統合群）＋ **MCP servers**（手動設定）の2系統。**ローカル（stdio）とリモート（HTTP/SSE）の両方に対応**。`Connections access only` では MCP settings が使えません |
 
 ### 日付の表記
 

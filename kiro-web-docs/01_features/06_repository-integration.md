@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/github/>（Page updated: August 7, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: July 16, 2026）
+**出典**: <https://kiro.dev/docs/web/github/>（Page updated: August 22, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: August 4, 2026）
 
 Kiro Web は **GitHub と GitLab の両方**に対応しています。**1つのセッションで両方を混在**させることもできます。
 
@@ -18,11 +18,12 @@ Kiro Web は **GitHub と GitLab の両方**に対応しています。**1つの
 3. [GitHub — issue からタスクを割り当てる](#github--issue-からタスクを割り当てる)
 4. [GitHub — PR の作成者と authorship](#github--pr-の作成者と-authorship)
 5. [PR フィードバックへの対応](#pr-フィードバックへの対応)
-6. [複数ユーザーで同じリポジトリを使う](#複数ユーザーで同じリポジトリを使う)
-7. [GitLab — 接続とトークン](#gitlab--接続とトークン)
-8. [GitLab — 権限の絞り方](#gitlab--権限の絞り方)
-9. [GitLab — ネットワークアクセス](#gitlab--ネットワークアクセス)
-10. [両方を1セッションに混在させる](#両方を1セッションに混在させる)
+6. [セッション内で PR を確認する（Reviews パネル）](#セッション内で-pr-を確認するreviews-パネル)
+7. [複数ユーザーで同じリポジトリを使う](#複数ユーザーで同じリポジトリを使う)
+8. [GitLab — 接続とトークン](#gitlab--接続とトークン)
+9. [GitLab — 権限の絞り方](#gitlab--権限の絞り方)
+10. [GitLab — ネットワークアクセス](#gitlab--ネットワークアクセス)
+11. [両方を1セッションに混在させる](#両方を1セッションに混在させる)
 
 ---
 
@@ -184,6 +185,41 @@ Kiro Web は **GitHub と GitLab の両方**に対応しています。**1つの
 | **エージェントが学習する** | **タスク作成者のフィードバックのみ**（他のレビュアーのコメントは学習に影響しません） |
 
 詳細は [04_steering.md](04_steering.md#コードレビューを通じて教える) を参照してください。
+
+---
+
+## セッション内で PR を確認する（Reviews パネル）
+
+**出典**: <https://kiro.dev/docs/web/github/>（Page updated: August 22, 2026）
+
+エージェントがセッション内で PR を作ると、**チャットの横に Reviews パネル**が出ます。
+パネルには**各 PR の状態と source branch** が並び、**新しい PR が現れると自動で開きます**。
+
+GitHub の PR を選ぶと、**Kiro Web を離れずに**中身を確認できます。
+
+| 表示 | 内容（公式の説明） |
+|------|----------------|
+| **ヘッダー** | PR の**状態**（**Open / Closed / Merged / Draft**）・**source branch**・**View in GitHub** のリンク |
+| **Files changed** | 変更ファイルの一覧。ファイルごとに**状態**（**added / deleted / renamed / copied / modified**）と**追加・削除行数**。ファイルを展開（または一括展開）すると差分を **Unified**（既定）で読め、**Split** に切り替えられます |
+| **Commits** | PR のコミット一覧。**commit SHA をワンクリックでコピー**できます |
+
+### 閲覧専用です（コメント・承認・マージはできません）
+
+公式は次のように説明しています。
+
+> The in-session view is for inspection. To comment, approve, or merge, use **View in GitHub** — reviewing and merging happen through your normal GitHub workflow.
+
+**セッション内の表示は確認用**です。**コメント・承認・マージは `View in GitHub`** から、
+**普段の GitHub のワークフロー**で行います。
+
+### GitLab のマージリクエストは一覧までです
+
+| 対象 | Reviews パネルでの扱い |
+|------|-------------------|
+| **GitHub の PR** | 一覧に出る＋**セッション内で詳細を開ける** |
+| **GitLab の MR** | 一覧に出るが、**詳細はセッション内で開かない**（**GitLab へリンクアウトする**） |
+
+> この機能は [2026-07-20 のエントリ](../02_update/01_changelog.md#2026-07-20-github-pull-request-workflow-inside-kiro-web)で告知されました。
 
 ---
 

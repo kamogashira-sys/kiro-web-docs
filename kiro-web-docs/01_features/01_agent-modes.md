@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/using-the-agent/chatting/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/autonomous-mode/>（Page updated: August 4, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: September 2, 2026）・<https://kiro.dev/docs/web/using-the-agent/chatting/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/autonomous-mode/>（Page updated: September 2, 2026）
 
 ---
 
@@ -16,7 +16,9 @@
 5. [タスクの作り方](#タスクの作り方)
 6. [タスクの状態遷移](#タスクの状態遷移)
 7. [チャットでの操縦](#チャットでの操縦)
-8. [Web 検索](#web-検索)
+8. [セッションをグループにまとめる](#セッションをグループにまとめる)
+9. [セッション名は自動で付きます](#セッション名は自動で付きます)
+10. [Web 検索](#web-検索)
 
 ---
 
@@ -224,6 +226,66 @@ PR にはその後もフィードバックを与えられます。**エージェ
 ### セッションの保持期間
 
 **90 日**で期限切れになり、チャットメッセージとログが削除されます。**プルリクエスト・コードの変更・GitHub 上の会話は影響を受けません**（[04_reference/04_limits.md](../04_reference/04_limits.md#セッションの保持期間)）。
+
+---
+
+## セッションをグループにまとめる
+
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: September 2, 2026）
+
+セッションが増えてきたら、**関連する作業をグループにまとめて**整理できます。
+**グループは任意**で、グループに入れていないセッションは **Ungrouped** に残ります。
+
+### グループを作る
+
+サイドバーの **Sessions** パネルでグループ表示に切り替え、**Create group** を選びます。
+名前を付けて確定すると、**セッションを入れる前に空のグループがすぐに現れます**。
+
+### セッションを出し入れする
+
+| 操作 | 方法 |
+|------|------|
+| **既存のグループに入れる** | セッションのメニュー → **Move to group** から選ぶ |
+| **新しいグループを作って入れる** | セッションのメニュー → **New group**（作成と移動が**1手順**で済みます） |
+| **グループから出す** | セッションのメニュー → **Remove from group**（**Ungrouped** に戻ります） |
+
+### グループのメニューでできること
+
+| 操作 | 動作 |
+|------|------|
+| **Rename group** | 名前を変える。**そのグループのセッションは新しい名前の側に移ります** |
+| **Delete group** | 確認を求められ、グループを削除して**セッションは Ungrouped へ移動**します |
+
+> ⚠️ **グループを削除してもセッションは削除されません。**
+> 公式は「Deleting a group never deletes the sessions in it.」と明記しています。
+
+### Sessions ページでの一括操作
+
+**Sessions ページ**（<https://app.kiro.dev/session>）では**複数のセッションをまとめて**操作できます。
+
+| 操作 | 動作 |
+|------|------|
+| **Move to group** | 選んだセッションを**まとめて同じグループへ移動** |
+| **Filter by group** | 選んだグループのセッションだけを表示。**選択操作は不要**（単独で使えます） |
+
+> この機能は [2026-08-22 のエントリ](../02_update/01_changelog.md#2026-08-22-organize-sessions-into-groups)で告知されました。
+
+---
+
+## セッション名は自動で付きます
+
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: September 2, 2026）
+
+公式は次のように説明しています。
+
+> Kiro generates a title for each session from your task and shows it in the session header and the sidebar. If you rename a session yourself, Kiro keeps your title and does not overwrite it with a generated one.
+
+| 動作 | 内容 |
+|------|------|
+| **自動命名** | **タスクの内容から**タイトルを生成し、**セッションヘッダーとサイドバー**に表示します |
+| **自分で改名した場合** | **自分が付けた名前が保持**され、**自動生成されたタイトルで上書きされません** |
+
+> この機能は [2026-08-27 のエントリ](../02_update/01_changelog.md#2026-08-27-sessions-name-themselves)で告知されました。
 
 ---
 
