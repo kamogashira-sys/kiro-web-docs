@@ -193,8 +193,9 @@ Vibe セッションでは、**最初のプロンプトを送った後でも** A
 **Kiro Web（Preview）が <https://app.kiro.dev> で利用可能になりました。** 公式は対象を **Kiro Pro・Pro+・Power の利用者**としています。エージェントとチャットしてアイデアを検討し、バグを直し、変更を形にすることも、タスクを丸ごと任せて**プルリクエストとして完了**させることもできます。**1つのセッションで複数リポジトリにまたがる変更**を調整できます。
 
 > **⚠️ 未確認・公式ページ間の食い違いがあります**: 本エントリと `docs/web/`・`docs/web/setup/` は
-> Pro 以上のサブスクリプションが前提と読めますが、より新しい `docs/web/data-protection/`
-> （Page updated: July 14, 2026）は **Free Tier 利用者**のデータ保持期間を記述しています。
+> Pro 以上のサブスクリプションが前提と読めますが、
+> <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026）は
+> **Free Tier 利用者**のデータ保持期間を記述しています。
 > 本サイトはどちらが正しいかを**断定しません**。
 
 ### Collaborative and autonomous modes

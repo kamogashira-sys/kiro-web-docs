@@ -232,14 +232,19 @@
 
 | 出典 | 記述の要旨 |
 |------|-----------|
-| `docs/web/setup/`（`Page updated`: 2026-09-02） | Kiro Web の利用には **Pro 以上**のサブスクリプションが必要（**`Kiro Web is not available on the free tier.`**） |
+| `docs/web/`（`Page updated`: 2026-09-02） | 前提条件の 1 項目目が **`A Pro, Pro+, Pro Max, or Power subscription`**。本文に **`Kiro Web is available on Pro, Pro+, Pro Max, and Power plans.`** |
+| `docs/web/setup/`（`Page updated`: 2026-09-02） | Kiro Web の利用には **Pro 以上**のサブスクリプションが必要（**`Ensure you have a paid Kiro subscription (Pro or higher). Kiro Web is not available on the free tier.`**） |
 | `docs/cloud-sessions/`（`Page updated`: 2026-09-02・移転先） | 前提条件は **Pro / Pro+ / Pro Max / Power** のいずれか |
 | `docs/privacy-and-security/data-protection/`（`Page updated`: 2026-08-04・移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: 2026-07-14） | **Free Tier ユーザー**のデータ保持期間について記述がある（＝ Free Tier の存在を前提にしている） |
 
-> ⚠️ **2026-09-13 の実測で、`docs/web/`（トップ）から Pro 要件の一文が消えました。**
-> 2026-08-16 時点のトップページには `paid Kiro subscription (Pro or higher)` がありましたが、
-> **2026-09-13 時点のトップページにはありません**（現在この記述があるのは `setup` のみ）。
-> **消えた理由は公式に説明がないため未確認**です。食い違いそのものは**継続**しています。
+> ⚠️ **`docs/web/`（トップ）の前提条件は 2026-09-02 に表現が変わりました。**
+> 2026-08-14 時点は **`A paid Kiro subscription (Pro or higher)`** でしたが、
+> 2026-09-02 時点は **`A Pro, Pro+, Pro Max, or Power subscription`** というプラン列挙になり、
+> **`Pro Max` が明示**されました。**要件そのものは存続しています。**
+> **表現が変わった理由は公式に説明がないため未確認**です。食い違いそのものは**継続**しています。
+>
+> 「`Kiro Web is not available on the free tier`」という**明示的な否定文**は、
+> 2026-09-13 時点で `docs/web/setup/` にのみあります（トップページには 2026-08-14 時点でも無い）。
 
 ### 本サイトの扱い
 

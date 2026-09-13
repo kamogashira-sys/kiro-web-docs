@@ -48,7 +48,7 @@ Kiro Web はブラウザから使うサービスなので、**インストール
 
 > Kiro Web is not available on the free tier.
 
-一方、**より新しい** `docs/web/data-protection/`（Page updated: July 14, 2026）には **Free Tier ユーザー**を前提とした記述があります（データ保持期間・オプトアウト・不正利用検知）。詳細は [03_data-protection.md](03_data-protection.md) を参照してください。
+一方、<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026）には **Free Tier ユーザー**を前提とした記述があります（データ保持期間・オプトアウト・不正利用検知）。詳細は [03_data-protection.md](03_data-protection.md) を参照してください。
 
 **本サイトはどちらが正しいかを断定しません。** 上記の「Pro 以上が必要」を主たる記述として示しつつ、食い違いがあることを明記します。実際の適用条件は公式ページで確認してください。
 

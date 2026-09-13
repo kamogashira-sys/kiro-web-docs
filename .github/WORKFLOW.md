@@ -152,10 +152,14 @@ python3 scripts/kiro-web-docs/extract-changelog.py --entry /tmp/web-entry.html
 
 ### 方法1: インライン出典
 
+> ⚠️ **以下の例の日付はプレースホルダです。** 本ファイルは検証スクリプトの走査対象外
+> （`DOC_ROOT = kiro-web-docs`）のため、実際の日付を書くと**機械検証されないまま陳腐化**します。
+> 実際の値は毎回**公式ページまたはスナップショットの `dateModified`** から転記してください。
+
 ```markdown
 Kiro Web の Specs はチャット入力欄から選択します。
 
-**出典**: [Setup & First Run](https://kiro.dev/docs/web/setup/)（Page updated: August 14, 2026）
+**出典**: [Setup & First Run](https://kiro.dev/docs/web/setup/)（Page updated: <公式ページの Page updated をそのまま転記>）
 ```
 
 ### 方法2: 参照セクション
@@ -163,8 +167,8 @@ Kiro Web の Specs はチャット入力欄から選択します。
 ```markdown
 ## 参考情報
 
-- [Kiro Web changelog: IAM roles and authorize Powers](https://kiro.dev/changelog/web/iam-roles-and-authorize-powers-for-third-party-services/)（2026-07-01）
-- [公式ドキュメント: Sandbox](https://kiro.dev/docs/web/sandbox/)（Page updated: June 18, 2026）
+- [Kiro Web changelog: IAM roles and authorize Powers](https://kiro.dev/changelog/web/iam-roles-and-authorize-powers-for-third-party-services/)（<エントリの日付>）
+- [公式ドキュメント: Sandbox](https://kiro.dev/docs/web/sandbox/)（Page updated: <公式ページの Page updated をそのまま転記>）
 ```
 
 ### 方法3: 未確認事項の明示
@@ -180,8 +184,8 @@ Kiro Web の Specs はチャット入力欄から選択します。
 ```markdown
 > **公式ページ間で食い違いがあります（未解決）**:
 > `docs/web/` と `docs/web/setup/` は Pro 以上のサブスクリプションが必要としていますが、
-> `docs/web/data-protection/`（Page updated: July 14, 2026）は Free Tier ユーザーの
-> データ保持について記述しています。本サイトでは前者を主たる記述としつつ、
+> <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: <転記した日付>）は
+> Free Tier ユーザーのデータ保持について記述しています。本サイトでは前者を主たる記述としつつ、
 > この食い違いを解決済みとして扱いません。
 ```
 
