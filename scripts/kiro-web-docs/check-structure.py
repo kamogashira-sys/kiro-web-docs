@@ -52,6 +52,11 @@ SECTION_FILES = {
         "05_sandbox.md",
         "06_repository-integration.md",
         "07_cloud-sessions.md",
+        # 2026-09-13 追加（G1 §2 の追記で配置を確定してから足した）。
+        # 番号は append-only。公式の並び順に合わせた振り直しはしない（相互リンクが壊れる）。
+        "08_memory.md",
+        "09_configuration-sync.md",
+        "10_file-explorer.md",
     ],
     "02_update": [
         "01_changelog.md",

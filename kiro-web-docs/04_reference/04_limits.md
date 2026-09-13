@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: September 2, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/automations/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）・<https://kiro.dev/changelog/web/start-without-a-repo-switch-modes-anytime/>（June 2, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: September 2, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/automations/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）・<https://kiro.dev/docs/web/cloud-configuration/>（Page updated: September 2, 2026）・<https://kiro.dev/changelog/web/start-without-a-repo-switch-modes-anytime/>（June 2, 2026）
 
 > 本ページの値はすべて公式ページの HTML 版と公式 changelog から取っており、本サイトの検証スクリプトが公式との一致を機械的に確認しています。
 
@@ -18,6 +18,9 @@
 | **オートメーションのプロンプト文字数の上限** | **10,000** 文字 | `automations` |
 | **セッションの保持期間** | **90** 日 | `using-the-agent` |
 | **サンドボックスのディスク容量** | **128GB** | changelog（2026-06-02） |
+| **Configuration Sync の1項目あたりのサイズ** | **4,000,000 バイト** | `cloud-configuration` |
+| **1つの Skill に含められるファイル数** | **25** ファイル | `cloud-configuration` |
+| **1つのカスタム Power に含められるファイル数** | **50** ファイル | `cloud-configuration` |
 | **リージョン間推論の対応リージョン数** | **3** | `data-protection` |
 | **データ保存リージョン** | **US East（N. Virginia）のみ**（Free Tier・個人サブスクライバー） | `data-protection` |
 | **Free Tier の入力保持期間**（不正利用検知） | **最長 60** 日 | `data-protection`（**未確認注記あり**） |
@@ -126,6 +129,36 @@
 > しかも**公式サイトで折りたたまれている項目**の中にあります
 > （[00_information/02_information-sources.md](../00_information/02_information-sources.md#落とし穴2-折りたたまれた項目は-html-に存在しない)）。
 > 2026-06-02 時点で「now 128GB」と記述されたもので、それ以降の変更は確認していません。
+
+---
+
+## Configuration Sync の上限
+
+**出典**: <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: September 2, 2026）
+
+個人設定（`.kiro` 配下）を Kiro Web へアップロードする [Configuration Sync](../01_features/09_configuration-sync.md) の上限です。
+
+| 項目 | 値 |
+|------|---|
+| **1項目あたりのサイズ** | **4,000,000 バイト** |
+| **1つの Skill に含められるファイル数** | **25** ファイル |
+| **1つのカスタム Power に含められるファイル数** | **50** ファイル |
+
+公式は次のように説明しています。
+
+> - Upload one supported top-level folder at a time.
+> - Each uploaded item can be up to **4,000,000 bytes**.
+> - A Skill can contain up to **25 files**.
+> - A custom Power can contain up to **50 files**.
+> - Skills and custom Powers support text files only.
+> - Selecting an Update replaces the cloud copy; uploads do not merge file contents.
+
+数値以外の制限（1度に1フォルダ・テキストファイルのみ・置き換えでマージしない）は
+[01_features/09_configuration-sync.md](../01_features/09_configuration-sync.md#上限) を参照してください。
+
+> ⚠️ **サイズ上限は「バイト」で示されています。** 公式は `4,000,000 bytes` と書いており、
+> `4MB`（4,194,304 バイト）や `4MB`（4,000,000 バイト）という表記は使っていません。
+> 本サイトは**公式の単位のまま**記載します。
 
 ---
 
