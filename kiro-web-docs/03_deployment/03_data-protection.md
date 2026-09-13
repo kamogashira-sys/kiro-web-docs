@@ -224,12 +224,16 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 <a id="free-tier-conflict"></a>
 ## ⚠️ Free Tier に関する公式ページ間の食い違い
 
-**2026-08-01 時点で未解決**でした。**2026-08-04 に本ページが移転先へ更新され、食い違いは継続しています**（Phase 4 で `docs/web/` トップの2026-08-14更新内容を確認する）。
+**2026-08-01 時点で未解決**でした。**2026-09-13 時点でも食い違いは継続しています。**
 
 | 出典 | Page updated | 記述の要旨 |
 |------|-------------|-----------|
-| `docs/web/`・`docs/web/setup/` | 2026-06-11 | Kiro Web の利用には **Pro 以上**が必要。**「Kiro Web is not available on the free tier」** |
-| **本ページ**（`docs/privacy-and-security/data-protection/`・移転先） | **2026-08-04**（より新しい） | **「Kiro Web Free Tier」**という区分が繰り返し登場し、Free Tier 利用者のデータ保持（60 日）・オプトアウト・不正利用検知が記述されている |
+| `docs/web/`（トップ） | 2026-09-02 | 前提条件の 1 項目目が **「A Pro, Pro+, Pro Max, or Power subscription」**。本文に **「Kiro Web is available on Pro, Pro+, Pro Max, and Power plans.」** |
+| `docs/web/setup/` | 2026-09-02 | **「Ensure you have a paid Kiro subscription (Pro or higher). Kiro Web is not available on the free tier.」** |
+| **本ページ**（`docs/privacy-and-security/data-protection/`・移転先） | 2026-08-04 | **「Kiro Web Free Tier」**という区分が繰り返し登場し、Free Tier 利用者のデータ保持（60 日）・オプトアウト・不正利用検知が記述されている |
+
+> **更新日は `docs/web/`・`docs/web/setup/`（2026-09-02）の方が新しい**ですが、
+> 本サイトは更新日を根拠に一方を否定しません（後述）。
 
 ### 本サイトの扱い
 

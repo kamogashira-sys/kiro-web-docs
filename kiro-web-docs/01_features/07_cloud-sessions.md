@@ -41,7 +41,7 @@
 > **Kiro Web は4項目すべてに対応しています。** Automations（[03_automations.md](03_automations.md)）は
 > **Web 固有の機能**であることが、この表から確認できます。
 
-### Preview の前提バージョン
+### 前提バージョン
 
 公式は次のように明記しています。
 
