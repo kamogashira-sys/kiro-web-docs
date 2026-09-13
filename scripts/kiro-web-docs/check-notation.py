@@ -96,7 +96,6 @@ VERSION_ALLOW = [
 # (e) 取得日の混入
 # ------------------------------------------------------------
 FETCH_DATE_RE = re.compile(r"取得日\s*[:：]|取得日は\s*\d{4}")
-
 # ------------------------------------------------------------
 # (f) autolink 事故
 # ------------------------------------------------------------
@@ -109,6 +108,37 @@ BARE_URL_FULLWIDTH_RE = re.compile(
 # ------------------------------------------------------------
 BANNED = ["おそらく", "と思われる", "と思われます", "かもしれない", "かもしれません",
           "だろう", "でしょう", "予想されます"]
+
+# ------------------------------------------------------------
+# (h) 出典日の書式
+# ------------------------------------------------------------
+# 出典日（`Page updated` の日付）は、機械照合できる書式で書かなければならない。
+#
+#   ✅ <https://kiro.dev/docs/web/setup/>（Page updated: September 2, 2026）
+#   ❌ `docs/web/setup/`（Page updated: August 14, 2026）
+#
+# ⚠️ この規則は 2026-09-13 に追加した。理由は実際に事故が起きたため。
+#    バッククォート表記の出典日は `check-consistency.py` の
+#    `URL_DATE_PAIR_RE`（`<URL>（Page updated: …` のみを拾う）の対象外で、
+#    **移転前の URL と移転前の日付を参照したまま 5 箇所が腐っていた**
+#    （`01_setup.md`・`01_changelog.md`・`03_data-protection.md` ほか）。
+#    出典日を書いた瞬間に機械照合の網に入ることを、書式の側から強制する。
+#
+# 例外は 2 つだけ。
+#   1. インラインコード／コードブロック内（書式の例示であって主張ではない）
+#   2. 同じ行に「旧」「移転前」「現存しない」「失われ」がある
+#      （＝現存しないページの過去の日付。スナップショットと照合できない）
+SOURCE_DATE_OK_RE = re.compile(
+    r"<https://kiro\.dev/[^>\s]+>\s*[（(]Page updated:\s*"
+    rf"({MONTHS}\s+\d{{1,2}},\s*\d{{4}})")
+PAGE_UPDATED_DATE_RE = re.compile(
+    rf"Page updated`?\s*[:：]?\s*({MONTHS}\s+\d{{1,2}},\s*\d{{4}})")
+HISTORICAL_MARKER_RE = re.compile(r"旧|移転前|現存しない|失われ")
+
+
+def inline_code_spans(line):
+    """行内のインラインコード（`...`）の範囲を返す。"""
+    return [m.span() for m in re.finditer(r"`[^`]*`", line)]
 
 
 def repo_root():
@@ -147,6 +177,7 @@ def main():
 
     errors = []
     allowed_versions = []   # (path, line, matched, reason)
+    historical_dates = []   # (path, line, date) … (h) の履歴例外
     stats = {"files": 0, "lines": 0}
 
     for path in target_files():
@@ -227,6 +258,30 @@ def main():
                             "（一次情報で確認して断定するか「未確認」と明示してください）"
                         )
 
+            # (h) 出典日の書式（機械照合できない形で書かせない）
+            # ⚠️ 「OK パターンの近くにあるか」で判定してはいけない。
+            #    範囲に余裕を持たせると、同じ行の 2 つ目の日付（旧ページの日付など）を
+            #    黙って飲み込む。**日付そのものの開始位置が一致するか**で判定する。
+            ok_date_starts = {m.start(1) for m in SOURCE_DATE_OK_RE.finditer(line)}
+            code_spans = inline_code_spans(line)
+            for m in PAGE_UPDATED_DATE_RE.finditer(line):
+                # 機械照合される書式の日付そのもの
+                if m.start(1) in ok_date_starts:
+                    continue
+                # インラインコード内（書式の例示）
+                if any(s <= m.start(1) < e for s, e in code_spans):
+                    continue
+                # 現存しないページの過去の日付
+                if HISTORICAL_MARKER_RE.search(line):
+                    historical_dates.append((path, i, m.group(1)))
+                    continue
+                errors.append(
+                    f"{path}:{i} (h) 出典日が機械照合できない書式で書かれています: "
+                    f"{m.group(1)!r}"
+                    "（`<https://kiro.dev/...>（Page updated: ...）` の形にしてください。"
+                    "現存しないページの過去の日付なら同じ行に「旧」「移転前」等を明示）"
+                )
+
     print(f"検査ファイル: {stats['files']} 件 / {stats['lines']} 行")
     print("")
     print(f"(d) 版番号の許可リストに合致した記述: {len(allowed_versions)} 件")
@@ -234,6 +289,12 @@ def main():
         print("   ※ 暗黙に見逃さないよう全件を表示します")
         for path, line, matched, reason in allowed_versions:
             print(f"      {path}:{line} {matched!r} … {reason}")
+    print("")
+    print(f"(h) 現存しないページの過去の日付として許可した記述: {len(historical_dates)} 件")
+    if historical_dates:
+        print("   ※ 暗黙に見逃さないよう全件を表示します")
+        for path, line, d in historical_dates:
+            print(f"      {path}:{line} {d!r}")
     print("")
 
     if errors:

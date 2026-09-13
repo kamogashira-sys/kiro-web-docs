@@ -152,9 +152,15 @@ python3 scripts/kiro-web-docs/extract-changelog.py --entry /tmp/web-entry.html
 
 ### 方法1: インライン出典
 
-> ⚠️ **以下の例の日付はプレースホルダです。** 本ファイルは検証スクリプトの走査対象外
-> （`DOC_ROOT = kiro-web-docs`）のため、実際の日付を書くと**機械検証されないまま陳腐化**します。
-> 実際の値は毎回**公式ページまたはスナップショットの `dateModified`** から転記してください。
+> ⚠️ **出典日は `<https://kiro.dev/...>（Page updated: ...）` の形で書いてください。**
+> バッククォート表記（`` `docs/web/setup/`（Page updated: ...） ``）は
+> **出典日の機械照合（`check-consistency.py`）の対象外**になり、腐っても気づけません。
+> `check-notation.py` の規則 **(h)** がこの書式を強制します。
+>
+> なお**以下の例の日付はプレースホルダです。** 本ファイル自体は検証スクリプトの
+> 走査対象外（`DOC_ROOT = kiro-web-docs`）のため、実際の日付を書くと
+> **機械検証されないまま陳腐化**します。実際の値は毎回
+> **公式ページまたはスナップショットの `dateModified`** から転記してください。
 
 ```markdown
 Kiro Web の Specs はチャット入力欄から選択します。

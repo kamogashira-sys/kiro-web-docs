@@ -159,7 +159,7 @@ spec のタスクをすべて実行すると、Kiro は**タスクリストを�
 > ⚠️ **本節は公式サイトの再構成（2026-08-12）により、出典が現存しないページのスナップショットに基づきます。**
 > 旧 `docs/web/specs/`（Page updated: July 22, 2026）には「**Differences from the IDE**」という節があり、
 > **Kiro IDE の Specs と web で異なる点**が3つ挙げられていました。
-> **移転先 `docs/specs/`（Page updated: August 12, 2026・Features 区分の全製品共通ページ）を実測したところ、
+> **移転先 <https://kiro.dev/docs/specs/>（Page updated: August 27, 2026・Features 区分の全製品共通ページ）を実測したところ、
 > この節および「Kiro Web」への言及は0件でした。** 移転時点でこの記述は失われたと判断できます。
 
 旧ページに記載されていた3点差分（出典: 06_embedded-docs の 2026-08-01 スナップショット）:
