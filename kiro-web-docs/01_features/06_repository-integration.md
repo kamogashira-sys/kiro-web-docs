@@ -330,11 +330,12 @@ GitHub の PR を選ぶと、**Kiro Web を離れずに**中身を確認でき�
 - **アクセスの取り消し**は、GitLab でパーソナルアクセストークンを削除するか、**Settings の Agent タブから GitLab を切断**する
 
 > 出典の [03_deployment/01_setup.md](../03_deployment/01_setup.md#gitlab-を接続する) は
-> `setup` ページ（Page updated: August 14, 2026・**この更新は `first-task` の統合によるもので、
-> `api` スコープの案内自体は変更されていません**）に基づき「`api` スコープ」を案内していますが、
-> `gitlab` ページ（July 16, 2026）は fine-grained token を推奨しています。
-> **2026-08-14 の更新で `setup` の更新日が `gitlab` より新しくなりましたが、
-> `api` スコープ案内の記述は変わっていないため、依然 fine-grained token の推奨を優先してください。**
+> <https://kiro.dev/docs/web/setup/>（Page updated: September 2, 2026）に基づき「`api` スコープ」を
+> 案内していますが、<https://kiro.dev/docs/web/gitlab/>（Page updated: August 4, 2026）は
+> fine-grained token を推奨しています。
+> **`setup` の更新日の方が新しいものの、`api` スコープの案内文は
+> 2026-08-14 時点と 2026-09-02 時点で同一（`The api scope gives Kiro full access; see the …`）で、
+> 内容は変わっていません。** そのため依然 fine-grained token の推奨を優先してください。
 > 新規に作成する場合は fine-grained token を検討してください。
 
 ---
