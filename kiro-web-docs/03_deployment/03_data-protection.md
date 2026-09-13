@@ -109,7 +109,12 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 
 ### 転送中の暗号化
 
-> All communication between customers and Kiro Web and between Kiro Web and its downstream dependencies is protected using TLS 1.2 or higher connections.
+> All communication between customers and **Kiro** and between **Kiro** and its downstream dependencies is protected using TLS 1.2 or higher connections.
+
+> ⚠️ **移転により主語が「Kiro Web」から「Kiro」に一般化されました。**
+> 移転前の `docs/web/data-protection/` は `between customers and **Kiro Web**` と書いていましたが、
+> 全製品共通ページである現行の `docs/privacy-and-security/data-protection/` は **Kiro** です（2026-09-13 実測）。
+> **Kiro Web に限った記述ではなくなっている**点に注意してください（保護内容そのものは同じです）。
 
 | 経路 | 保護 |
 |------|------|
@@ -189,7 +194,7 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 
 公式は次のように注記しています。
 
-> If you are a Kiro Free Tier user, opting out of sharing your data for service improvement does not affect our ability to store your inputs for abuse detection purposes.
+> If you are a Kiro Free Tier user, opting out of sharing your data for service improvement does not affect our ability to store your inputs for abuse detection purposes as described in more detail here.
 
 **Free Tier 利用者の場合、サービス改善のオプトアウトは「不正利用検知のための入力の保存」には影響しません。** 保持期間は[次節](#不正利用の検知)を参照してください。
 

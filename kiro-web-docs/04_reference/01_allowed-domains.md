@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026。タブ構成（IDE/CLI/Web）に変更されたが Web タブの34行は変化なし（実測確認済み）**）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: July 16, 2026）
+**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026。タブ構成（IDE/CLI/Web）に変更されたが Web タブの34行は変化なし（実測確認済み）**）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: August 4, 2026）
 
 > ⚠️ **本ページの値はすべて公式ページの HTML 版から取っています。**
 > `firewalls` の `.md` 版は3サーフェス分が連結されているため使用していません
@@ -149,7 +149,7 @@ Google・GitHub・AWS Builder ID でサインインする場合、Kiro は **Str
 
 ## 2. サンドボックスの依存関係取得先（73 ドメイン）
 
-**出典**: <https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: April 21, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: August 4, 2026）
 
 **これは系統1とは別物です。** サンドボックス内のエージェントがパッケージを取得するための許可リストで、**ネットワークアクセスレベルを「Common dependencies」にすると自動的に許可されます**（利用者が個別に設定する必要はありません）。
 
@@ -203,7 +203,7 @@ yarnpkg.com
 
 ## 3. GitLab 側で許可する送信元 IP（3 件）
 
-**出典**: <https://kiro.dev/docs/web/gitlab/>（Page updated: July 16, 2026）
+**出典**: <https://kiro.dev/docs/web/gitlab/>（Page updated: August 4, 2026）
 
 **これは方向が逆です。** 系統1・2は「Kiro 側への送信」ですが、これは **Kiro Web から利用者の GitLab インスタンスへの受信**です。
 

@@ -3,9 +3,10 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 >
-> ただし Steering については、**公式が「3つのインターフェースで同じように動作する」と明記しています**（[下記](#3つのインターフェースで同じ動作をします公式明記)）。
+> ⚠️ **かつて公式にあった「3つのインターフェースで同じように動作する」という一文は、
+> 移転先の現行ページにはありません**（[下記](#3つのインターフェースの関係公式の記述は移転で変わりました)）。
 
-**出典**: <https://kiro.dev/docs/steering/>（Page updated: August 12, 2026・**移転先。旧 `docs/web/steering/` は2026-08-12以前は Page updated: May 27, 2026**）
+**出典**: <https://kiro.dev/docs/steering/>（Page updated: September 2, 2026・**移転先。旧 `docs/web/steering/` は2026-08-12以前は Page updated: May 27, 2026**）
 
 Steering は、**Markdown ファイルを通じてエージェントに永続的な知識を与える**仕組みです。毎回セッションで規約を説明する代わりに、確立したパターン・ライブラリ・標準に一貫して従わせられます。
 
@@ -14,7 +15,7 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 ## 📑 このページの内容
 
 1. [ステアリングファイル](#ステアリングファイル)
-2. [3つのインターフェースで同じ動作をします（公式明記）](#3つのインターフェースで同じ動作をします公式明記)
+2. [3つのインターフェースの関係（公式の記述は移転で変わりました）](#3つのインターフェースの関係公式の記述は移転で変わりました)
 3. [コードレビューを通じて教える](#コードレビューを通じて教える)
 4. [セッション中の操縦](#セッション中の操縦)
 
@@ -37,7 +38,11 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 
 ### 何を書くか（公式が挙げる用途）
 
-公式は「define your team's standards, architecture decisions, and conventions」として、次を挙げています。
+公式は Steering を「**Guide Kiro's AI with persistent context through markdown documents that define your standards, architecture, and conventions**」（ページの説明文）と位置づけ、次のように述べています。
+
+> Steering gives Kiro persistent knowledge about your project through markdown files. Instead of explaining your conventions in every chat, steering files ensure Kiro consistently follows your established patterns, libraries, and standards.
+
+用途として挙げられているのは次のとおりです。
 
 | 用途 |
 |------|
@@ -54,25 +59,70 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 
 ---
 
-## 3つのインターフェースで同じ動作をします（公式明記）
+## 3つのインターフェースの関係（公式の記述は移転で変わりました）
 
-公式は次のように明記しています。
+### ⚠️ かつての「same way」の一文は現行ページにありません
+
+本サイトはこれまで、次の一文を**現行の公式ドキュメントの記述**として掲載していました。
 
 > Steering files work the **same way** across Kiro IDE, Kiro CLI, and Kiro Web.
 
-| 対象 | 動作 |
-|------|------|
-| Kiro IDE | **同じ** |
-| Kiro CLI | **同じ** |
-| Kiro Web | **同じ** |
+**2026-09-13 の実測で、この一文は移転先の <https://kiro.dev/docs/steering/>（Page updated: September 2, 2026）に存在しないことを確認しました。**
+`same way`・`work the same`・`across Kiro IDE`・`Kiro CLI, and Kiro Web`・`identically` のいずれも 0 件です。
 
-> **これは公式が明記している「同一」です。** 本サイトは3製品を別物として扱う方針ですが、
-> **公式が同一と書いているものについては、推測で差分を作りません。**
->
-> [2026-05-07 のエントリ](../02_update/01_changelog.md#2026-05-07-introducing-kiro-web-preview)でも
-> 公式は「using the same format that works in Kiro IDE and Kiro CLI」と説明しています。
+この一文が確認できる場所は次のとおりです。
 
-同名でも仕様が異なる機能（例: [Specs](02_specs.md#kiro-ide-との違い2026-08-12-の移転時点で失われた記述)）とは扱いが違う点に注意してください。
+| 出典 | 状態（2026-09-13 実測） |
+|------|--------------------|
+| 旧 `docs/web/steering/`（本サイトの 2026-08-01 snapshot） | **あった**（移転前のページ） |
+| <https://kiro.dev/docs/steering/>（移転先・現行） | **無い** |
+| 公式ブログ <https://kiro.dev/blog/introducing-kiro-web/> | **ある** |
+
+> **ブログにあることを根拠に「公式が明記している」とは書きません。**
+> 本サイトはブログを[背景の補足に限る](../00_information/01_official-site-structure.md#関連ブログ3本)方針です。
+> **一文が消えた理由は公式に説明がないため未確認**です。「同一でなくなった」という意味なのか、
+> 移転時に落ちただけなのかは**判断できません**。
+
+### 現在も確認できるのは「同じ形式」までです
+
+[2026-05-07 のエントリ](../02_update/01_changelog.md#2026-05-07-introducing-kiro-web-preview)には、
+現在も次の記述があります（changelog エントリは書き換わらない一次情報です）。
+
+> using the same **format** that works in Kiro IDE and Kiro CLI
+
+**「同じ形式（format）」までは公式に確認できます。** 動作全体が同一であるという記述は、
+現行の公式ドキュメントには**ありません**。
+
+### 現行ページは「差分の表」を持っています
+
+移転先のページは、一文で「同じ」と述べる代わりに、**サーフェスごとの対応表**を掲載しています（公式の表をそのまま転記）。
+
+| Capability | IDE | CLI | **Web** | Mobile |
+|-----------|:---:|:---:|:-------:|:------:|
+| `.kiro/steering/`（リポジトリ内） | ✓ | ✓ | **✓** | ✓ |
+| `~/.kiro/steering/`（ローカルの個人設定） | ✓ | ✓ | **—** | — |
+| Cloud steering managed in Web settings | — | — | **✓** | — |
+| Generate foundation files via UI | ✓ | — | **—** | — |
+| Inclusion modes（`always`・`fileMatch`・`manual`） | ✓ | ✓ | **✓** | ✓ |
+| `AGENTS.md` support | ✓ | ✓ | **✓** | ✓ |
+
+**Kiro Web で対応していないのは 2 項目**です。
+
+| 項目 | Web での扱い |
+|------|-----------|
+| **`~/.kiro/steering/`** | **非対応**。公式は「On Web, "Global steering" refers to your local `~/.kiro/steering/` directory, **which the cloud sandbox cannot read**」と説明しています。**クラウドサンドボックスはローカルのディレクトリを読めません**。個人の steering をクラウドセッションで使い回すには **Configuration Sync でアップロード**します（アップロードしたクラウド側のコピーが**すべてのクラウドセッションに適用**されます） |
+| **UI での foundation ファイル生成** | **IDE のみ**（Web は非対応） |
+
+### 現行ページが書いている Kiro Web 固有の動作
+
+| 場面 | 公式の説明 |
+|------|----------|
+| **Autonomous モード** | **エージェントが冒頭で明確化の質問をし、その回答がそのタスクの steering として働く** |
+| **既定のモード** | **一緒に反復しながら継続的に操縦できる** |
+| **コードレビュー** | **PR へのフィードバックでエージェントを操縦できる**（[下記](#コードレビューを通じて教える)） |
+
+同名でも仕様が異なる機能（例: [Specs](02_specs.md#kiro-ide-との違い2026-08-12-の移転時点で失われた記述)）と同様に、
+**公式が同一と書いていない部分を「同じ」とは書きません**。
 
 ---
 

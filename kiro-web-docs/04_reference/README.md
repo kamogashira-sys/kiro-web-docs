@@ -12,7 +12,7 @@
 |---------|------|---------------|
 | [01_allowed-domains.md](01_allowed-domains.md) | **許可ドメイン・URL・IP の一覧**（目的の違う3系統: 本体 34 行・サンドボックス 73 ドメイン・GitLab 送信元 IP 3 件） | `web/firewalls/`・`web/sandbox/internet-access/`・`web/gitlab/` |
 | [02_environment-variables.md](02_environment-variables.md) | **環境変数・シークレット**（`${key_name}` 参照構文・優先順位・IAM ロールと信頼ポリシー） | `web/sandbox/environment-variables/`・`web/sandbox/environment-configuration/` |
-| [03_mcp-configuration.md](03_mcp-configuration.md) | **MCP 設定と Powers**（設定 JSON・ローカルのみ対応・OAuth 認可・セキュリティ警告） | `web/sandbox/mcp/` |
+| [03_mcp-configuration.md](03_mcp-configuration.md) | **MCP 設定と Powers**（設定 JSON・ローカル stdio とリモート HTTP/SSE・OAuth 認可・セキュリティ警告） | `web/sandbox/mcp/` |
 | [04_limits.md](04_limits.md) | **上限・保持期間・リージョン**（並列 10・スケジュール 5・10,000 文字・90 日・128GB ほか） | `web/using-the-agent/`・`web/using-the-agent/creating-tasks/`・`web/automations/`・`web/data-protection/` |
 
 ---

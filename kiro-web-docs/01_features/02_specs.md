@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/specs/>（Page updated: August 12, 2026・**Features 区分の全製品共通ページに移転**。旧 `docs/web/specs/` は2026-08-12以前は Page updated: July 22, 2026）
+**出典**: <https://kiro.dev/docs/specs/>（Page updated: August 27, 2026・**Features 区分の全製品共通ページに移転**。旧 `docs/web/specs/` は2026-08-12以前は Page updated: July 22, 2026）
 
 > ⚠️ **旧 `docs/web/specs/` は2026-08-12に `docs/specs/`（Features 区分の全製品共通ページ）へ移転しました。**
 > 2026-08-01時点では「Kiro Web の docs で3番目に新しい更新」でしたが、この順位は移転前の記録です。
@@ -24,7 +24,16 @@ Specs は、いきなりコードを書き始めるのではなく、**要件・
 
 ## 3種類の spec
 
-公式は「Kiro Web supports the **same spec types as the IDE**」として、3種類を挙げています。
+公式は Specs を「**開発プロセスを形式化する構造化された成果物**」と位置づけています。
+
+> Specs or specifications are structured artifacts that formalize the development process for features and bug fixes in your application.
+
+本サイトが扱う3種類は次のとおりです。
+
+> ⚠️ **「Kiro Web supports the same spec types as the IDE」という一文は現行ページにありません。**
+> この一文は移転前の `docs/web/specs/`（本サイトの 2026-08-01 snapshot）にありましたが、
+> **移転先の `docs/specs/` では確認できません**（2026-09-13 実測）。
+> 現行ページは**サーフェスごとのタブ**で説明を分けており、Quick Spec は Web タブに記載があります。
 
 | 種類 | 用途（公式の説明） |
 |------|----------------|
@@ -48,7 +57,7 @@ Specs は、いきなりコードを書き始めるのではなく、**要件・
 
 公式は次のように説明しています。
 
-> You can add multiple repositories to a single spec session, and the agent will plan and coordinate changes across all of them.
+> You can add multiple repositories to a single spec session, and the agent plans and coordinates changes across all of them.
 
 **1つの spec セッションに複数のリポジトリを追加でき、エージェントはそれら全体にまたがって計画と変更の調整を行います。**
 
@@ -60,27 +69,33 @@ Specs は、いきなりコードを書き始めるのではなく、**要件・
 
 ## 生成される3つの成果物
 
-公式は「Every spec produces three artifacts that you review directly in your browser」として、次を挙げています。
+公式は「Every spec generates three key files that form the foundation of your specification」として、次を挙げています。
 
-| ファイル | 内容 |
+| ファイル | 内容（公式の説明） |
 |---------|------|
-| **`requirements.md`** | **ユーザーストーリーと受け入れ基準** |
-| **`design.md`** | **技術アーキテクチャと実装方針** |
-| **`tasks.md`** | **個別で追跡可能な実装タスクのリスト** |
+| **`requirements.md`**（または **`bugfix.md`**） | **ユーザーストーリー・受け入れ基準・バグ分析**を**構造化された記法で**記録する |
+| **`design.md`** | **技術アーキテクチャ・シーケンス図・実装上の考慮事項**を文書化する |
+| **`tasks.md`** | **個別で追跡可能なタスクからなる詳細な実装計画**を提供する |
 
 ### Bug spec は `requirements.md` の代わりに `bugfix.md` を作ります
 
-公式は次のように説明しています。
+現行の公式は、3フェーズの1つ目（**Requirements or Bug Analysis**）を次のように整理しています。
 
-> A Bug spec produces a **bugfix.md** instead, a bugfix analysis that captures the current defect, the expected behavior, and the behavior that must stay unchanged to prevent regressions
+> - Feature Specs: User stories and acceptance criteria in `requirements.md`
+> - Bugfix Specs: Bug analysis with **current/expected/unchanged behavior** in `bugfix.md`
 
 `bugfix.md` に記録されるのは3点です。
 
 | # | 内容 |
 |---|------|
-| 1 | **現在の不具合** |
-| 2 | **期待される挙動** |
-| 3 | **リグレッションを防ぐために変わってはいけない挙動** |
+| 1 | **現在の挙動（current）** |
+| 2 | **期待される挙動（expected）** |
+| 3 | **変わってはいけない挙動（unchanged）** |
+
+> ⚠️ **2026-08-27 更新で表現が短くなりました。** 移転前の `docs/web/specs/` には
+> 「a bugfix analysis that captures the current defect, the expected behavior, and the behavior that
+> must stay unchanged to prevent regressions」という一文がありましたが、
+> **現行ページでは上記の箇条書きに置き換わっています**（2026-09-13 実測）。3点の内容は変わっていません。
 
 > 公式はここで `docs/specs/bugfix-specs`（**Kiro IDE 版のドキュメント — 別製品**）にリンクしています。
 
@@ -98,16 +113,40 @@ Specs は、いきなりコードを書き始めるのではなく、**要件・
 
 計画に満足したら、エージェントがセッション中に実装します。
 
-### ⚠️ プロンプトではなくボタンで開始します
+### タスクの開始はチャットで指示します
 
-公式は次のように明記しています。
+> ⚠️ **2026-08-27 更新で操作方法の記述が変わりました。**
+> 移転前の `docs/web/specs/` には「**You start the work using buttons, not by prompting the agent**」
+> （ボタンで開始する。エージェントにプロンプトを出すのではない）という一文がありましたが、
+> **現行の `docs/specs/` の Web タブにこの一文はありません**（2026-09-13 実測）。
 
-> You start the work using buttons, not by prompting the agent
+現行の公式は次のように説明しています。
 
-| 操作 | 方法 |
-|------|------|
-| **すべてのタスクを実行** | グローバルの **Run all** コントロールを使う |
-| **特定のタスクを実行** | **`tasks.md` のビュー**から個別のタスクを選ぶ |
+> Once you're happy with the plan, tell the agent how to proceed in the chat
+
+**計画に満足したら、チャットでエージェントに進め方を伝えます。**
+
+| やりたいこと | 公式が示す言い方 |
+|------------|--------------|
+| **計画全体を実行する** | **すべてのタスクを進めるよう**エージェントに依頼する |
+| **範囲を絞る** | **実装してほしいタスクを名指しする**（公式の例: `implement tasks 1 and 2`） |
+
+作業が完了すると、**エージェントが実施内容の説明を付けてプルリクエストを作成**します。
+**その後もフィードバックを与えて、エージェントに更新を push させられます。**
+
+### タスクは並列で実行されます
+
+**出典**: <https://kiro.dev/docs/specs/>（Page updated: August 27, 2026）
+
+spec のタスクをすべて実行すると、Kiro は**タスクリストを解析して依存関係を判断し、独立したタスクを並行実行**します。
+公式は「**ほとんどの feature spec で、設定なしに実行時間を大幅に短縮する**」と説明しています。
+
+| 仕組み | 内容 |
+|-------|------|
+| **依存グラフ** | `tasks.md` のタスクから**依存グラフ**を構築する |
+| **wave** | 独立したタスクを **wave** にまとめる。**Wave 1 は依存のないタスク全部**で、これらが並行実行される |
+
+> **並列実行の上限**は [04_reference/04_limits.md](../04_reference/04_limits.md#並列実行は-10-件までです) を参照してください。
 
 ### 完了後
 

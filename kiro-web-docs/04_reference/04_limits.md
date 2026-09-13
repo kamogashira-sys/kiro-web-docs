@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/automations/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）・<https://kiro.dev/changelog/web/start-without-a-repo-switch-modes-anytime/>（June 2, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: September 2, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/automations/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）・<https://kiro.dev/changelog/web/start-without-a-repo-switch-modes-anytime/>（June 2, 2026）
 
 > 本ページの値はすべて公式ページの HTML 版と公式 changelog から取っており、本サイトの検証スクリプトが公式との一致を機械的に確認しています。
 
@@ -19,7 +19,7 @@
 | **セッションの保持期間** | **90** 日 | `using-the-agent` |
 | **サンドボックスのディスク容量** | **128GB** | changelog（2026-06-02） |
 | **リージョン間推論の対応リージョン数** | **3** | `data-protection` |
-| **データ保存リージョン** | **US East（N. Virginia）のみ**（Preview 中） | `data-protection` |
+| **データ保存リージョン** | **US East（N. Virginia）のみ**（Free Tier・個人サブスクライバー） | `data-protection` |
 | **Free Tier の入力保持期間**（不正利用検知） | **最長 60** 日 | `data-protection`（**未確認注記あり**） |
 | **GPT モデルのフラグ付きトラフィック保持** | **最長 30** 日 | `data-protection` |
 | **転送中の暗号化** | **TLS 1.2** 以上 | `data-protection` |
@@ -137,7 +137,7 @@
 
 | 項目 | 内容 |
 |------|------|
-| **保存リージョン** | **US East（N. Virginia）のみ**（Preview 中） |
+| **保存リージョン** | **US East（N. Virginia）のみ**（公式が明記する対象は **Free Tier 利用者と個人サブスクライバー**） |
 | 対象 | タスクの説明・チャットメッセージ・コードの変更 |
 
 ### 推論の処理先（3 リージョン）
@@ -152,7 +152,7 @@
 
 | 項目 | 内容 |
 |------|------|
-| **AWS Identity Center 利用時** | Preview 中は **`us-east-1` のみ** |
+| **AWS Identity Center 利用時** | **`us-east-1` のみ**（2026-09-02 更新で「Preview 中は」という限定が外れました） |
 
 詳細は [03_deployment/03_data-protection.md](../03_deployment/03_data-protection.md) と [03_deployment/02_identity-center.md](../03_deployment/02_identity-center.md) を参照してください。
 

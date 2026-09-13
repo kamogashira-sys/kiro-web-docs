@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/sandbox/environment-variables/>（Page updated: April 21, 2026）・<https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: July 23, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/environment-variables/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: September 10, 2026）
 
 > ⚠️ **本ページの記法・ポリシーはすべて公式ページの HTML 版から取っています。**
 > 出典の2ページは `.md` 版で **`${...}` が裸の `` `$` `` に潰れます**
@@ -20,6 +20,7 @@
 4. [サンドボックスの環境構成](#サンドボックスの環境構成)
 5. [IAM ロール（AWS API の呼び出し）](#iam-ロールaws-api-の呼び出し)
 6. [信頼ポリシー](#信頼ポリシー)
+7. [許可ポリシー（IAM ロールに付ける権限）](#許可ポリシーiam-ロールに付ける権限)
 
 ---
 
@@ -109,9 +110,9 @@ MCP サーバーの設定などから環境変数・シークレットを参照�
 
 ## サンドボックスの環境構成
 
-**出典**: <https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: July 23, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: September 10, 2026）
 
-> このページは **Kiro Web の docs で最も新しい更新**です（2026-08-01 時点）。
+> このページは **Kiro Web の docs で最も新しい更新**です（2026-09-13 時点）。
 
 ### 自動構成
 
@@ -241,14 +242,127 @@ MCP サーバーの設定などから環境変数・シークレットを参照�
 
 `sts:TagSession` の条件では、許可されるタグキーが2つに限定されています。
 
-| 許可されるタグキー |
-|--------------|
-| `GroupIds` |
-| `KiroSessionId` |
+| 許可されるタグキー | 公式の説明 |
+|--------------|----------|
+| `GroupIds` | ユーザーが所属する AWS Identity Center **グループ ID のコロン（`:`）区切りリスト**（**最大5個**）。**Identity Center のユーザーのみ**が利用できます |
+| `KiroSessionId` | 現在の Kiro Web タスクセッションの**一意な識別子**。**ページの URL から確認**できます |
+
+> ⚠️ **区切り文字は 2026-09-10 の更新でコンマからコロンに変わりました。**
+> 2026-08-04 時点の公式は `a comma-separated list` と記述していましたが、
+> 2026-09-10 時点では `a colon-separated list` になっています（本サイトの snapshot 実測）。
+> 変更の**理由は公式に説明がないため未確認**です。
+
+なお `sts:SetSourceIdentity` で渡される **source identity は Kiro のユーザー ID** です。
 
 > ⚠️ **公式ドキュメントの `.md` 版では `${aws:SourceIdentity}` などの記述が
 > 裸の `` `$` `` に潰れます。** 上記のポリシーは HTML 版から転記しています。
 > 貼り付ける前に公式ページ（HTML）でも確認してください。
+
+---
+
+## 許可ポリシー（IAM ロールに付ける権限）
+
+**出典**: <https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: September 10, 2026）
+
+信頼ポリシーは「Kiro Web がロールを引き受けられるようにする」ものです。
+**そのロールが実際に何をできるか**は、ロールに付ける**許可ポリシー**で決めます。
+
+公式は許可ポリシーで使える条件キーを**3系統**に整理しています。
+
+| 系統 | 使う条件キー | 公式の説明 |
+|------|------------|----------|
+| **Source identity statements** | `${aws:SourceIdentity}` | リソースパスに使って**ユーザー単位でアクセスを絞る**。各ユーザーのセッションは**自分のプレフィックスに自動的に閉じ込められる** |
+| **Group statements** | `aws:PrincipalTag/GroupIds` | **Identity Center のグループ所属**に基づいてアクセスを与える |
+| **Session statements** | `aws:PrincipalTag/KiroSessionId` | **単一のタスクセッション**にアクセスを絞る |
+
+### 公式の例（HTML 版から転記）
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowUserToReadAndWriteOwnPrefix",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": "arn:aws:s3:::my-team-bucket/${aws:SourceIdentity}/*"
+        },
+        {
+            "Sid": "AllowUserToListOwnPrefix",
+            "Effect": "Allow",
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::my-team-bucket",
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": "${aws:SourceIdentity}/*"
+                }
+            }
+        },
+        {
+            "Sid": "AllowGroupToReadSharedResources",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::team-bucket",
+                "arn:aws:s3:::team-bucket/*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "aws:PrincipalTag/GroupIds": "*<your-identity-center-group-id>*"
+                }
+            }
+        },
+        {
+            "Sid": "AllowGroupToAccessSecrets",
+            "Effect": "Allow",
+            "Action": "secretsmanager:GetSecretValue",
+            "Resource": "arn:aws:secretsmanager:*:*:secret:teams/*",
+            "Condition": {
+                "StringLike": {
+                    "aws:PrincipalTag/GroupIds": "*<your-identity-center-group-id>*"
+                }
+            }
+        },
+        {
+            "Sid": "AllowSessionScopedScratchAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": "arn:aws:s3:::my-team-bucket/scratch/${aws:PrincipalTag/KiroSessionId}/*"
+        }
+    ]
+}
+```
+
+### 置き換える値と注意点
+
+| プレースホルダ | 置き換える値（公式の説明） |
+|--------------|----------------------|
+| `<your-identity-center-group-id>` | **Identity Center グループの ID**。**AWS IAM Identity Center コンソールの Groups** で確認できます |
+
+> ⚠️ **`*<your-identity-center-group-id>*` の前後のアスタリスクは公式の例のとおりです（消さないでください）。**
+> `GroupIds` は**コロン区切りの複数値が1つの文字列**として入るため、公式の例は `StringEquals` ではなく
+> **`StringLike` とワイルドカード**で「その中に目的のグループ ID が含まれるか」を見ています。
+> **信頼ポリシー側の `aws:TagKeys` の条件は `ForAllValues:StringEquals`** のままです（演算子を混同しないでください）。
+
+> ⚠️ **前後のアスタリスクは部分一致になります。**
+> AWS の IAM ドキュメントは `StringLike` を
+> 「値には複数文字ワイルドカード（`*`）と単一文字ワイルドカード（`?`）を**文字列中の任意の位置に**含められる。
+> **部分一致させるにはワイルドカードを指定しなければならない**」と説明しています
+> （出典: [IAM JSON policy elements: Condition operators](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition_operators.html)）。
+> つまり `*abc123*` は、**指定した ID を部分文字列として含む別のグループ ID にも一致し得ます**。
+> Kiro Web の公式ページはこの点に触れていないため、**厳密に一致させる書き方は未確認**です。
+> 実際に付与される権限は必ず自分の環境で確認してください。
 
 ---
 
