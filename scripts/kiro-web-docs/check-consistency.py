@@ -138,13 +138,18 @@ MEASURED_DATE_RE = re.compile(r"実測日\**\s*[:：]\s*\d{4}-\d{2}-\d{2}")
 #
 # ⚠️ 閉じ括弧を要求してはいけない（2026-09-13 修正）。
 #    移転のあったページは括弧内に注記が続く形をとる。
-#      <https://kiro.dev/docs/specs/>（Page updated: August 12, 2026・**…に移転**。
+#      <https://kiro.dev/docs/specs/>（Page updated: August 27, 2026・**…に移転**。
 #        旧 `docs/web/specs/` は…Page updated: July 22, 2026）
 #    閉じ括弧を要求すると、この形の出典行が**丸ごと照合から外れる**。
-#    実際に specs・steering・setup・data-protection・firewalls の 5 URL が
-#    黙って未照合になっていた。
-#    日付の直後で止めることで、括弧内の 1 つ目（＝現行ページの日付）だけを拾い、
-#    後ろに続く「旧ページの Page updated」は拾わない。
+#    実測（2026-09-13）では **10 箇所の出典行**が落ちており、そのうち
+#    **3 URL（data-protection・firewalls・setup）は 1 箇所も照合されていなかった**
+#    （specs・steering は別の出典行で拾えていたため URL 単位では露見しなかった）。
+#
+#    括弧内の 2 つ目以降の `Page updated`（旧ページの日付）を拾わないのは、
+#    **本文の書式規約**（旧ページ参照は `` `docs/web/specs/` `` のようにバッククォートで書き、
+#    `<URL>（Page updated:` の形にしない）に依存している。
+#    旧参照を `<URL>（Page updated: …` の形で書くと**旧 URL も拾う**ので、
+#    その場合は移転前の URL がスナップショットに無く（上の unmapped 判定で）エラーになる。
 URL_DATE_PAIR_RE = re.compile(
     r"<(https://kiro\.dev/[^>\s]+)>\s*[（(]Page updated:\s*("
     + MONTHS_RE + r"\s+\d{1,2},\s*\d{4})"
@@ -193,11 +198,9 @@ def snapshot_filename(url):
     if not m:
         return None
     path = m.group(1)
-    if path in ("docs/specs", "docs/steering", "docs/cloud-sessions"):
-        name = path.split("/")[-1]
-        if name in LINKED_DOC_NAMES:
-            return f"linked_{name}.html"
-        return None
+    name = path.split("/")[-1]
+    if path == f"docs/{name}" and name in LINKED_DOC_NAMES:
+        return f"linked_{name}.html"
     for prefix, stem in SNAPSHOT_PREFIX.items():
         if path == prefix:
             return f"{stem}.html"
@@ -267,10 +270,29 @@ def check_source_date_vs_snapshot(errors, notes, docs_html_dir):
         f"出典日 vs スナップショット: {checked} 箇所を照合"
         f"（照合対象外 {skipped} 箇所 / スナップショットに無い URL {len(unmapped)} 件）"
     )
-    for url in sorted(unmapped):
-        notes.append(f"  ⚠️ スナップショットに無いため未照合: {url}")
     for url in sorted(NO_DATE_MODIFIED):
         notes.append(f"  ⚠️ 公式に dateModified が無いため未照合: {url}")
+
+    # ⚠️ ここを notes 止まりにしてはいけない（2026-09-13 追加）。
+    #    「照合できなかった」を成功扱いにすると、
+    #      - capture-snapshot.py に無い公式ページを新しく引用し始めた
+    #      - スナップショットのファイル命名が再び変わった
+    #      - 古いスナップショットを DOCS_HTML_DIR に指定した
+    #    のいずれでも、**緑のまま1件も照合しなくなる**。
+    #    実際に check-counts.py（旧命名で S2/S5/S6/S7 が黙ってスキップ）と
+    #    check-freshness.py（S2 が常に 17）で同じ型の穴が起きていた。
+    for url in sorted(unmapped):
+        errors.append(
+            f"出典日を照合できません: {url} に対応するファイルが"
+            f" {docs_html_dir} にありません"
+            "（capture-snapshot.py の取得対象に追加するか、"
+            "公式に更新日が無いページなら NO_DATE_MODIFIED に明示してください）"
+        )
+    if not checked and not skipped:
+        errors.append(
+            "出典日を1箇所も照合できませんでした"
+            f"（{docs_html_dir} が目的のスナップショットか確認してください）"
+        )
 
 
 def repo_root():

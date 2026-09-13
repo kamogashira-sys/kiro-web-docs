@@ -158,9 +158,16 @@
 | 不一致 | **0 ページ** |
 | どちらも無い | **1 ページ**（`web/memory`） |
 
-> ⚠️ **`Page updated` は素の HTML には現れません。** RSC ペイロード（`self.__next_f.push`）の中にあります。
-> 素の HTML を `grep` しても 18 ページすべてで見つかりません（2026-09-13 実測）。
-> 一方 **`dateModified`（JSON-LD）は素の HTML にある**ので、機械照合にはこちらが向きます。
+> ⚠️ **`Page updated` の日付は連続した文字列として取り出せません。**
+> ラベル自体は素の HTML にあります（**17/18 ページ**。`web/memory` のみ無い）が、
+> 日付の値が React のコメントマーカーで分断されています（2026-09-13 実測）。
+>
+> ```html
+> <span>Page updated:<!-- --> <!-- -->September 2, 2026</span>
+> ```
+>
+> このため `grep 'Page updated: September 2, 2026'` は **18 ページすべてで 0 件**になります。
+> 一方 **`dateModified`（JSON-LD）は連続した ISO 形式**なので、機械照合にはこちらが向きます。
 > 本サイトは `check-consistency.py` で**各ページの出典日を snapshot の `dateModified` と機械照合**しています。
 
 ---
@@ -188,23 +195,29 @@
 本サイトは各ページに**公式の出典日**（`Page updated` の日付）を記載し、docs 側の更新も監視対象にしています。
 `check-freshness.py` の S4（docs 最新更新日）は実測値（**2026-09-10**）に同期しています。
 
-> **2026-09-13 の実測で、この 10 件のうち 6 ページに本サイト未反映の内容変更が見つかりました。**
-> ブラウザ操作（`web/sandbox`）・PR レビューの Reviews パネル（`web/github`）・
+> **2026-09-13 の実測で、本サイトに未反映の内容変更が 6 ページ分見つかりました。**
 > セッションのグループ化と自動命名（`web/using-the-agent`）・最近使ったリポジトリ（`web/setup`）・
 > Cloud Sessions の有効化とリポジトリプロバイダ（`web/identity-center`）・
-> サーフェス比較表（`docs/steering`）です。
-> **出典日の追随だけでは不十分で、本文の差分も確認する必要があります。**
+> サーフェス比較表（`docs/steering`）の 4 ページは、**上の 10 件に含まれます**。
+>
+> 残る 2 ページ（ブラウザ操作の `web/sandbox`・PR レビューの `web/github`）は
+> **どちらも 2026-08-22 更新**で、上の 10 件には含まれません。
+> **前回の作業時点でも出典日が古いまま残っていた**（`web/sandbox` は June 11・`web/github` は August 7 と記載していた）ため、
+> 内容の差分にも気づけていませんでした。
+>
+> → **出典日の追随だけでは不十分**であり、かつ**出典日そのものが古いまま放置される事故も起きます**。
+> 本サイトは対策として、出典日を公式の `dateModified` と**機械照合**するようにしました（後述）。
 
 ### 本サイトが未収録の公式ページ（3件）
 
 **Kiro Web の公式 18 ページのうち、次の 3 ページは本サイトに対応する解説を置いていません**（2026-09-13 時点）。
 気づいていないのではなく、**現時点で未収録であることを明示**します。
 
-| ページ | 更新日 | 公式の節 |
+| ページ | 更新日 | 公式の節（h2 見出し・2026-09-13 実測） |
 |-------|-------|---------|
-| `web/cloud-configuration` | 2026-09-02 | personal / catalog / env / how-powers-sync / apply-cloud-configuration-to-local-sessions / limits |
-| `web/using-the-agent/file-explorer` | 2026-08-22 | browse-the-workspace / view-and-download-files / open-files-from-the-conversation / sandbox / limits |
-| `web/memory` | **取得できず**（JSON-LD の `dateModified` が無い） | how-kiro-builds-memory / memory-vs-steering / steering |
+| `web/cloud-configuration` | 2026-09-02 | What you can upload / Upload and review / How Powers sync / Apply cloud configuration to local sessions / Limits / After uploading |
+| `web/using-the-agent/file-explorer` | 2026-08-22 | Open files from the conversation / Browse the workspace / View and download files / Limits |
+| `web/memory` | **取得できず**（JSON-LD の `dateModified` が無い） | How Kiro builds memory / Memory vs. steering |
 
 > `web/cloud-configuration` の内容の一部は
 > [01_features/07_cloud-sessions.md](../01_features/07_cloud-sessions.md#構成情報の扱い)（Configuration Sync）で触れていますが、
