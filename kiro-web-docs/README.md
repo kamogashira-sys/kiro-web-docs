@@ -42,7 +42,7 @@ Kiro IDE（`1.0.NNN`）や Kiro CLI と違い、**Kiro Web の更新にバージ
 |------|------|
 | 更新の識別 | **日付（ISO）＋スラッグ** |
 | changelog エントリ数 | **19**（2025-12-02 〜 2026-09-01） |
-| 公式ドキュメントのページ数 | **18**（snapshot: 2026-09-05） |
+| 公式ドキュメントのページ数 | **18**（snapshot: 2026-09-13） |
 | 提供形態 | ホスト型サービス（**インストール不要**） |
 | 段階 | **一般提供（GA）**（2026-09-01） |
 
@@ -76,7 +76,7 @@ Kiro IDE（`1.0.NNN`）や Kiro CLI と違い、**Kiro Web の更新にバージ
 | Kiro IDE | [kiro-ide-docs](https://github.com/kamogashira-sys/kiro-ide-docs) |
 | Kiro CLI | [q-cli-docs](https://github.com/kamogashira-sys/q-cli-docs) |
 
-公式が「同一」と明記しているもの（[Steering](01_features/04_steering.md#3つのインターフェースで同じ動作をします公式明記)）と、公式が差分を明記していたもの（[Specs](01_features/02_specs.md#kiro-ide-との違い2026-08-12-の移転時点で失われた記述)）は区別して書いています。
+公式が「同一」と明記していたもの（[Steering](01_features/04_steering.md#3つのインターフェースの関係公式の記述は移転で変わりました)）と、公式が差分を明記していたもの（[Specs](01_features/02_specs.md#kiro-ide-との違い2026-08-12-の移転時点で失われた記述)）は区別して書いています。**どちらもページ移転で記述が失われており、その事実も記録しています。**
 
 ---
 
