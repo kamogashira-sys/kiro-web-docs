@@ -348,16 +348,36 @@ def check_ssot_in_docs(errors, notes):
 # ------------------------------------------------------------
 # (c') 一次情報 HTML との突き合わせ（任意）
 # ------------------------------------------------------------
+# v2 スナップショット（2026-09-05 以降）のファイル名。旧命名からの写像。
+# ⚠️ 旧命名だけを見ていたため S2・S5・S6・S7 の HTML 照合が**黙ってスキップ**されていた
+#    （2026-09-13 発覚）。新しい命名を先に探し、無ければ旧命名にフォールバックする。
+V2_NAMES = {
+    "web_firewalls.html": ("shared_privacy-and-security_firewalls.html",),
+    "web_sandbox_internet-access.html": ("docs_web_sandbox_internet-access.html",),
+    "web_gitlab.html": ("docs_web_gitlab.html",),
+}
+
+
 def check_against_html(html_dir, errors, notes):
     """公式 HTML から実体を数え、SSoT 定数と照合する。
 
     ⚠️ `.md` companion は使わない（firewalls は3サーフェス連結・プレースホルダが潰れる）。
     """
     def read(name):
-        path = os.path.join(html_dir, name)
-        if not os.path.isfile(path):
-            return None
-        return open(path, encoding="utf-8").read()
+        """スナップショットの HTML を読む（**v2 命名と旧命名の両対応**）。
+
+        ⚠️ v2 スナップショット（2026-09-05 以降）はファイル名が変わっている。
+           Web docs: `web_*.html` → **`docs_web_*.html`**
+           firewalls: `web_firewalls.html` → **`shared_privacy-and-security_firewalls.html`**
+                      （公式ページが `docs/privacy-and-security/firewalls/` へ移転したため）
+           旧命名だけを見ていたため **S2・S5・S6・S7 の照合が黙ってスキップ**されていた
+           （2026-09-13 に発覚。「✅ 一致」の表示は照合できた項目だけを意味する）。
+        """
+        for candidate in V2_NAMES.get(name, ()) + (name,):
+            path = os.path.join(html_dir, candidate)
+            if os.path.isfile(path):
+                return open(path, encoding="utf-8").read()
+        return None
 
     # S6: firewalls の表のデータ行数
     fw = read("web_firewalls.html")
@@ -408,7 +428,9 @@ def check_against_html(html_dir, errors, notes):
             notes.append(f"S7: 公式 HTML の送信元 IP {len(ips)} 件（一致）")
 
     # S2: docs Web ページ数（HTML ファイル数で代用）
-    n = len(glob.glob(os.path.join(html_dir, "web*.html")))
+    # ⚠️ v2 は `docs_web*.html`、旧版は `web*.html`。**`shared_*`・`linked_*` は Web 集合外**なので数えない。
+    n = len(glob.glob(os.path.join(html_dir, "docs_web*.html"))) or \
+        len([p for p in glob.glob(os.path.join(html_dir, "web*.html"))])
     if n:
         if n != SSOT["S2"]["value"]:
             errors.append(

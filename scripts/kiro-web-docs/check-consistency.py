@@ -42,6 +42,7 @@
     - 誤検知しやすい文脈（節番号・バージョン様の数値・日付）は除外する。
     - 検出できなかったこと自体も報告する（規則が空振りしていないかを見るため）。
 """
+import argparse
 import glob
 import os
 import re
@@ -131,13 +132,145 @@ ENTRY_DATE_RE = re.compile(rf"[（(]{MONTHS_RE}\s+\d{{1,2}},\s*\d{{4}}[)）]")
 MEASURED_DATE_RE = re.compile(r"実測日\**\s*[:：]\s*\d{4}-\d{2}-\d{2}")
 
 # 出典日の水平展開チェック用（作業5-5）:
-# 「<URL>（Page updated: 月名 D, YYYY）」の対を抜き出す。
+# 「<URL>（Page updated: 月名 D, YYYY」の対を抜き出す。
 # 出典行は `<url1>（Page updated: ...）・<url2>（Page updated: ...）` のように
 # `・` 区切りで複数対が並ぶ（例: 01_agent-modes.md:6）。URL と直後の日付を1組として拾う。
+#
+# ⚠️ 閉じ括弧を要求してはいけない（2026-09-13 修正）。
+#    移転のあったページは括弧内に注記が続く形をとる。
+#      <https://kiro.dev/docs/specs/>（Page updated: August 12, 2026・**…に移転**。
+#        旧 `docs/web/specs/` は…Page updated: July 22, 2026）
+#    閉じ括弧を要求すると、この形の出典行が**丸ごと照合から外れる**。
+#    実際に specs・steering・setup・data-protection・firewalls の 5 URL が
+#    黙って未照合になっていた。
+#    日付の直後で止めることで、括弧内の 1 つ目（＝現行ページの日付）だけを拾い、
+#    後ろに続く「旧ページの Page updated」は拾わない。
 URL_DATE_PAIR_RE = re.compile(
     r"<(https://kiro\.dev/[^>\s]+)>\s*[（(]Page updated:\s*("
-    + MONTHS_RE + r"\s+\d{1,2},\s*\d{4})[)）]"
+    + MONTHS_RE + r"\s+\d{1,2},\s*\d{4})"
 )
+
+# 出典日 vs スナップショット照合用（2026-09-13 追加）:
+# 公式ページの JSON-LD `"dateModified":"YYYY-MM-DDThh:mm:ss.000Z"` を拾う。
+DATE_MODIFIED_RE = re.compile(r'"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})')
+
+# 月名 → 月番号。`Page updated: September 10, 2026` を ISO に正規化するために使う。
+# locale に依存させない（環境によって %B が変わるのを避ける）。
+MONTH_TO_NUM = {
+    "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
+    "July": 7, "August": 8, "September": 9, "October": 10, "November": 11,
+    "December": 12,
+}
+
+# 公式 URL → スナップショットのファイル名。
+# capture-snapshot.py の保存規則（web-doc / shared-doc / linked-doc）に合わせる。
+#   web-doc    : docs_web[_<path>].html
+#   shared-doc : shared_<path>.html
+#   linked-doc : linked_<name>.html
+SNAPSHOT_PREFIX = {
+    "docs/web": "docs_web",
+    "docs/privacy-and-security": "shared_privacy-and-security",
+}
+# Web docs 以外で本サイトが出典にしている全製品共通ページ（§8.3 のリンク先）。
+LINKED_DOC_NAMES = {"specs", "steering", "cloud-sessions"}
+
+# スナップショットに `dateModified` が無い（＝照合できない）ページ。
+# `web/memory/` は取得できない（F-12）。取りこぼしを黙認しないため明示する。
+NO_DATE_MODIFIED = {"https://kiro.dev/docs/web/memory/"}
+
+
+def iso_from_page_updated(date_text):
+    """`September 10, 2026` → `2026-09-10`。解釈できない場合は None。"""
+    m = re.match(rf"({MONTHS_RE})\s+(\d{{1,2}}),\s*(\d{{4}})", date_text)
+    if not m:
+        return None
+    return f"{int(m.group(3)):04d}-{MONTH_TO_NUM[m.group(1)]:02d}-{int(m.group(2)):02d}"
+
+
+def snapshot_filename(url):
+    """公式 URL → スナップショットのファイル名。対象外なら None。"""
+    m = re.match(r"https://kiro\.dev/(.+?)/?$", url)
+    if not m:
+        return None
+    path = m.group(1)
+    if path in ("docs/specs", "docs/steering", "docs/cloud-sessions"):
+        name = path.split("/")[-1]
+        if name in LINKED_DOC_NAMES:
+            return f"linked_{name}.html"
+        return None
+    for prefix, stem in SNAPSHOT_PREFIX.items():
+        if path == prefix:
+            return f"{stem}.html"
+        if path.startswith(prefix + "/"):
+            rest = path[len(prefix) + 1:].replace("/", "_")
+            return f"{stem}_{rest}.html"
+    return None
+
+
+def check_source_date_vs_snapshot(errors, notes, docs_html_dir):
+    """(7) 本文の出典日が公式ページの `dateModified`（スナップショット）と一致するか。
+
+    人手で `Page updated` を書き写す運用では、公式が更新されたのに
+    出典日だけ古いまま残る事故が起きる。スナップショットの JSON-LD と
+    機械照合することで、その事故を検出する。
+
+    スナップショットが無い環境（クローン直後・CI）では検証せず成功にする。
+    ただし「検証していない」ことは必ず表示する（黙ってスキップしない）。
+    """
+    if not docs_html_dir or not os.path.isdir(docs_html_dir):
+        reason = (f"{docs_html_dir} が見つかりません" if docs_html_dir
+                  else "DOCS_HTML_DIR が指定されていません")
+        notes.append(
+            "出典日 vs スナップショット: **未検証です**"
+            f"（{reason}。"
+            "`make check-kiro-web-consistency DOCS_HTML_DIR=...` で照合できます）"
+        )
+        return
+
+    # スナップショット側の実測値を読む
+    actual = {}
+    for name in os.listdir(docs_html_dir):
+        if not name.endswith(".html"):
+            continue
+        with open(os.path.join(docs_html_dir, name), encoding="utf-8",
+                  errors="replace") as fh:
+            m = DATE_MODIFIED_RE.search(fh.read())
+        if m:
+            actual[name] = m.group(1)
+
+    body_docs = [d for d in public_docs()
+                 if os.path.isfile(d) and os.path.basename(d) != "README.md"]
+    checked = skipped = 0
+    unmapped = set()
+    for path in body_docs:
+        txt = open(path, encoding="utf-8").read()
+        for m in URL_DATE_PAIR_RE.finditer(txt):
+            url, date_text = m.group(1), m.group(2)
+            line = line_of(txt, m.start())
+            if url in NO_DATE_MODIFIED:
+                skipped += 1
+                continue
+            name = snapshot_filename(url)
+            if not name or name not in actual:
+                unmapped.add(url)
+                continue
+            written = iso_from_page_updated(date_text)
+            if written != actual[name]:
+                errors.append(
+                    f"出典日がスナップショットと不一致: {url}"
+                    f" — 記載 {date_text}（{written}） / 実測 {actual[name]}"
+                    f" @ {path}:{line}"
+                )
+            checked += 1
+
+    notes.append(
+        f"出典日 vs スナップショット: {checked} 箇所を照合"
+        f"（照合対象外 {skipped} 箇所 / スナップショットに無い URL {len(unmapped)} 件）"
+    )
+    for url in sorted(unmapped):
+        notes.append(f"  ⚠️ スナップショットに無いため未照合: {url}")
+    for url in sorted(NO_DATE_MODIFIED):
+        notes.append(f"  ⚠️ 公式に dateModified が無いため未照合: {url}")
 
 
 def repo_root():
@@ -310,6 +443,14 @@ def check_source_date_consistency(errors, notes):
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="kiro-web-docs の記述整合チェック（上限値・注記・出典日）")
+    parser.add_argument(
+        "--docs-html-dir",
+        help="公式 docs スナップショットの HTML ディレクトリ。"
+             "指定すると出典日を JSON-LD の dateModified と照合する")
+    args = parser.parse_args()
+
     os.chdir(repo_root())
     print("=== kiro-web-docs 記述整合チェック（上限値の水平展開・注記の対称性） ===")
     print("")
@@ -330,6 +471,9 @@ def main():
 
     print("🔍 出典日の水平展開を検証中（作業5-5）...")
     check_source_date_consistency(errors, notes)
+
+    print("🔍 出典日を公式スナップショットと照合中...")
+    check_source_date_vs_snapshot(errors, notes, args.docs_html_dir)
 
     print("")
     print("=== チェック結果 ===")
