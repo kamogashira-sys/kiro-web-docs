@@ -430,7 +430,7 @@ def check_against_html(html_dir, errors, notes):
     # S2: docs Web ページ数（HTML ファイル数で代用）
     # ⚠️ v2 は `docs_web*.html`、旧版は `web*.html`。**`shared_*`・`linked_*` は Web 集合外**なので数えない。
     n = len(glob.glob(os.path.join(html_dir, "docs_web*.html"))) or \
-        len([p for p in glob.glob(os.path.join(html_dir, "web*.html"))])
+        len(glob.glob(os.path.join(html_dir, "web*.html")))
     if n:
         if n != SSOT["S2"]["value"]:
             errors.append(
