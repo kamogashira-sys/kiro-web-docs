@@ -38,7 +38,7 @@ graph TD
 | 2 | **公式ドキュメント（HTML を正）** | `https://kiro.dev/docs/web/<path>/` | 機能仕様・設定・リファレンス値 |
 | 3 | **公式ドキュメント索引** | `https://kiro.dev/llms.txt` | **ページ全量と IDE / CLI / Web / Shared の区分判定のみ** |
 | 4 | **sitemap** | `https://kiro.dev/sitemap.xml` | エントリ・ページ全量の機械検証（**新エントリ検知の主系統**） |
-| 5 | フィード（Atom・RSS） | `https://kiro.dev/changelog/feed.atom` | **補助のみ**（Web エントリは現時点で 0 件） |
+| 5 | フィード（Atom・RSS） | `https://kiro.dev/changelog/feed.atom` | **補助のみ**（直近25件のウィンドウ。2026-10-04 実測で `Web` は 4 件） |
 | 6 | Kiro Web 実機 | `https://app.kiro.dev` | 公式記述の曖昧さの解消（**有料サブスクが必要**） |
 | 7 | 公式ブログ（3本） | `https://kiro.dev/blog/` | 背景・意図の補足 |
 | — | GitHub Issues | `github.com/kirodotdev/Kiro` | **一次情報ではない**（掲載根拠にしない） |
@@ -50,7 +50,7 @@ graph TD
 - ✅ `.md` 版と HTML が矛盾したら **HTML を優先**し、差異を作業記録に残す
 - ❌ 推測で記述しない
 - ❌ **公式に書かれていない理由・因果を書かない**（「なぜ版番号が無いのか」「なぜ統合されたのか」は書けません）
-- ❌ **フィードのみを根拠に新エントリの有無を判断しない**（Web が配信対象かは未確認）
+- ❌ **フィードのみを根拠に新エントリの有無を判断しない**（Web は配信対象だが、直近25件のウィンドウから外れたエントリは載らない）
 - ❌ **`llms.txt` の字下げをページ階層の根拠にしない**（URL パスが正）
 - ❌ **Kiro IDE / Kiro CLI のドキュメントを Web の一次情報として使わない**
 
@@ -83,10 +83,12 @@ curl -sS -A "Mozilla/5.0" https://kiro.dev/changelog/feed.atom | grep -c 'term="
 
 ### changelog に現れない docs 更新の検知
 
-**changelog に載らない docs 更新が実際にあります。** 最新エントリ（2026-09-01）と docs の `dateModified` を snapshot で照合します
-（`data-protection` July 14 / `gitlab` July 16 / `specs` July 22 / `sandbox/environment-configuration` July 23）。
+**changelog に載らない docs 更新が実際にあります。** 最新エントリの日付と docs の `dateModified` を snapshot で照合します
+（初回の実例は 2026-08-01 時点で最新エントリ 2026-07-01 より新しい `data-protection` July 14 / `gitlab` July 16 / `specs` July 22 / `sandbox/environment-configuration` July 23。
+2026-10-04 時点では最新エントリ 2026-09-30 より新しい docs 更新が 16 件）。
 
 → **docs 全18ページの `dateModified`（JSON-LD）を監視**します。これが SSoT の S4 です。
+**日付だけでなく本文も差分を取ってください**（2026-10-04 は 19 URL の日付が変わり、19 URL すべてで本文が変わっていました。Web 18 ページのうち 14 ページ＋移転先・共通ページ 5 ページ）。
 
 ### 機能仕様・設定情報
 
@@ -105,8 +107,8 @@ curl -sS -A "Mozilla/5.0" https://kiro.dev/llms.txt
 | **サーフェス連結** | `web/firewalls`（**1ページのみ**） | Web / privacy-and-security / cli の**3サーフェス分が連結**（HTML 8 見出し → `.md` 18 見出し）。3サーフェスの `.md` は**完全同一バイト** → **`firewalls` は HTML のみを使う** |
 | **プレースホルダの潰れ** | `web/sandbox/mcp`・`web/sandbox/environment-configuration` | HTML「Use the `${key_name}` syntax」→ `.md`「Use the **`$`** syntax」。**裸の `` `$` `` に潰れて読者が何を書くか分からなくなる**。コードブロック内は保持されるが本文のインラインコード側が壊れる |
 
-他18ページは見出し集合が一致しますが、**見出しの一致は本文の値の一致を意味しません**。
-**表の値・パス・件数は全15ページで HTML から取ってください。**
+他16ページは見出し集合が一致しますが（2026-09-13 実測）、**見出しの一致は本文の値の一致を意味しません**。
+**表の値・パス・件数は全18ページで HTML から取ってください。**
 
 ### 記述粒度（changelog）
 
@@ -114,14 +116,17 @@ curl -sS -A "Mozilla/5.0" https://kiro.dev/llms.txt
 
 | 粒度 | 対象 | 実測件数 | 書き方 |
 |-----|------|---------|-------|
-| **W-L2** | `<h2>` 節または導入文のみの**機能紹介型** | **5** | 見出し＋本文を全量記載 |
-| **W-L3** | `Improvements`・`Fixes` の**折りたたみ節を持つ保守型** | **2** | 導入文＋**折りたたみ内の全項目を箇条書きで全量記載** |
+| **W-L2** | `<h2>` 節または導入文のみの**機能紹介型** | **18** | 見出し＋本文を全量記載 |
+| **W-L3** | `Improvements`・`Fixes` の**折りたたみ節を持つ保守型** | **3** | 導入文＋**折りたたみ内の全項目を箇条書きで全量記載** |
 
-**W-L3 の内訳**: `session-stability-stop-control-and-mobile-layout-fixes`（Improvements 5・Fixes 6）／
-`start-without-a-repo-switch-modes-anytime`（Improvements 3・Fixes 7）＝ **計21項目**。
+**W-L3 の内訳**（2026-10-04 実測）: `session-stability-stop-control-and-mobile-layout-fixes`（Improvements 5・Fixes 6）／
+`start-without-a-repo-switch-modes-anytime`（Improvements 3・Fixes 7）／
+`reasoning-effort-and-a-grouped-timeline`（Improvements 8・Fixes 12）＝ **計41項目**。
 
 > ⚠️ **「Web のエントリは概要だけ書けばよい」は誤りです。**
-> 折りたたみ節に **21項目**の公式説明が実在します。省くと**公式が公開している情報を意図的に落とす**ことになります。
+> 折りたたみ節に **41項目**の公式説明が実在します。
+> **W-L2 も本文を全量書きます。** h2 を持たない 1 段落型のエントリは `extract-changelog.py` の `blocks` が 0 件になりますが、
+> 本文は素の HTML の `<article>` にあります（2026-09-13 まで 12 エントリが本文なしのプレースホルダのままでした）。省くと**公式が公開している情報を意図的に落とす**ことになります。
 > `make check-kiro-web-coverage` は **W-L3 の折りたたみ項目数の一致**を検証するため、
 > 省略すると**チェックが失敗します**。
 
@@ -409,4 +414,4 @@ make check-kiro-web-all
 
 ---
 
-**最終更新**: 2026-08-01
+**最終更新**: 2026-10-04

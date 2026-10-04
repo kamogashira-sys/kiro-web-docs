@@ -105,8 +105,11 @@ make check-kiro-web-all      # コミット前・公開前
 > スキップして成功扱い**になります（クローン直後・CI）。スキップ時は出力に
 > 「**未検証です**」と表示されるので、必ず出力を読んでください。
 >
-> 外部情報源に依存する検証（外部 URL の到達性・新エントリ検知）は **Phase 3 で追加予定**です。
+> 外部情報源に依存する検証（外部 URL の到達性・新エントリ検知）は `make check-kiro-web-urls`・
+> `make check-kiro-web-urls-important`・`make check-kiro-web-freshness` で実行します。
 > `all` には含めません（ネットワーク障害やレート制限で CI が赤くなるのを避けるため）。
+> 網羅性・件数・出典日を公式スナップショットで照合するには `make capture-kiro-web-snapshot` →
+> `make verify-kiro-web-with-snapshot` を実行します（スナップショットが無ければ失敗します）。
 
 ### 手動検証
 
@@ -171,4 +174,4 @@ docs: 2026-07-01 エントリ対応（IAM ロール・Powers の認可）
 
 ---
 
-**最終更新**: 2026-08-01
+**最終更新**: 2026-10-04
