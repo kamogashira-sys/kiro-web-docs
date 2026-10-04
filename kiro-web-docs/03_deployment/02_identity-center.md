@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/identity-center/>（Page updated: September 2, 2026）
+**出典**: <https://kiro.dev/docs/web/identity-center/>（Page updated: October 1, 2026）
 
 組織で AWS Identity Center を使っている場合、**利用者が Kiro Web のセッションを開始する前に、管理者が Cloud Sessions を有効にする必要があります**。また、**管理者が設定した共有設定の一部が Kiro Web には適用されません**。
 
@@ -50,14 +50,19 @@
 
 ## 要件
 
-公式が挙げている要件は4点です。
+公式が挙げている要件は3点です。
 
 | # | 要件 | 補足 |
 |---|------|------|
 | 1 | **Kiro Profile が必要** | **Q Developer Profile では動作しません** |
-| 2 | **Kiro に接続されたリポジトリプロバイダ** | **GitHub または GitLab**（2026-09-02 更新で GitLab が明記されました。それ以前は「GitHub アカウント」のみ） |
-| 3 | **管理者による Cloud Sessions の有効化** | Kiro を構成している AWS アカウントの **Settings > Kiro Settings** から（[上記](#組織で-cloud-sessions-を有効にする)） |
-| 4 | **リージョン** | **US East（N. Virginia）`us-east-1` のみ**（2026-09-02 更新で「Preview 中は」という限定が外れました） |
+| 2 | **管理者による Cloud Sessions の有効化** | Kiro を構成している AWS アカウントの **Settings > Kiro Settings** から（[上記](#組織で-cloud-sessions-を有効にする)） |
+| 3 | **リージョン** | **US East（N. Virginia）`us-east-1` のみ**（2026-09-02 更新で「Preview 中は」という限定が外れました） |
+
+> ⚠️ **2026-10-01 版で「A GitHub or GitLab repository provider connected to Kiro」（Kiro に接続されたリポジトリプロバイダ）が要件から削除され、4点から3点になりました。**
+> 同じ時期に `docs/web/` の前提条件からも同じ項目が削除されています。
+> 一方で同じページの「Getting started」には **「Connect GitHub or GitLab to give the agent access to your repositories」**（GitHub か GitLab を接続してエージェントにリポジトリへのアクセスを与える）が残っており、
+> `docs/cloud-sessions/` は前提条件を「A connected GitHub or GitLab account, **if you want to work on repositories**」と書いています。
+> 要件から外した理由は公式に書かれていないため**未確認**です。
 
 ### ⚠️ Q Developer Profile では動作しません
 

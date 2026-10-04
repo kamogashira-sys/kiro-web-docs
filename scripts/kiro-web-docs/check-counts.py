@@ -11,12 +11,13 @@
     **表・コードブロック（実体）から数え**、それを文書中の件数記述と突き合わせる。
 
 検証する正準値（作業計画書 D-W7 の件数系）:
-    S1  changelog エントリ数              = 7
-    S2  docs Web ページ数                 = 20
+    S1  changelog エントリ数              = 21
+    S2  docs Web ページ数                 = 18
     S5  Common dependencies 許可ドメイン数 = 73
-    S6  firewalls の URL/ドメイン表の行数  = 34
+    S6  firewalls の URL/ドメイン表の行数  = 38（全サーフェス共通の表＋ Web タブの表）
     S7  GitLab 送信元 IP 数               = 3
     S12 cross-region inference 対応リージョン数 = 3
+    （値は 20261004 snapshot。正は SSOT 辞書と手順書 §7.1）
 
 3方向から突き合わせる:
     (a) 節見出しの `（N 行）` / `（N 件）` が、**その節の最初の表**の実行数と一致するか
@@ -40,6 +41,7 @@ fail-safe:
 import argparse
 import glob
 import html as html_mod
+import importlib.util
 import os
 import re
 import sys
@@ -53,13 +55,13 @@ LOCAL_ONLY = ("05_meta", "06_embedded-docs", "work_plans", "work_records")
 # SSoT（正準値）— 件数系。値の出典は kiro-web-docs/05_meta/10_update-guide.md §7
 # ------------------------------------------------------------
 SSOT = {
-    "S1": {"value": 19, "label": "changelog エントリ数",
+    "S1": {"value": 21, "label": "changelog エントリ数",
            "doc": f"{DOC_ROOT}/02_update/01_changelog.md"},
     "S2": {"value": 18, "label": "docs Web ページ数",
            "doc": f"{DOC_ROOT}/00_information/01_official-site-structure.md"},
     "S5": {"value": 73, "label": "Common dependencies 許可ドメイン数",
            "doc": f"{DOC_ROOT}/04_reference/01_allowed-domains.md"},
-    "S6": {"value": 34, "label": "firewalls の URL/ドメイン表の行数",
+    "S6": {"value": 38, "label": "firewalls の URL/ドメイン表の行数（共通＋ Web タブ）",
            "doc": f"{DOC_ROOT}/04_reference/01_allowed-domains.md"},
     "S7": {"value": 3, "label": "GitLab 送信元 IP 数",
            "doc": f"{DOC_ROOT}/04_reference/01_allowed-domains.md"},
@@ -358,6 +360,56 @@ V2_NAMES = {
 }
 
 
+def _load_extractor():
+    """extract-changelog.py（RSC の復元器）をモジュールとして読み込む。"""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "extract-changelog.py")
+    spec = importlib.util.spec_from_file_location("extract_changelog", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def firewall_tables(html_text):
+    """firewalls ページの RSC から表を列挙する。
+
+    返り値: [(タブ名 or None, データ行数, 先頭セルの文字列), ...]（出現順・重複除去）
+    タブ名は `TabsContent` 要素の `value`（`ide` / `cli` / `web`）。タブの外にある表は None。
+
+    ⚠️ RSC には同じ表が**2回**現れる（描画用とハイドレーション用）。
+       （タブ名・全セルの文字列）で重複を除く。
+    """
+    ex = _load_extractor()
+    rows = ex.load_flight(html_text)
+    seen, out = set(), []
+
+    def rec(node, tab):
+        if ex.is_element(node):
+            tag, props = node[1], node[3] if isinstance(node[3], dict) else {}
+            if isinstance(tag, str) and "TabsContent" in tag:
+                tab = props.get("value")
+            if tag == "table":
+                trs = [x for x in ex.walk(node)
+                       if ex.is_element(x) and x[1] == "tr"
+                       and any(ex.is_element(y) and y[1] == "td" for y in ex.walk(x))]
+                cells = tuple(ex.node_text(x) for x in ex.walk(node)
+                              if ex.is_element(x) and x[1] == "td")
+                key = (tab, cells)
+                if trs and key not in seen:
+                    seen.add(key)
+                    out.append((tab, len(trs), cells[0] if cells else ""))
+                return
+            rec(props.get("children"), tab)
+        elif isinstance(node, list):
+            for x in node:
+                rec(x, tab)
+        elif isinstance(node, dict):
+            rec(node.get("children"), tab)
+
+    for value in rows.values():
+        rec(ex.resolve(value, rows), None)
+    return out
+
+
 def check_against_html(html_dir, errors, notes):
     """公式 HTML から実体を数え、SSoT 定数と照合する。
 
@@ -379,20 +431,40 @@ def check_against_html(html_dir, errors, notes):
                 return open(path, encoding="utf-8").read()
         return None
 
-    # S6: firewalls の表のデータ行数
+    # S6: firewalls の表のデータ行数（**全サーフェス共通の表＋ Web タブの表**）
+    #
+    # ⚠️ 2026-10-04 に判明した検証穴（**偶然一致で 2 回合格していた**）:
+    #    以前は描画済み HTML の `<table>` を全部数えていた。ところが描画済み HTML に入るのは
+    #    **既定タブ（`ide`）の表だけ**で、本サイトが数える **Web タブの表（15 行）は入っていない**。
+    #    20260913 は「共通 17 行＋ IDE タブ 15 行（11＋4）＝ 34」で、
+    #    文書の「共通 19 行＋ Web タブ 15 行＝ 34」と**偶然**一致していた。
+    #    → RSC（`TabsContent` の `value`）でタブを判別し、**タブ外と `web` タブの表だけ**を数える。
     fw = read("web_firewalls.html")
     if fw:
-        body = re.sub(r"(?s)<script.*?</script>", "", fw)
-        rows = 0
-        for t in re.findall(r"(?s)<table.*?</table>", body):
-            rows += len([r for r in re.findall(r"(?s)<tr.*?</tr>", t) if "<td" in r])
-        if rows != SSOT["S6"]["value"]:
+        tables = firewall_tables(fw)
+        if not tables:
             errors.append(
-                f"公式 firewalls HTML の表データ行が {rows} ですが SSoT S6 は "
-                f"{SSOT['S6']['value']} です（公式ページが変わった可能性）"
+                "公式 firewalls HTML の RSC から表を抽出できません"
+                "（公式ページの構造変化を疑ってください。S6 は未検証です）"
             )
         else:
-            notes.append(f"S6: 公式 HTML の表データ行 {rows}（一致）")
+            scoped = [(tab, n, first) for tab, n, first in tables if tab in (None, "web")]
+            rows = sum(n for _, n, _ in scoped)
+            if not any(tab == "web" for tab, _, _ in scoped):
+                errors.append(
+                    "公式 firewalls HTML に Web タブの表が見つかりません"
+                    "（タブ構成が変わった可能性。S6 は未検証です）"
+                )
+            if rows != SSOT["S6"]["value"]:
+                errors.append(
+                    f"公式 firewalls HTML の表データ行（共通＋ Web タブ）が {rows} ですが "
+                    f"SSoT S6 は {SSOT['S6']['value']} です（公式ページが変わった可能性）"
+                )
+            else:
+                notes.append(
+                    f"S6: 公式 HTML の表データ行（共通＋ Web タブ）{rows}（一致）"
+                    f" / 内訳 {[n for _, n, _ in scoped]}"
+                )
 
     # S5: internet-access の許可ドメイン
     ia = read("web_sandbox_internet-access.html")

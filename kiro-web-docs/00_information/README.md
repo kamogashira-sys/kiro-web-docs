@@ -21,8 +21,8 @@
 |------|------|
 | 提供形態 | ホスト型サービス（インストール不要） |
 | 段階 | **一般提供（GA）**（2026-09-01） |
-| 公式ドキュメント | <https://kiro.dev/docs/web/>（18ページ。snapshot: 2026-09-13） |
-| 公式 changelog | <https://kiro.dev/changelog/web/>（19エントリ。2025-12-02 〜 2026-09-01） |
+| 公式ドキュメント | <https://kiro.dev/docs/web/>（18ページ。snapshot: 2026-10-04） |
+| 公式 changelog | <https://kiro.dev/changelog/web/>（21エントリ。2025-12-02 〜 2026-09-30） |
 
 ---
 

@@ -3,14 +3,14 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: September 2, 2026）
+**出典**: <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: September 30, 2026）
 
 ---
 
 ## 📑 このページの内容
 
 1. [何を解決する機能か](#何を解決する機能か)
-2. [アップロードできる6つのフォルダ](#アップロードできる6つのフォルダ)
+2. [アップロードできる7つのフォルダ](#アップロードできる7つのフォルダ)
 3. [除外されるもの](#除外されるもの)
 4. [⚠️ `mcp.json` は `env` の値が平文で上がります](#-mcpjson-は-env-の値が平文で上がります)
 5. [アップロードの手順](#アップロードの手順)
@@ -43,22 +43,27 @@
 
 公式は次のように説明しています。
 
-> Configuration Sync covers your **personal** configuration. Project configuration committed under `.kiro/` in a repository already travels with the repository because the sandbox clones it.
+> Configuration Sync covers your **personal** configuration. **Supported** project configuration committed under `.kiro/` travels with the repository because the sandbox clones it. Workflow recipes can also be uploaded individually through Settings > Workflows or imported as a complete `.kiro/workflows/` folder through Settings > Sync.
 
 | 設定の範囲 | クラウドへの届き方 |
 |-----------|----------------|
 | **個人設定** | **Configuration Sync でアップロードする**（本ページ） |
-| **プロジェクト設定**（リポジトリに `.kiro/` としてコミットしたもの） | **リポジトリと一緒に運ばれる**（サンドボックスがクローンするため。アップロードは不要） |
+| **プロジェクト設定**（リポジトリに `.kiro/` としてコミットしたもの） | **対応するもの**は**リポジトリと一緒に運ばれる**（サンドボックスがクローンするため） |
+| **Workflow のレシピ** | **Settings > Workflows** で1つずつアップロードする、または **Settings > Sync** で `.kiro/workflows/` フォルダごと取り込む |
+
+> 公式ページの 2026-09-02 版は「Project configuration committed under `.kiro/` in a repository **already** travels with the repository」でした。
+> 2026-09-30 版で「**Supported** project configuration」に変わり、Workflow のレシピの一文が加わりました。
+> **どのプロジェクト設定が「対応する（Supported）」に当たるかは、このページには書かれていません**（未確認）。
 
 ---
 
-## アップロードできる6つのフォルダ
+## アップロードできる7つのフォルダ
 
 公式は次のように説明しています。
 
-> Upload one top-level folder from your local `.kiro` directory at a time. Six folders are supported:
+> Upload one top-level folder from your local `.kiro` directory at a time. Seven folders are supported:
 
-**ローカルの `.kiro` 直下のフォルダを、1度に1つずつ**アップロードします。対応するのは**6つ**です。
+**ローカルの `.kiro` 直下のフォルダを、1度に1つずつ**アップロードします。対応するのは**7つ**です（2026-09-30 版で `workflows/` が加わり 6 → 7）。
 
 | フォルダ | アップロードされるもの | クラウド側の管理場所 |
 |---------|-------------------|----------------|
@@ -68,9 +73,11 @@
 | `skills/` | `SKILL.md` と付随するテキストファイル | **Settings > Skills** |
 | `powers/` | インストール済みの Powers（[後述](#powers-の同期は2経路)） | **Settings > Powers** |
 | `settings/` | `mcp.json` の MCP サーバー | **Kiro Web サンドボックスの MCP サーバー設定** |
+| `workflows/` | 拡張子が `.workflow.json`・`.workflow.yaml`・`.workflow.yml` のレシピ | **Settings > Workflows** |
 
 Steering の詳細は [04_steering.md](04_steering.md)、MCP の詳細は
-[../04_reference/03_mcp-configuration.md](../04_reference/03_mcp-configuration.md) を参照してください。
+[../04_reference/03_mcp-configuration.md](../04_reference/03_mcp-configuration.md)、Workflows は
+[01_agent-modes.md](01_agent-modes.md#workflowsバックグラウンドで動く多段の計画) を参照してください。
 
 ---
 
@@ -82,7 +89,7 @@ Steering の詳細は [04_steering.md](04_steering.md)、MCP の詳細は
 
 | 対象 | 扱い |
 |------|------|
-| `.kiro` 直下の**上記6つ以外**（セッション状態・キャッシュ・ランタイムのフォルダなど） | **拒否される** |
+| `.kiro` 直下の**上記7つ以外**（セッション状態・キャッシュ・ランタイムのフォルダなど） | **拒否される** |
 | 対応フォルダの**中**にあるマシン生成物（`.git`・`node_modules`・`.DS_Store` など） | **除外される** |
 
 ---
@@ -111,7 +118,7 @@ Steering の詳細は [04_steering.md](04_steering.md)、MCP の詳細は
 | # | 手順 |
 |---|------|
 | 1 | Kiro Web で **Settings > Sync** を開く |
-| 2 | 対応フォルダを**1つ**（例: `~/.kiro/steering`）アップロード領域に**ドラッグ**する。またはフォルダ選択で指定する |
+| 2 | 対応フォルダを**1つ**（例: `~/.kiro/steering`・`<project>/.kiro/workflows`）アップロード領域に**ドラッグ**する。またはフォルダ選択で指定する |
 | 3 | **各ファイルとそのステータスを確認**する。行を展開すると中身を確認できる |
 | 4 | 同期するファイルを選び、**`Upload N files`** を選ぶ。**ファイルごとに進捗が表示され、失敗したファイルは再試行できる** |
 
@@ -217,12 +224,13 @@ Powers と MCP の詳細は [05_sandbox.md](05_sandbox.md) を参照してくだ
 
 | 公式の項目 | 本サイトの該当ページ |
 |-----------|-----------------|
+| Workflows - enable workflows and use uploaded recipes | [01_agent-modes.md](01_agent-modes.md#workflowsバックグラウンドで動く多段の計画)（Web の docs と changelog の範囲のみ） |
 | Cloud sessions - where uploaded configuration takes effect | [07_cloud-sessions.md](07_cloud-sessions.md) |
 | Steering - writing Steering files | [04_steering.md](04_steering.md) |
 | Powers and MCP - extending the cloud sandbox | [05_sandbox.md](05_sandbox.md) / [../04_reference/03_mcp-configuration.md](../04_reference/03_mcp-configuration.md) |
 
 > **公式の Related には、本サイトが収録していないページも含まれます。**
-> `Configuration scopes`（`/docs/configuration`・個人・プロジェクト・クラウドの設定がどう組み合わさるか）・
+> `Workflows`（`/docs/workflows`）・`Configuration scopes`（`/docs/configuration`・個人・プロジェクト・クラウドの設定がどう組み合わさるか）・
 > `Custom agents`（`/docs/custom-agents`）・`Skills`（`/docs/skills`）・`Hooks`（`/docs/hooks`）は
 > **`docs/web/` 配下ではない全製品共通ページ**で、
 > 本サイトの収録範囲（`docs/web/` の 18 ページ＋移転先ページ）に**含まれていません**。

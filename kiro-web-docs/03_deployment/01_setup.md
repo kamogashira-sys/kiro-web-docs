@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: September 2, 2026・**旧 `docs/web/first-task/` は2026-08-14以前にPage updated: April 21, 2026・現在は本ページへ統合**）
+**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: October 2, 2026・**旧 `docs/web/first-task/` は2026-08-14以前にPage updated: April 21, 2026・現在は本ページへ統合**）
 
 Kiro Web はブラウザから使うサービスなので、**インストールはありません**。「サインイン」と「リポジトリプロバイダの接続」が導入作業になります。
 
@@ -26,8 +26,12 @@ Kiro Web はブラウザから使うサービスなので、**インストール
 
 | サインイン方法 | 前提 | 手順 |
 |--------------|------|------|
-| **ソーシャルログイン** | AWS Builder ID | [下記](#ソーシャルログインの場合) |
+| **ソーシャルログイン** | GitHub・Google・AWS Builder ID のいずれか | [下記](#ソーシャルログインの場合) |
 | **AWS Identity Center** | 管理者による有効化が必要 | [下記](#aws-identity-center-の場合) |
+| **外部 IdP（Okta・Microsoft Entra ID）** | 管理者による有効化と IdP の構成が必要 | [01_features/07_cloud-sessions.md](../01_features/07_cloud-sessions.md#前提条件) |
+
+> 2026-10-02 版で、導入文に「an external identity provider such as Okta or Microsoft Entra ID (see Cloud sessions prerequisites)」が加わりました。
+> 外部 IdP の場合の具体的な手順は `docs/web/setup/` には無く、Cloud sessions の前提条件（`docs/cloud-sessions/`）を参照する形です。
 
 どちらの場合も、最後に**リポジトリプロバイダ（GitHub または GitLab）の接続**が必要です。公式は「Kiro Web works with both GitHub and GitLab」と説明しています。
 
@@ -37,8 +41,10 @@ Kiro Web はブラウザから使うサービスなので、**インストール
 
 公式の手順は3ステップです。
 
-1. <https://app.kiro.dev> にアクセスし、**AWS Builder ID** でサインインする
+1. <https://app.kiro.dev> にアクセスし、**GitHub・Google・AWS Builder ID のいずれか**でサインインする
 2. **有料の Kiro サブスクリプション（Pro 以上）**があることを確認する
+
+> 公式ページの 2026-09-02 版の手順 1 は「sign in with your AWS Builder ID」でした。2026-10-02 版で「sign in with **GitHub, Google, or** your AWS Builder ID」に変わりました。
 3. **リポジトリプロバイダ（GitHub または GitLab）を接続**して、エージェントにリポジトリへのアクセスを与える
 
 <a id="free-tier-conflict"></a>
@@ -48,7 +54,7 @@ Kiro Web はブラウザから使うサービスなので、**インストール
 
 > Kiro Web is not available on the free tier.
 
-一方、<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026）には **Free Tier ユーザー**を前提とした記述があります（データ保持期間・オプトアウト・不正利用検知）。詳細は [03_data-protection.md](03_data-protection.md) を参照してください。
+一方、<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: September 30, 2026）には **Free Tier ユーザー**を前提とした記述があります（データ保持期間・オプトアウト・不正利用検知）。詳細は [03_data-protection.md](03_data-protection.md) を参照してください。
 
 **本サイトはどちらが正しいかを断定しません。** 上記の「Pro 以上が必要」を主たる記述として示しつつ、食い違いがあることを明記します。実際の適用条件は公式ページで確認してください。
 
@@ -142,7 +148,7 @@ Kiro Web は **パーソナルアクセストークン（PAT）** で GitLab に
 
 ## 最初のタスクを実行する
 
-**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: September 2, 2026・**「最初のタスクを実行する」節は旧 `docs/web/first-task/` の内容を統合したもの**）
+**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: October 2, 2026・**「最初のタスクを実行する」節は旧 `docs/web/first-task/` の内容を統合したもの**）
 
 ### 1. セッションを開始する
 
@@ -195,8 +201,11 @@ Kiro Web は **パーソナルアクセストークン（PAT）** で GitLab に
 
 | モード | 進み方 |
 |-------|-------|
-| **既定のモード** | エージェントが対話的に作業します。依頼を分析し、進め方を相談し、一緒に反復します。納得したらプルリクエストの作成を依頼します |
-| **Autonomous モード** | チャット入力バーで **Autonomous** を有効にします。エージェントが明確化の質問をし、計画を立て、専門のサブエージェントで作業を実行し、**自動的にプルリクエストを作成**します |
+| **既定のモード** | エージェントが対話的に作業します。依頼を分析し、進め方を相談し、一緒に反復します。納得したらプルリクエストまたはマージリクエストの作成を依頼します |
+| **Autonomous モード** | チャット入力バーで **Autonomous** を有効にします。エージェントが計画を立て、専門のサブエージェントで作業を実行し、**自動的にプルリクエストを作成**します |
+
+> 2026-10-02 版で、Autonomous モードの説明から「asks clarifying questions」（明確化の質問をする）が削除されました
+> （[01_features/01_agent-modes.md](../01_features/01_agent-modes.md#動作の3段階公式の説明)）。
 
 詳細は [01_features/01_agent-modes.md](../01_features/) を参照してください。
 

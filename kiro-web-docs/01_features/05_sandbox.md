@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/sandbox/>（Page updated: August 22, 2026）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: September 10, 2026）・<https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: September 2, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/>（Page updated: October 1, 2026）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: October 1, 2026）・<https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: October 1, 2026）
 
 サンドボックスは、**エージェントがタスクを実行する隔離された環境**です。**タスクごとに専用のサンドボックス**が作られます。
 
@@ -31,7 +31,12 @@
 | 2 | **認可されたリポジトリ**をサンドボックスにクローンする |
 | 3 | **検出したプロジェクト設定に基づいて環境を構成する** |
 | 4 | **明示的に許可されたリソースにのみアクセスして**タスクを実行する |
-| 5 | **タスク完了時にサンドボックスを破棄する** |
+| 5 | **サンドボックスのファイルの状態をセッションとともに保持する**。どのサーフェスからでも再接続してワークスペースを閲覧できる。**セッションを削除するとサンドボックスも削除される** |
+
+> ⚠️ **公式ページの 2026-08-22 版と 2026-10-01 版の間で 5 段階目が変わりました。** それまでの公式の記述は
+> 「Tears down the sandbox when the task completes」（タスク完了時にサンドボックスを破棄する）でした。
+> 現行は「Keeps the sandbox's file state with the session, so you can reattach from any surface and browse its workspace. Deleting the session removes its sandbox」です。
+> **変更の理由は公式に書かれていないため未確認**です。
 
 設定は **Agent 設定ページの Sandbox** から行います。
 
@@ -47,7 +52,7 @@
 
 ## ブラウザ操作（headless Chrome 同梱）
 
-**出典**: <https://kiro.dev/docs/web/sandbox/>（Page updated: August 22, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/>（Page updated: October 1, 2026）
 
 **すべてのサンドボックスに headless Chrome ブラウザが入っています。** ブラウザは
 **サンドボックスと同じ隔離環境の中**で動き、ブラウザ操作用のツールが**あらかじめインストール**されています。
@@ -102,7 +107,7 @@
 
 | レベル | 到達できる範囲 |
 |-------|------------|
-| **Connections access only** | **サンドボックスが機能するための最小限**。GitHub リポジトリのクローン・PR の作成と更新・ゲートウェイサービス経由の GitHub アクセス |
+| **Connections access only** | **サンドボックスが機能するための最小限**。GitHub と GitLab のリポジトリのクローン・プルリクエストとマージリクエストの作成と更新・ゲートウェイサービス経由の GitHub アクセス |
 | **Common dependencies** | 上記 ＋ **主要なパッケージレジストリと開発ツール（73 ドメイン）** |
 | **Open internet** | **制限なし** |
 | **Custom allow-list** | **カンマ区切りで自分で指定** |
@@ -151,7 +156,7 @@
 
 ## 環境の自動構成
 
-**出典**: <https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: September 10, 2026 — **Kiro Web の docs で最も新しい更新**）
+**出典**: <https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: October 1, 2026）
 
 公式は、エージェントが**プロジェクトの種類を検出して自動的にサンドボックスを構成する**と説明しています。判断材料はリポジトリの構成ファイルです。
 
@@ -173,13 +178,13 @@
 
 ## Powers と MCP サーバー
 
-**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: September 2, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: October 1, 2026）
 
 エージェントにツールとコンテキストを追加する方法が2種類あります。
 
 | 方式 | 内容 |
 |------|------|
-| **Powers** | **Kiro Web に同梱されている統合群**。**Settings > Agent > Sandbox > Manage powers** で管理 |
+| **Powers** | **Kiro Web に同梱されている統合群**。**Settings > Powers** で管理（カタログからのインストールを含む）。自分の `powers/` フォルダを **Settings > Sync**（[Configuration Sync](09_configuration-sync.md)）からアップロードすることもできる |
 | **MCP servers** | **Model Context Protocol** を使ったカスタム統合。**手動で設定**し、各タスクの開始時にサンドボックスに読み込まれる |
 
 | 項目 | 対応状況 |

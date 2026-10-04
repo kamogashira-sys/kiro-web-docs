@@ -6,7 +6,7 @@
 > ⚠️ **かつて公式にあった「3つのインターフェースで同じように動作する」という一文は、
 > 移転先の現行ページにはありません**（[下記](#3つのインターフェースの関係公式の記述は移転で変わりました)）。
 
-**出典**: <https://kiro.dev/docs/steering/>（Page updated: September 2, 2026・**移転先。旧 `docs/web/steering/` は2026-08-12以前は Page updated: May 27, 2026**）
+**出典**: <https://kiro.dev/docs/steering/>（Page updated: October 2, 2026・**移転先。旧 `docs/web/steering/` は2026-08-12以前は Page updated: May 27, 2026**）
 
 Steering は、**Markdown ファイルを通じてエージェントに永続的な知識を与える**仕組みです。毎回セッションで規約を説明する代わりに、確立したパターン・ライブラリ・標準に一貫して従わせられます。
 
@@ -67,8 +67,9 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 
 > Steering files work the **same way** across Kiro IDE, Kiro CLI, and Kiro Web.
 
-**2026-09-13 の実測で、この一文は移転先の <https://kiro.dev/docs/steering/>（Page updated: September 2, 2026）に存在しないことを確認しました。**
-`same way`・`work the same`・`across Kiro IDE`・`Kiro CLI, and Kiro Web`・`identically` のいずれも 0 件です。
+**2026-09-13 の実測で、この一文は移転先の <https://kiro.dev/docs/steering/>（Page updated: October 2, 2026）に存在しないことを確認しました**（2026-10-02 版でも存在しません）。
+`same way`・`work the same`・`across Kiro IDE`・`Kiro CLI, and Kiro Web`・`identically` のいずれも 0 件でした。
+2026-10-02 版では `same way` が 1 件現れますが、これは別の文（「On Kiro Web, you can steer autonomous-mode tasks the same way — …」・[下記](#モードによる違い)）の一部で、Steering ファイルが3つのインターフェースで同じように動作するという一文ではありません。
 
 この一文が確認できる場所は次のとおりです。
 
@@ -101,10 +102,16 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 |-----------|:---:|:---:|:-------:|:------:|
 | `.kiro/steering/`（リポジトリ内） | ✓ | ✓ | **✓** | ✓ |
 | `~/.kiro/steering/`（ローカルの個人設定） | ✓ | ✓ | **—** | — |
-| Cloud steering managed in Web settings | — | — | **✓** | — |
+| Upload local steering to cloud configuration | Opt-in | Opt-in | **✓** | — |
 | Generate foundation files via UI | ✓ | — | **—** | — |
-| Inclusion modes（`always`・`fileMatch`・`manual`） | ✓ | ✓ | **✓** | ✓ |
+| Inclusion modes | ✓ | V3: full; V1/V2: partial | **✓** | ✓ |
 | `AGENTS.md` support | ✓ | ✓ | **✓** | ✓ |
+
+> ⚠️ **2026-10-02 版で表の2行が変わりました。**
+> 3行目は「Cloud steering managed in Web settings（IDE —・CLI —・Web ✓）」から
+> 「**Upload local steering to cloud configuration**（IDE **Opt-in**・CLI **Opt-in**・Web ✓）」に、
+> 5行目は「Inclusion modes (always, fileMatch, manual)」から「**Inclusion modes**」（CLI 欄が **V3: full; V1/V2: partial**）に変わりました。
+> **Web の欄はどちらも ✓ のままです。** CLI の欄の詳細は別製品（Kiro CLI）の仕様のため、本サイトでは扱いません。
 
 **Kiro Web で対応していないのは 2 項目**です。
 
@@ -117,8 +124,7 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 
 | 場面 | 公式の説明 |
 |------|----------|
-| **Autonomous モード** | **エージェントが冒頭で明確化の質問をし、その回答がそのタスクの steering として働く** |
-| **既定のモード** | **一緒に反復しながら継続的に操縦できる** |
+| **Autonomous モード** | **タスク中に与えた方向づけが、そのタスクの steering として働く**（「you can steer autonomous-mode tasks the same way — direction you give during the task acts as steering for it」） |
 | **コードレビュー** | **PR へのフィードバックでエージェントを操縦できる**（[下記](#コードレビューを通じて教える)） |
 
 同名でも仕様が異なる機能（例: [Specs](02_specs.md#kiro-ide-との違い2026-08-12-の移転時点で失われた記述)）と同様に、
@@ -167,10 +173,18 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 
 ### モードによる違い
 
+公式は 2026-10-02 版で次のように説明しています。
+
+> On Kiro Web, you can steer autonomous-mode tasks the same way — direction you give during the task acts as steering for it.
+
 | モード | 操縦の仕方 |
 |-------|----------|
-| **Autonomous モード** | エージェントが**冒頭で明確化の質問**をする。**その回答がそのタスクのステアリングとして機能する** |
-| **既定（協調）モード** | **一緒に反復しながら継続的に操縦できる** |
+| **Autonomous モード** | 上記の例と**同じように操縦できる**。**タスク中に与えた方向づけが、そのタスクのステアリングとして機能する** |
+| **既定（協調）モード** | チャットで**リアルタイムに**方向づけする（上記の例） |
+
+> ⚠️ **2026-09-02 版の記述は「On Kiro Web, the agent asks clarifying questions upfront in autonomous mode - your answers act as steering for that task. In the default mode, you can steer continuously as you iterate together.」でした。**
+> 2026-10-02 版では「冒頭の明確化の質問」と「既定モードでの継続的な操縦」の記述が無くなっています。
+> 同じ時期に `docs/web/autonomous-mode/` からも Clarification の段階が削除されています（[01_agent-modes.md](01_agent-modes.md#動作の3段階公式の説明)）。
 
 詳細は [01_agent-modes.md](01_agent-modes.md) を参照してください。
 

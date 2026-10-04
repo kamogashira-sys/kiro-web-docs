@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: September 2, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/automations/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）・<https://kiro.dev/docs/web/cloud-configuration/>（Page updated: September 2, 2026）・<https://kiro.dev/changelog/web/start-without-a-repo-switch-modes-anytime/>（June 2, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/automations/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: September 30, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）・<https://kiro.dev/docs/web/cloud-configuration/>（Page updated: September 30, 2026）・<https://kiro.dev/changelog/web/start-without-a-repo-switch-modes-anytime/>（June 2, 2026）・<https://kiro.dev/changelog/web/reasoning-effort-and-a-grouped-timeline/>（September 22, 2026）
 
 > 本ページの値はすべて公式ページの HTML 版と公式 changelog から取っており、本サイトの検証スクリプトが公式との一致を機械的に確認しています。
 
@@ -16,6 +16,8 @@
 | **並列タスクの上限** | **10** | `using-the-agent/creating-tasks` |
 | **1オートメーションあたりのスケジュール数の上限** | **5** | `automations` |
 | **オートメーションのプロンプト文字数の上限** | **10,000** 文字 | `automations` |
+| **カスタムスケジュールの実行頻度の上限** | **1 時間に 1 回** | `automations` |
+| **1メッセージあたりの添付ドキュメント数** | **5** | changelog（2026-09-22） |
 | **セッションの保持期間** | **90** 日 | `using-the-agent` |
 | **サンドボックスのディスク容量** | **128GB** | changelog（2026-06-02） |
 | **Configuration Sync の1項目あたりのサイズ** | **4,000,000 バイト** | `cloud-configuration` |
@@ -25,9 +27,10 @@
 | **データ保存リージョン** | **US East（N. Virginia）のみ**（Free Tier・個人サブスクライバー） | `data-protection` |
 | **Free Tier の入力保持期間**（不正利用検知） | **最長 60** 日 | `data-protection`（**未確認注記あり**） |
 | **GPT モデルのフラグ付きトラフィック保持** | **最長 30** 日 | `data-protection` |
+| **Claude Fable 5.1 (Preview) の全トラフィック保持** | **最長 30** 日 | `data-protection` |
 | **転送中の暗号化** | **TLS 1.2** 以上 | `data-protection` |
 | **サンドボックスの許可ドメイン数**（Common dependencies） | **73** | `sandbox/internet-access` |
-| **ファイアウォール許可リストの行数** | **34** | `firewalls` |
+| **ファイアウォール許可リストの行数** | **38** | `firewalls` |
 | **GitLab 送信元 IP 数** | **3** | `gitlab` |
 
 ---
@@ -64,27 +67,28 @@
 
 公式は次のように明記しています。
 
-> Sessions expire after **90 days**, at which point chat messages and logs are deleted. Pull requests, code changes, and conversations on GitHub are not affected.
+> Sessions expire after **90 days**, at which point chat messages and logs are deleted. Pull requests, merge requests, code changes, and conversations on GitHub or GitLab are not affected.
 
 | 項目 | 内容 |
 |------|------|
 | **セッションの有効期限** | **90 日** |
 | 期限到来時に削除されるもの | **チャットメッセージ**と**ログ** |
-| **影響を受けないもの** | **プルリクエスト・コードの変更・GitHub 上の会話** |
+| **影響を受けないもの** | **プルリクエスト・マージリクエスト・コードの変更・GitHub または GitLab 上の会話** |
 
-> 成果物（PR・コード）は残りますが、**やり取りの経緯は 90 日で消えます。**
-> 経緯を残したい場合は PR のコメントなど GitHub 側に記録してください。
+> 成果物（PR・MR・コード）は残りますが、**やり取りの経緯は 90 日で消えます。**
+> 経緯を残したい場合は PR・MR のコメントなど GitHub・GitLab 側に記録してください。
 
 ---
 
 ## オートメーションの上限
 
-**出典**: <https://kiro.dev/docs/web/automations/>（Page updated: August 4, 2026）
+**出典**: <https://kiro.dev/docs/web/automations/>（Page updated: October 2, 2026）
 
 | 項目 | 値 | 公式の記述 |
 |------|---|-----------|
 | **1オートメーションあたりのスケジュール数** | **5** | "You can add up to **five** schedules per automation" |
 | **プロンプトの文字数** | **10,000** 文字 | "Prompts can be up to **10,000 characters**" |
+| **カスタムスケジュールの実行頻度** | **1 時間に 1 回まで** | "Custom schedules can run at most **once per hour**. Kiro flags a CRON expression that would run more frequently and prevents submission until you correct it." |
 
 > ⚠️ 公式本文でスケジュール数は**綴り（`five`）**で書かれています。数字の `5` を検索しても見つかりません。
 
@@ -113,6 +117,27 @@
 
 ---
 
+## チャットの添付ドキュメント数
+
+**出典**: <https://kiro.dev/changelog/web/reasoning-effort-and-a-grouped-timeline/>（September 22, 2026）
+
+| 項目 | 値 |
+|------|---|
+| **1メッセージあたりの添付ドキュメント数** | **5** |
+
+公式は changelog で次のように説明しています。
+
+> Uploading a sixth document partway through a long session no longer blocks new attachments. The **five-document limit applies to each message** instead of accumulating across the session, so earlier uploads no longer block later messages.
+
+| 項目 | 内容 |
+|------|------|
+| 上限の数え方 | **メッセージごと**（セッション全体で累積しない） |
+| 2026-09-22 より前 | セッションの途中で 6 件目をアップロードすると、以後の添付ができなくなっていた |
+
+> ⚠️ **この値は公式ドキュメントではなく changelog にしか記載がありません**（`docs/web/` 配下の 18 ページと `docs/cloud-sessions/` には該当の記述が見つかりませんでした）。
+
+---
+
 ## サンドボックスのディスク容量
 
 **出典**: <https://kiro.dev/changelog/web/start-without-a-repo-switch-modes-anytime/>（June 2, 2026）
@@ -134,7 +159,7 @@
 
 ## Configuration Sync の上限
 
-**出典**: <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: September 2, 2026）
+**出典**: <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: September 30, 2026）
 
 個人設定（`.kiro` 配下）を Kiro Web へアップロードする [Configuration Sync](../01_features/09_configuration-sync.md) の上限です。
 
@@ -164,7 +189,7 @@
 
 ## リージョンとデータの所在
 
-**出典**: <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026・移転先）
+**出典**: <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: September 30, 2026・移転先）
 
 ### データの保存先（1 リージョン）
 
@@ -207,8 +232,11 @@
 |------|---------|
 | **Kiro Free Tier 利用者の入力** | **最長 60 日** |
 | **OpenAI GPT モデルのフラグ付きトラフィック** | **最長 30 日** |
+| **Anthropic Claude Fable 5.1 (Preview) の全トラフィック** | **最長 30 日**（2026-09-30 版で追加） |
 
-> ⚠️ **この2つの値は「Free Tier が存在する」前提の記述です。** ところが
+> 公式は 2026-09-30 版で、いずれにも「unless otherwise required by law」（法令で別途求められる場合を除く）を付けています。
+
+> ⚠️ **このうち Free Tier の値は「Free Tier が存在する」前提の記述です。** ところが
 > `docs/web/`・`docs/web/setup/` は「Kiro Web は無料枠では使えない」としており、
 > **公式ページ間で食い違っています（2026-08-01 時点で未解決）**。
 > 本サイトはどちらが正しいかを断定しません。
@@ -220,7 +248,7 @@
 
 | 項目 | 値 | 詳細 |
 |------|---|------|
-| **ファイアウォール許可リストの行数** | **34** | [01_allowed-domains.md](01_allowed-domains.md#1-kiro-web-本体のエンドポイント34-行) |
+| **ファイアウォール許可リストの行数** | **38** | [01_allowed-domains.md](01_allowed-domains.md#1-kiro-web-本体のエンドポイント38-行) |
 | ワイルドカードルール | 6 件 | 同上 |
 | **サンドボックスの許可ドメイン**（Common dependencies） | **73** | [01_allowed-domains.md](01_allowed-domains.md#2-サンドボックスの依存関係取得先73-ドメイン) |
 | **GitLab 送信元 IP** | **3** | [01_allowed-domains.md](01_allowed-domains.md#3-gitlab-側で許可する送信元-ip3-件) |

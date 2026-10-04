@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026**）
+**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: October 1, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026**）
 
 > ⚠️ **本ページは公式ページの HTML 版のみを出典にしています。**
 > このページの `.md` 版（旧 `docs/web/firewalls.md`）は **Web / privacy-and-security / cli の
@@ -25,7 +25,7 @@
 ## 📑 このページの内容
 
 1. [ネットワークトラフィックの2種類](#ネットワークトラフィックの2種類)
-2. [許可リストの構成（6グループ）](#許可リストの構成6グループ)
+2. [許可リストの構成（7グループ）](#許可リストの構成7グループ)
 3. [レガシーエンドポイントの注意](#レガシーエンドポイントの注意)
 4. [ワイルドカードを使う場合の注意](#ワイルドカードを使う場合の注意)
 5. [構成別に必要なグループ](#構成別に必要なグループ)
@@ -38,8 +38,11 @@
 
 | 種類 | 内容 |
 |------|------|
-| **Agent traffic** | Kiro Web からバックエンドサービスへのリクエスト（AI・テレメトリ・認証） |
-| **Browser traffic** | サインインはブラウザを使う。このトラフィックは **OS のネットワークスタック**を通る |
+| **Application traffic** | Kiro のプロセスからのリクエスト。公式は「**In Kiro Web, it flows through backend services.**」としています（IDE・CLI ではプロキシ設定に従う） |
+| **Browser traffic** | サインインはブラウザを使う。このトラフィックは **OS のネットワークスタック**を通り、IDE・CLI で設定したプロキシを経由しない |
+
+> 旧 `docs/web/firewalls/` はこの1つ目を **Agent traffic**（Kiro Web からバックエンドサービスへのリクエスト）と呼んでいました。
+> 現行の共通ページは **Application traffic** です。
 
 > **ファイアウォールは両方をネットワークレベルで許可する必要があります**（公式:
 > "Your firewall must allow both at the network level."）。
@@ -49,9 +52,9 @@
 
 ---
 
-## 許可リストの構成（6グループ）
+## 許可リストの構成（7グループ）
 
-公式ページの URL 表は6つのグループに分かれています。**合計 34 行**です（2026-08-01 実測）。
+公式ページの URL 表のうち Kiro Web に関わるもの（全製品共通の表と Web タブの表）は7つのグループに分かれています。**合計 38 行**です（ワイルドカード6件を含む）。
 
 | # | グループ | 行数 | 必要になる条件 |
 |---|---------|-----|--------------|
@@ -60,7 +63,8 @@
 | 3 | **Social sign-in** | 1 | Google または GitHub でサインインする場合 |
 | 4 | **IAM Identity Center** | 6 | AWS IAM Identity Center で認証する場合 |
 | 5 | **External identity providers** | 2 | 外部 IdP（Entra ID・Okta など）を使う場合 |
-| 6 | **Subscription management** | 2 | Google・GitHub・AWS Builder ID でサインインする場合（Stripe の課金ポータル） |
+| 6 | **AWS GovCloud (US)** | 4 | AWS GovCloud (US) で Kiro を使う場合（**Kiro Web への適用は未確認**・下記） |
+| 7 | **Subscription management** | 2 | Google・GitHub・AWS Builder ID でサインインする場合（Stripe の課金ポータル） |
 | — | **Wildcard rules**（上記の代替） | 6 | ワイルドカードが使える場合 |
 
 **個別の URL とその用途は [04_reference/01_allowed-domains.md](../04_reference/01_allowed-domains.md) を参照してください。**
@@ -80,6 +84,16 @@ IAM Identity Center と外部 IdP のグループには、環境ごとに置き�
 | `<your-org>`（Okta） | 組織のサブドメイン |
 
 > 公式は、どの IdP が設定されているか不明な場合は**アイデンティティチームに正確なドメインを確認する**よう案内しています。
+
+### ⚠️ AWS GovCloud (US) のグループ（2026-10-01 版で表になりました）
+
+公式はグループ6を、サーフェス別タブの外にある**全製品共通の節**に置いています。
+一方 `docs/web/` は「Kiro Web is available in US East (N. Virginia) `us-east-1` only」としており、
+**AWS GovCloud (US) で Kiro Web を使えるかどうかは公式に記載がないため未確認**です。
+
+2026-08-04 版のこの節は `q-fips.*.amazonaws.com` の2件を並べた箇条書きで、本サイトは行数に含めていませんでした。
+2026-10-01 版では `runtime-fips.*.kiro.dev`・`management-fips.*.kiro.dev` の4行の表に変わっています。
+公式は「既存の `q`・`q-fips` のルールと併せて追加する（古いクライアントはまだ Q のエンドポイントを必要とする場合がある）」と注記しています。
 
 ---
 
@@ -128,20 +142,22 @@ IAM Identity Center と外部 IdP のグループには、環境ごとに置き�
 
 | 構成 | 必要なグループ |
 |------|--------------|
-| **ソーシャルログイン（Google / GitHub）** | 1・2・3・6 |
-| **AWS Builder ID** | 1・2・6 |
+| **ソーシャルログイン（Google / GitHub）** | 1・2・3・7 |
+| **AWS Builder ID** | 1・2・7 |
 | **IAM Identity Center（外部 IdP なし）** | 1・2・4 |
 | **IAM Identity Center（外部 IdP あり）** | 1・2・4・5 |
 
 ### エンタープライズは Stripe 不要です
 
-公式は「Enterprise customers using IAM Identity Center don't need these domains」として、**IAM Identity Center を使うエンタープライズ顧客はグループ6（Stripe）が不要**と明記しています。
+公式は「Enterprise customers using IAM Identity Center don't need these domains」として、**IAM Identity Center を使うエンタープライズ顧客はグループ7（Stripe）が不要**と明記しています。
+
+> グループ6（AWS GovCloud (US)）は Kiro Web への適用が未確認のため、上の表には入れていません。
 
 ---
 
 ## 🔗 関連ページ
 
-- **[04_reference/01_allowed-domains.md](../04_reference/01_allowed-domains.md) — 許可すべき URL・ドメインの完全な一覧（34 行＋ワイルドカード6件）**
+- **[04_reference/01_allowed-domains.md](../04_reference/01_allowed-domains.md) — 許可すべき URL・ドメインの完全な一覧（38 行・ワイルドカード6件を含む）**
 - [01_setup.md](01_setup.md) — セットアップ（サインイン方法）
 - [02_identity-center.md](02_identity-center.md) — AWS Identity Center の要件
 - [03_data-protection.md](03_data-protection.md) — データ保護（テレメトリ）

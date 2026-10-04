@@ -94,6 +94,11 @@ VERSION_ALLOW = [
     # 版番号ではなく**コマンドラインオプションの値**。
     (re.compile(r"--(?:delay|retries|max-time|timeout)\s+\d+(?:\.\d+)?"),
      "取得スクリプトのオプション値（CI の都度取得の設定）"),
+    # 2026-10-04 追加。公式 data-protection の不正利用検知の節にある**モデル名**
+    # （`Anthropic Claude Fable 5.1 (Preview)`）。Kiro Web の版番号ではない。
+    # ⚠️ 範囲を広げない: 「Claude ＋ 英単語1語 ＋ 版」の形だけを許可する。
+    (re.compile(r"Claude\s+[A-Z][a-z]+\s+\d+\.\d+"),
+     "モデル名の版（公式 data-protection の記述）"),
 ]
 
 # ------------------------------------------------------------

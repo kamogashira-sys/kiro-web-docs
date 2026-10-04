@@ -5,7 +5,7 @@
 > Kiro IDE・Kiro CLI・Mobile にも共通します。ただし**Kiro Web のすべてのセッションは Cloud Session です**
 > （後述）。そのため本サイトに収録し、Web からの利用に焦点を当てて記述します。
 
-**出典**: <https://kiro.dev/docs/cloud-sessions/>（Page updated: September 2, 2026）
+**出典**: <https://kiro.dev/docs/cloud-sessions/>（Page updated: October 1, 2026）
 
 ---
 
@@ -36,10 +36,14 @@
 | Cloud Session の作成 | ✓ | ✓ | ✓ | ✓ |
 | 既存 Cloud Session の再開・操縦 | ✓ | ✓ | ✓ | ✓ |
 | Autonomous モード | ✓ | ✓ | ✓ | ✓ |
+| 宣言的ワークフロー（Declarative workflows） | ✓ | ✓ | ✓ | Not documented |
 | スケジュール実行（Automations） | — | — | ✓ | — |
 
-> **Kiro Web は4項目すべてに対応しています。** Automations（[03_automations.md](03_automations.md)）は
+> **Kiro Web は5項目すべてに対応しています。** Automations（[03_automations.md](03_automations.md)）は
 > **Web 固有の機能**であることが、この表から確認できます。
+>
+> 「宣言的ワークフロー」の行は 2026-10-01 版で追加されました。Mobile の欄は公式の表記どおり **Not documented**（記載なし）です。
+> Kiro Web での Workflows は [01_agent-modes.md](01_agent-modes.md#workflowsバックグラウンドで動く多段の計画) を参照してください。
 
 ### 前提バージョン
 
@@ -112,13 +116,14 @@
 
 ### セッションはクライアントと独立して存在します
 
-公式は次の3点を挙げています。
+公式は次の4点を挙げています。
 
 | # | 特徴 | 内容 |
 |---|------|------|
 | 1 | **クライアントは着脱可能** | Web・Mobile・IDE・CLI は同一セッションへの**ビュー**。クライアントの切断はエージェントを止めない |
 | 2 | **状態はマシンを越えて残る** | 会話履歴・接続リポジトリ・サンドボックスのファイル状態はクラウドに残る。どのサーフェスから再接続しても続きから見える |
 | 3 | **承認は接続を待つ** | 誰も接続していない間にエージェントが[権限](https://kiro.dev/docs/permissions/)を必要とする操作をする場合、リクエストは保留され、次に接続したクライアントに提示される |
+| 4 | **Workflow は親セッションの中で動ける** | 宣言的ワークフローは**入れ子のステップセッションと永続的なグラフ**を持ち、その間もクラウドの親の会話は使える状態のまま。**進捗と結果は親セッションに戻る**（2026-10-01 版で追加） |
 
 サンドボックス自体の詳細（ネットワークアクセス・環境変数・環境構成）は [05_sandbox.md](05_sandbox.md) を参照してください。
 
@@ -126,7 +131,7 @@
 
 ## 前提条件
 
-公式が挙げる前提条件は3点です。
+公式が挙げる前提条件は4点です。
 
 | # | 前提条件 |
 |---|---------|
@@ -148,18 +153,20 @@
 公式は次のように説明しています。
 
 > - **Project configuration travels with the repo:** steering, specs, custom agents, hooks, and MCP servers committed under `.kiro/` in your repository apply in cloud sessions automatically, because the sandbox clones the repository.
-> - **Personal configuration can sync through your account:** your local `~/.kiro/` directory stays local and isn't applied to a cloud session. Use **Settings > Configuration Sync** in Kiro Web to upload supported personal configuration. Manage the cloud copy from its feature-specific settings page, including account-backed Powers under **Settings > Powers**.
+> - **Personal configuration can sync through your account:** your local `~/.kiro/` directory stays local and isn't applied to a cloud session. Use **Settings > Sync** in Kiro Web to upload supported personal configuration. Manage the cloud copy from its feature-specific settings page, including account-backed Powers under **Settings > Powers**.
 
 | 構成の種類 | 扱い |
 |-----------|------|
 | **プロジェクト構成**（リポジトリの `.kiro/` 配下） | **リポジトリと一緒に移動**。Steering・Specs・カスタムエージェント・Hooks・MCP サーバーはサンドボックスがリポジトリをクローンする際に自動的に適用される |
-| **個人構成**（`~/.kiro/`） | **ローカルに留まり、Cloud Session には適用されません**。持ち込むには [Kiro Web の Settings](https://app.kiro.dev/settings/cloud-config) の **Configuration Sync** からアップロードする |
+| **個人構成**（`~/.kiro/`） | **ローカルに留まり、Cloud Session には適用されません**。持ち込むには [Kiro Web の Settings](https://app.kiro.dev/settings/cloud-config) の **Sync**（Configuration Sync）からアップロードする |
 | **アップロード後のクラウド側の管理** | **機能ごとの設定ページ**で行う（アカウント側で持つ **Powers** は **Settings > Powers**） |
 
 > ⚠️ **2026-09-02 更新で表現が変わりました。** 移転前は
 > 「Personal configuration stays local: your `~/.kiro/` directory isn't applied automatically.」でしたが、
 > 現行は「**Personal configuration can sync through your account**」（アカウント経由で同期できる）が見出しになり、
 > 設定画面の名称も **Cloud configuration** から **Configuration Sync** に変わっています（2026-09-13 実測）。
+> さらに 2026-10-01 版では、この一文のメニュー名が「Settings > Configuration Sync」から「**Settings > Sync**」に変わりました
+> （[09_configuration-sync.md](09_configuration-sync.md) の「Settings > Sync」と一致します）。
 
 公式はセッション内で何が起きるかを表にまとめており、個人構成の行は次のとおりです。
 
@@ -193,17 +200,22 @@
 
 ## 現時点の制限
 
-**出典**: <https://kiro.dev/docs/cloud-sessions/>（Page updated: September 2, 2026）
+**出典**: <https://kiro.dev/docs/cloud-sessions/>（Page updated: October 1, 2026）
 
-公式が「**Current limitations**」として明記している制限は5点です。
+公式が「**Current limitations**」として明記している制限は4点です。
 
 | # | 制限 | 内容 |
 |---|------|------|
 | 1 | **並列実行数の上限** | **クラウドセッションは同時に 10 本まで**実行できる |
-| 2 | **リポジトリ構成は固定** | セッション作成時に選んだリポジトリで固定される（**CLI は `/repo` で後から追加可能**）。別のリポジトリで作業するには新しいセッションを開始する |
-| 3 | **Supervised モード非対応** | Cloud Session は **Autopilot または Autonomous** のみ。**変更ごとの承認は利用できない** |
-| 4 | **リネーム不可** | **IDE・CLI から** Cloud Session の名前を変更できない |
-| 5 | **サーフェスごとの機能差** | 各サーフェスで一部のコマンド・機能が未対応。**この差はサーフェスとリリースによって異なる** |
+| 2 | **Supervised モード非対応** | Cloud Session は **Autopilot または Autonomous** のみ。**変更ごとの承認は利用できない** |
+| 3 | **リネーム不可** | **IDE・CLI から** Cloud Session の名前を変更できない |
+| 4 | **サーフェスごとの機能差** | 各サーフェスで一部のコマンド・機能が未対応。**この差はサーフェスとリリースによって異なる** |
+
+> ⚠️ **2026-10-01 版で「Repository set is fixed」（リポジトリ構成は固定。セッション作成時に選んだリポジトリで固定され、
+> CLI は `/repo` で後から追加可能。別のリポジトリで作業するには新しいセッションを開始する）の項目が削除され、5点から4点になりました。**
+> 削除の理由は公式に書かれていないため**未確認**です。なお `docs/web/setup/` には
+> 「your GitLab projects are available to select when you create a session or **add a repository mid-session**」という記述があります
+> （[03_deployment/01_setup.md](../03_deployment/01_setup.md#gitlab-を接続する)）。
 
 > ⚠️ **節の名前と内容が変わりました（2026-09-13 実測）。**
 > 移転前は「Preview 中の制限」という位置づけで、**ブランチ選択ができない**という項目と
@@ -212,8 +224,8 @@
 > 代わりに**並列実行数の上限（10 本）**が加わっています。
 >
 > **ブランチ選択については [2026-08-31 のエントリ「Pick a Branch When You Pick a Repository」](../02_update/01_changelog.md#2026-08-31-pick-a-branch-when-you-pick-a-repository)が公開されています。**
-> ただしこのエントリは**タイトルと日付以外の本文を抽出できない型**（W-L2）のため、
-> **具体的な操作方法は公式から確認できていません**。
+> 同エントリは「When you select a GitHub or GitLab repository for a session, choose the branch to work from right in the selector. The agent clones that branch and builds on it.」
+> と説明しています（**リポジトリを選ぶセレクタの中で作業元のブランチを選べ、エージェントはそのブランチをクローンする**）。
 
 > **上限「10」は[並列タスクの上限](../04_reference/04_limits.md#並列実行は-10-件までです)とは別の指標です**
 > （あちらは1セッション群で同時実行できる**タスク**の数、こちらは同時に持てる**クラウドセッション**の数）。

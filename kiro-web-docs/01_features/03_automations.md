@@ -3,9 +3,11 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/automations/>（Page updated: August 4, 2026）
+**出典**: <https://kiro.dev/docs/web/automations/>（Page updated: October 2, 2026）
 
-Automations は、**セッションを自分で開始せずに、スケジュールに従ってプロンプトをリポジトリに対して実行させる**機能です。
+Automations は、**セッションを自分で開始せずに、スケジュールに従ってプロンプトを GitHub または GitLab のリポジトリに対して実行させる**機能です。
+
+公式は「Automations are available on **Pro, Pro+, Pro Max, and Power** plans.」と記載しています。
 
 > この機能は [2026-06-19 のエントリ](../02_update/01_changelog.md#2026-06-19-introducing-automations)で追加されました。
 
@@ -25,14 +27,14 @@ Automations は、**セッションを自分で開始せずに、スケジュー
 
 公式は次のように説明しています。
 
-> You describe the work once, choose when it runs, and Kiro carries it out in **autonomous mode**. The agent reads the code, makes changes, and opens a pull request when there's something to review.
+> You describe the work once, choose when it runs, and Kiro carries it out in **autonomous mode**. The agent reads the code, makes changes, and opens a pull request or merge request when there's something to review.
 
 | 項目 | 内容 |
 |------|------|
 | 記述 | **作業内容を一度書く** |
 | 実行タイミング | **スケジュールで指定** |
 | 実行モード | **Autonomous モード**（[01_agent-modes.md](01_agent-modes.md#autonomous-モード)） |
-| 動作 | コードを読み、変更を加え、**レビューすべきものがあればプルリクエストを作成** |
+| 動作 | コードを読み、変更を加え、**レビューすべきものがあればプルリクエスト（GitHub）またはマージリクエスト（GitLab）を作成** |
 
 ### 公式が挙げている用途
 
@@ -47,9 +49,9 @@ Automations は、**セッションを自分で開始せずに、スケジュー
 
 ## オートメーションの作成
 
-`app.kiro.dev` の左サイドバーから **Automations** を開きます。
+`app.kiro.dev` の左サイドバーから **Automations** を開き、**Create new automation** を選びます。
 
-作成時に設定する項目は次のとおりです。
+作成時に設定する項目は次のとおりです（最後に **Create automation** を選びます）。
 
 | 項目 | 内容 |
 |------|------|
@@ -66,6 +68,20 @@ Automations は、**セッションを自分で開始せずに、スケジュー
 > Be specific about the task and the expected output, since the automation runs without anyone there to clarify.
 
 **明確化してくれる人がいない状態で実行される**ため、タスクと期待される出力を具体的に書く必要があります。
+
+### プロンプトの例（公式）
+
+公式は、プロンプトを「**無人で実行されるタスクへの指示書**」として扱い、目標・従うべきリポジトリの規約・生成すべきものを書くよう案内しています。changelog を保守するオートメーションの例として、次を挙げています。
+
+```text
+Find all pull requests merged to the main branch since yesterday.
+Summarize each PR in one line following the format in CHANGELOG.md.
+Group changes under "Added", "Changed", and "Fixed" headings.
+Open a pull request that appends today's entry to the top of the changelog.
+If no pull requests were merged, do nothing.
+```
+
+公式は**最後の行が重要**だとしています。関連する作業があるときだけ動くよう指示しておくと、**変更のない日に空のプルリクエストが作られるのを避けられます**。
 
 > 対話的なセッションと違い、**エージェントが質問しても答える人がいません。** タスクの書き方は
 > [01_agent-modes.md](01_agent-modes.md#タスクを書くときのコツ公式の5項目) のコツが特に重要になります。
@@ -91,6 +107,21 @@ Automations は、**セッションを自分で開始せずに、スケジュー
 | **Hourly** | **毎時0分**に、`Run every` で指定した間隔で実行（例: 1 時間ごと・6 時間ごと） |
 | **Daily** | **1 日 1 回**、指定した時刻に実行 |
 | **CRON** | **カスタムの cron 式**で完全に制御 |
+
+### ⚠️ カスタムスケジュールは 1 時間に 1 回まで
+
+公式は次のように明記しています。
+
+> Custom schedules can run at most once per hour. Kiro flags a CRON expression that would run more frequently and prevents submission until you correct it.
+
+| 項目 | 内容 |
+|------|------|
+| カスタムスケジュールの実行頻度 | **最大で 1 時間に 1 回** |
+| それより頻繁な cron 式 | **入力中に指摘され、修正するまで送信できません** |
+
+> この制限は公式ページの 2026-08-04 版には無く、2026-10-02 版で追加されています。
+> [2026-09-22 のエントリ](../02_update/01_changelog.md#2026-09-22-reasoning-effort-and-a-grouped-timeline)の Improvements（Sub-hourly schedule validation）と
+> Fixes（拒否されたスケジュールで汎用エラーではなく具体的な理由を表示）にも対応する記述があります。
 
 ### ⚠️ スケジュールは UTC で評価されます
 
@@ -126,7 +157,8 @@ Automations は、**セッションを自分で開始せずに、スケジュー
 |------|------|
 | 名前で検索 | 検索ボックス |
 | 状態で絞り込み | ステータスフィルタ |
-| **Edit** | 名前・プロンプト・リポジトリ・ステータス・スケジュールを変更 |
+| **Edit**（各行の **Actions** メニュー `⋯`） | 名前・プロンプト・リポジトリ・ステータス・スケジュールを変更 |
+| **Delete**（各行の **Actions** メニュー `⋯`） | オートメーションを削除する。**以後の実行はすべて止まります** |
 
 ### 有効・無効
 
@@ -156,15 +188,15 @@ Automations は、**セッションを自分で開始せずに、スケジュー
 > 公式は、これが**オートメーションが期待どおりに動いているかを確認する最良の方法**であり、
 > 期待した変更が出なかった実行のトラブルシュートにも使えるとしています。
 
-### 変更はプルリクエストとして提出されます
+### 変更はプルリクエスト／マージリクエストとして提出されます
 
 公式は次のように明記しています。
 
-> Because the work lands as a pull request rather than a direct commit, nothing reaches your main branch without your review.
+> Because the work lands as a pull request or merge request rather than a direct commit, nothing reaches your main branch without your review.
 
 | 項目 | 内容 |
 |------|------|
-| 提出形式 | **プルリクエスト**（直接コミットではない） |
+| 提出形式 | **プルリクエスト**（GitHub）または**マージリクエスト**（GitLab）。直接コミットではない |
 | 対象 | **影響を受ける各リポジトリ**ごとに作成される |
 | 帰結 | **レビューなしに main ブランチへ届くものはありません** |
 
@@ -183,7 +215,7 @@ Automations は、**セッションを自分で開始せずに、スケジュー
 - [01_agent-modes.md](01_agent-modes.md) — Autonomous モード（オートメーションの実行モード）
 - [04_steering.md](04_steering.md) — Steering（オートメーションの挙動を規約で導く）
 - [05_sandbox.md](05_sandbox.md) — サンドボックス（実行環境）
-- [04_reference/04_limits.md](../04_reference/04_limits.md#オートメーションの上限) — 上限値（スケジュール 5・プロンプト 10,000 文字）
+- [04_reference/04_limits.md](../04_reference/04_limits.md#オートメーションの上限) — 上限値（スケジュール 5・プロンプト 10,000 文字・カスタムスケジュールは 1 時間に 1 回まで）
 - 公式: <https://kiro.dev/docs/web/automations/>
 
 ---

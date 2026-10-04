@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/sandbox/environment-variables/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: September 10, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/environment-variables/>（Page updated: August 4, 2026）・<https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: October 1, 2026）
 
 > ⚠️ **本ページの記法・ポリシーはすべて公式ページの HTML 版から取っています。**
 > 出典の2ページは `.md` 版で **`${...}` が裸の `` `$` `` に潰れます**
@@ -110,7 +110,7 @@ MCP サーバーの設定などから環境変数・シークレットを参照�
 
 ## サンドボックスの環境構成
 
-**出典**: <https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: September 10, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: October 1, 2026）
 
 > このページは **Kiro Web の docs で最も新しい更新**です（2026-09-13 時点）。
 
@@ -157,8 +157,14 @@ MCP サーバーの設定などから環境変数・シークレットを参照�
 
 1. **下記の信頼ポリシー**を持つ IAM ロールを AWS アカウントに作成する
 2. **Settings** → **Agent** タブ
-3. **Sandbox** の下の **IAM Role** を選ぶ
+3. **Sandbox** の下の **AWS Credentials** を選ぶ
 4. 作成した IAM ロールの **ARN** を入力する
+
+> **公式ページの 2026-09-10 版と 2026-10-01 版の間で、手順 3 のメニュー名が `IAM Role` から `AWS Credentials` に変わりました**
+> （[2026-07-01 のエントリ](../02_update/01_changelog.md#2026-07-01-iam-roles-and-authorize-powers-for-third-party-services)の
+> 「Settings > Agent > Sandbox > AWS Credentials」と一致します）。
+> ただし同じ公式ページの節見出しは **IAM Role** のままで、ユーザー ID の取得場所も
+> 「**IAM Role settings drawer**」と書かれています（[下記](#置き換える値)）。**公式ページ内で呼び方が揺れています。**
 
 ### 保存時に検証されます
 
@@ -262,7 +268,7 @@ MCP サーバーの設定などから環境変数・シークレットを参照�
 
 ## 許可ポリシー（IAM ロールに付ける権限）
 
-**出典**: <https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: September 10, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/environment-configuration/>（Page updated: October 1, 2026）
 
 信頼ポリシーは「Kiro Web がロールを引き受けられるようにする」ものです。
 **そのロールが実際に何をできるか**は、ロールに付ける**許可ポリシー**で決めます。

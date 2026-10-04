@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/github/>（Page updated: August 22, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: August 4, 2026）
+**出典**: <https://kiro.dev/docs/web/github/>（Page updated: October 1, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: August 4, 2026）
 
 Kiro Web は **GitHub と GitLab の両方**に対応しています。**1つのセッションで両方を混在**させることもできます。
 
@@ -18,7 +18,7 @@ Kiro Web は **GitHub と GitLab の両方**に対応しています。**1つの
 3. [GitHub — issue からタスクを割り当てる](#github--issue-からタスクを割り当てる)
 4. [GitHub — PR の作成者と authorship](#github--pr-の作成者と-authorship)
 5. [PR フィードバックへの対応](#pr-フィードバックへの対応)
-6. [セッション内で PR を確認する（Reviews パネル）](#セッション内で-pr-を確認するreviews-パネル)
+6. [セッション内で PR を確認する（Summary の Reviews）](#セッション内で-pr-を確認するsummary-の-reviews)
 7. [複数ユーザーで同じリポジトリを使う](#複数ユーザーで同じリポジトリを使う)
 8. [GitLab — 接続とトークン](#gitlab--接続とトークン)
 9. [GitLab — 権限の絞り方](#gitlab--権限の絞り方)
@@ -188,12 +188,19 @@ Kiro Web は **GitHub と GitLab の両方**に対応しています。**1つの
 
 ---
 
-## セッション内で PR を確認する（Reviews パネル）
+## セッション内で PR を確認する（Summary の Reviews）
 
-**出典**: <https://kiro.dev/docs/web/github/>（Page updated: August 22, 2026）
+**出典**: <https://kiro.dev/docs/web/github/>（Page updated: October 1, 2026）
 
-エージェントがセッション内で PR を作ると、**チャットの横に Reviews パネル**が出ます。
-パネルには**各 PR の状態と source branch** が並び、**新しい PR が現れると自動で開きます**。
+エージェントがセッション内で PR を作ると、PR は**セッションの Summary の中の Reviews**に、**Files**・**Artifacts** と並んで表示されます。
+**各 PR の状態と source branch** が並びます。
+
+> ⚠️ **公式ページの 2026-08-22 版と 2026-10-01 版の間で表示場所の説明が変わりました。**
+> 2026-08-22 版は「a **Reviews panel** becomes available alongside the chat … The panel opens automatically when a new pull request appears」
+> （チャットの横に Reviews パネルが出て、新しい PR が現れると自動で開く）でした。
+> 2026-10-01 版は「they appear under **Reviews in the session's Summary**, alongside Files and Artifacts」で、
+> **自動で開くという記述はありません**。[2026-09-22 のエントリ](../02_update/01_changelog.md#2026-09-22-reasoning-effort-and-a-grouped-timeline)の
+> Improvements（Reviews in Summary）に対応します。Summary での操作は [01_agent-modes.md](01_agent-modes.md#reviewssummary-の中) を参照してください。
 
 GitHub の PR を選ぶと、**Kiro Web を離れずに**中身を確認できます。
 
@@ -214,7 +221,7 @@ GitHub の PR を選ぶと、**Kiro Web を離れずに**中身を確認でき�
 
 ### GitLab のマージリクエストは一覧までです
 
-| 対象 | Reviews パネルでの扱い |
+| 対象 | Reviews での扱い |
 |------|-------------------|
 | **GitHub の PR** | 一覧に出る＋**セッション内で詳細を開ける** |
 | **GitLab の MR** | 一覧に出るが、**詳細はセッション内で開かない**（**GitLab へリンクアウトする**） |
@@ -330,11 +337,11 @@ GitHub の PR を選ぶと、**Kiro Web を離れずに**中身を確認でき�
 - **アクセスの取り消し**は、GitLab でパーソナルアクセストークンを削除するか、**Settings の Agent タブから GitLab を切断**する
 
 > 出典の [03_deployment/01_setup.md](../03_deployment/01_setup.md#gitlab-を接続する) は
-> <https://kiro.dev/docs/web/setup/>（Page updated: September 2, 2026）に基づき「`api` スコープ」を
+> <https://kiro.dev/docs/web/setup/>（Page updated: October 2, 2026）に基づき「`api` スコープ」を
 > 案内していますが、<https://kiro.dev/docs/web/gitlab/>（Page updated: August 4, 2026）は
 > fine-grained token を推奨しています。
 > **`setup` の更新日の方が新しいものの、`api` スコープの案内文は
-> 2026-08-14 時点と 2026-09-02 時点で同一（`The api scope gives Kiro full access; see the …`）で、
+> 2026-08-14 時点・2026-09-02 時点・2026-10-02 時点で同一（`The api scope gives Kiro full access; see the …`）で、
 > 内容は変わっていません。** そのため依然 fine-grained token の推奨を優先してください。
 > 新規に作成する場合は fine-grained token を検討してください。
 

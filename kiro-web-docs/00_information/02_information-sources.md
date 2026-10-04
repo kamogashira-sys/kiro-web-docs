@@ -4,7 +4,8 @@
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
 **出典**: <https://kiro.dev/docs/web/>・<https://kiro.dev/changelog/web/>
-**実測日**: 2026-09-13（本ページの全数値はこの日に取得した一次情報の実測値。2026-08-16・2026-08-01 時点の値は変化の記録として残している）
+**実測日**: 2026-09-13（本ページの数値はこの日に取得した一次情報の実測値。2026-08-16・2026-08-01 時点の値は変化の記録として残している）
+**再実測**: 2026-10-04（changelog の件数・折りたたみ項目・日付表記、フィードの `Web` 件数、docs の更新日、公式ページ間の食い違い。値を書き換えた箇所には 2026-10-04 と明記。`.md` 版の壊れ方（落とし穴1）は 2026-09-13 実測のまま）
 
 公式サイトから Kiro Web の情報を読むとき、**同じページでも読み方によって内容が変わってしまう**場所があります。本ページはその落とし穴と、本サイトがどう対処しているかをまとめています。
 
@@ -28,11 +29,11 @@
 
 | 順位 | 情報源 | 用途 | 制約 |
 |-----|-------|------|------|
-| **1** | `changelog/web/<スラッグ>/` の各エントリ | 更新内容・日付 | **折りたたみ節の中身は HTML に無い**（[落とし穴2](#落とし穴2-折りたたまれた項目は-html-に存在しない)）。`.md` 版は無い（7/7 が 404） |
+| **1** | `changelog/web/<スラッグ>/` の各エントリ | 更新内容・日付 | **折りたたみ節の中身は HTML に無い**（[落とし穴2](#落とし穴2-折りたたまれた項目は-html-に存在しない)）。`.md` 版は無い（2026-09-13 に 19/19、2026-10-04 に追加の 2 エントリも 404） |
 | **2** | 公式ドキュメント（**HTML を正**） | 機能仕様・設定・値 | `.md` 版に既知の欠落あり（[落とし穴1](#落とし穴1-md-版は値が壊れていることがある)） |
 | **3** | `llms.txt` | **ページ全量と製品区分の判定のみ** | 字下げをページ階層の根拠にしない |
 | **4** | `sitemap.xml` | ページ・エントリ全量の機械検証 | `page/N` はエントリではない |
-| **5** | フィード（Atom / RSS） | **補助のみ** | `changelog/feed.atom`・`changelog/feed.rss` の **2 本**。どちらも**直近25件中 7 件が Web**（2026-09-13 実測）。**系列別フィードは 404**。25件のウィンドウしか無く、Web 全 19 エントリのうち **7 件しか入らない**ため**取りこぼす**（[詳細](01_official-site-structure.md#フィードは-kiro-web-を配信対象にしています2026-09-13-実測)） |
+| **5** | フィード（Atom / RSS） | **補助のみ** | `changelog/feed.atom`・`changelog/feed.rss` の **2 本**。どちらも**直近25件中 4 件が Web**（2026-10-04 実測。2026-09-13 は 7 件）。**系列別フィードは 404**。25件のウィンドウしか無く、Web 全 21 エントリのうち **4 件しか入らない**ため**取りこぼす**（[詳細](01_official-site-structure.md#フィードは-kiro-web-を配信対象にしています2026-09-13-実測2026-10-04-再実測)） |
 | **6** | Kiro Web 実機（`app.kiro.dev`） | 公式記述の曖昧さの解消 | 有料サブスクリプションが必要。**本サイトは実機確認を行っていません** |
 | **7** | 公式ブログ（3本） | 背景の補足 | 本文の主たる根拠にしない |
 
@@ -116,7 +117,7 @@
 | 確認方法 | 結果 |
 |---------|------|
 | 取得した HTML の記事部分から箇条書き（`<li>`）を数える | **0 件** |
-| ページに埋め込まれたデータ（React Server Components のペイロード）から取る | **21 件** |
+| ページに埋め込まれたデータ（React Server Components のペイロード）から取る | **41 件**（2026-10-04 実測。2026-09-13 は 21 件） |
 
 該当するエントリと項目数:
 
@@ -124,10 +125,11 @@
 |---------|-------------|-------|---|
 | [2026-05-19 Session Stability, Stop Control, and Mobile Layout Fixes](../02_update/01_changelog.md#2026-05-19-session-stability-stop-control-and-mobile-layout-fixes) | 5 | 6 | 11 |
 | [2026-06-02 Start Without a Repo, Switch Modes Anytime](../02_update/01_changelog.md#2026-06-02-start-without-a-repo-switch-modes-anytime) | 3 | 7 | 10 |
-| **合計** | **8** | **13** | **21** |
+| [2026-09-22 Reasoning Effort and a Grouped Timeline](../02_update/01_changelog.md#2026-09-22-reasoning-effort-and-a-grouped-timeline) | 8 | 12 | 20 |
+| **合計** | **16** | **25** | **41** |
 
-> **公式が公開している 21 項目が、素直に読むと丸ごと抜け落ちます。**
-> 本サイトはこの21項目を[更新履歴](../02_update/01_changelog.md)に**全量掲載**し、
+> **公式が公開している 41 項目が、素直に読むと丸ごと抜け落ちます。**
+> 本サイトはこの41項目を[更新履歴](../02_update/01_changelog.md)に**全量掲載**し、
 > 項目数が公式と一致することを機械検証しています。
 
 サンドボックスのディスク容量（**128GB**）のように、**リファレンスに載せるべき値がこの折りたたみの中にしかない**ケースもあります。
@@ -138,13 +140,13 @@
 
 同じ日付が、見る場所によって違う形で書かれています。
 
-| 場所 | 表記 | 例 | 実測（2026-09-13） |
+| 場所 | 表記 | 例 | 実測（2026-10-04） |
 |------|------|---|------|
-| changelog の索引ページ（1ページ目・2ページ目） | **略記** | `Aug 11, 2026` | **16 種**（1ページ目 9 種＋2ページ目 7 種）。月名フルは **0 件** |
-| changelog の各エントリページ | **月名フル** | `July 1, 2026` | **19/19 件**（略記は **0 件**） |
+| changelog の索引ページ（1〜3ページ目） | **略記** | `Aug 11, 2026` | **20 種**（1ページ目 9 種＋2ページ目 10 種＋3ページ目 1 種）。月名フルは **0 件**（2026-09-13 は 2 ページで 16 種） |
+| changelog の各エントリページ | **月名フル** | `July 1, 2026` | **21/21 件**（略記は **0 件**。2026-09-13 は 19/19 件） |
 | docs の各ページ | 月名フル | `Page updated: September 2, 2026` | **17/18 件**（`web/memory` のみ `Page updated` が無い） |
 
-**⚠️ 5月だけは略記と月名フルが同じ形**（`May` = `May`）です。5月のエントリだけを見ても、どちらの表記なのか判別できません（**2026-09-13 実測でも索引2ページ目に `May` の2件が該当**）。
+**⚠️ 5月だけは略記と月名フルが同じ形**（`May` = `May`）です。5月のエントリだけを見ても、どちらの表記なのか判別できません（**2026-10-04 実測でも索引2ページ目に `May` の2件が該当**）。
 
 本サイトは**すべて ISO 形式（`YYYY-MM-DD`）に統一**しています。**タイムゾーンの変換は行いません**（公式の表示日をそのまま日付として扱います）。
 
@@ -176,24 +178,41 @@
 
 **公式ドキュメントの更新は、必ずしも changelog に載りません。**
 
-2026-09-13 時点で、**最新の changelog エントリ（2026-09-01）より後に更新された docs ページが 10 件**あります（2026-08-16 時点は11件・2026-08-01 時点は4件）。
+2026-10-04 時点で、**最新の changelog エントリ（2026-09-30）より後に更新された docs ページが 16 件**あります（Web 12 件＋移転先・共通ページ 4 件。2026-09-13 時点は10件・2026-08-16 時点は11件・2026-08-01 時点は4件）。
 
-| ページ | 更新日（2026-09-13 実測） | 本サイトの収録 |
+| ページ | 更新日（2026-10-04 実測） | 本サイトの収録 |
 |-------|-------------------------|--------------|
-| `web/`（トップ） | 2026-09-02 | 収録（複数ページの出典） |
-| `web/setup` | 2026-09-02 | 収録 |
-| `web/identity-center` | 2026-09-02 | 収録 |
-| `web/using-the-agent` | 2026-09-02 | 収録 |
-| `web/autonomous-mode` | 2026-09-02 | 収録 |
-| `web/sandbox/mcp` | 2026-09-02 | 収録 |
-| `docs/steering`（移転先） | 2026-09-02 | 収録 |
-| `docs/cloud-sessions`（移転先） | 2026-09-02 | 収録 |
-| `web/sandbox/environment-configuration` | **2026-09-10** | 収録（**docs で最も新しい更新**） |
-| `web/cloud-configuration` | 2026-09-02 | 収録（**2026-09-13 に収録**・[後述](#公式ページと本サイトの対応)） |
+| `web/`（トップ） | **2026-10-02** | 収録（複数ページの出典） |
+| `web/setup` | **2026-10-02** | 収録 |
+| `web/using-the-agent` | **2026-10-02** | 収録 |
+| `web/using-the-agent/creating-tasks` | **2026-10-02** | 収録 |
+| `web/autonomous-mode` | **2026-10-02** | 収録 |
+| `web/automations` | **2026-10-02** | 収録 |
+| `web/sandbox/internet-access` | **2026-10-02** | 収録 |
+| `web/identity-center` | 2026-10-01 | 収録 |
+| `web/github` | 2026-10-01 | 収録 |
+| `web/sandbox` | 2026-10-01 | 収録 |
+| `web/sandbox/environment-configuration` | 2026-10-01 | 収録 |
+| `web/sandbox/mcp` | 2026-10-01 | 収録 |
+| `docs/steering`（移転先） | **2026-10-02** | 収録 |
+| `docs/specs`（移転先） | **2026-10-02** | 収録 |
+| `docs/cloud-sessions`（移転先） | 2026-10-01 | 収録 |
+| `docs/privacy-and-security/firewalls`（移転先） | 2026-10-01 | 収録 |
+
+最新エントリと同じ 2026-09-30 に更新されたページも 3 件あります（`web/cloud-configuration`・`web/using-the-agent/chatting`・`docs/privacy-and-security/data-protection`）。
 
 → **「最新の changelog エントリの日付」だけを見ていると、仕様変更を見落とします。**
 本サイトは各ページに**公式の出典日**（`Page updated` の日付）を記載し、docs 側の更新も監視対象にしています。
-`check-freshness.py` の S4（docs 最新更新日）は実測値（**2026-09-10**）に同期しています。
+`check-freshness.py` の S4（docs 最新更新日）は実測値（**2026-10-02**）に同期しています。
+
+> **2026-10-04 の実測では、2026-09-13 との比較で Web 18 ページのうち 14 ページ、移転先・共通ページ 5 ページのすべてで本文が変わっていました。**
+> 内容の変化には changelog の 2 エントリ（2026-09-22・2026-09-30）に対応するもの（会話のタイムライン・Reviews・再接続・Workflows）と、
+> **changelog に対応するエントリが無いもの**（サンドボックスの 5 段階目・Powers の管理場所・`AWS Credentials` のメニュー名・
+> Autonomous モードの Clarification 段階の削除・利用者区分別のデータ保存・AWS GovCloud (US) の表など）の両方がありました。
+
+#### 2026-09-13 時点の記録
+
+2026-09-13 時点では、**最新の changelog エントリ（2026-09-01）より後に更新された docs ページが 10 件**ありました（S4 は **2026-09-10**・`web/sandbox/environment-configuration`）。
 
 > **2026-09-13 の実測で、本サイトに未反映の内容変更が 6 ページ分見つかりました。**
 > セッションのグループ化と自動命名（`web/using-the-agent`）・最近使ったリポジトリ（`web/setup`）・
@@ -218,7 +237,7 @@
 | ページ | 更新日 | 公式の節（h2 見出し） | 本サイトの解説 |
 |-------|-------|-----------------|------------|
 | `web/memory` | **取得できず**（JSON-LD の `dateModified` が無い） | How Kiro builds memory / Memory vs. steering | [01_features/08_memory.md](../01_features/08_memory.md) |
-| `web/cloud-configuration`（Configuration Sync） | 2026-09-02 | What you can upload / Upload and review / How Powers sync / Apply cloud configuration to local sessions / Limits / After uploading | [01_features/09_configuration-sync.md](../01_features/09_configuration-sync.md) |
+| `web/cloud-configuration`（Configuration Sync） | 2026-09-30 | What you can upload / Upload and review / How Powers sync / Apply cloud configuration to local sessions / Limits / After uploading | [01_features/09_configuration-sync.md](../01_features/09_configuration-sync.md) |
 | `web/using-the-agent/file-explorer` | 2026-08-22 | Open files from the conversation / Browse the workspace / View and download files / Limits | [01_features/10_file-explorer.md](../01_features/10_file-explorer.md) |
 
 > ⚠️ **`web/memory` だけは出典日を書けません。**
@@ -235,14 +254,14 @@
 
 ## 落とし穴5: 公式ページ間で記述が食い違うことがある
 
-**Kiro Web に無料枠（Free Tier）があるかどうか**について、公式ページ間で記述が食い違っています（2026-09-13 時点・**未解決**）。
+**Kiro Web に無料枠（Free Tier）があるかどうか**について、公式ページ間で記述が食い違っています（2026-10-04 時点・**未解決**）。
 
 | 出典 | 記述の要旨 |
 |------|-----------|
-| `docs/web/`（`Page updated`: 2026-09-02） | 前提条件の 1 項目目が **`A Pro, Pro+, Pro Max, or Power subscription`**。本文に **`Kiro Web is available on Pro, Pro+, Pro Max, and Power plans.`** |
-| `docs/web/setup/`（`Page updated`: 2026-09-02） | Kiro Web の利用には **Pro 以上**のサブスクリプションが必要（**`Ensure you have a paid Kiro subscription (Pro or higher). Kiro Web is not available on the free tier.`**） |
-| `docs/cloud-sessions/`（`Page updated`: 2026-09-02・移転先） | 前提条件は **Pro / Pro+ / Pro Max / Power** のいずれか |
-| `docs/privacy-and-security/data-protection/`（`Page updated`: 2026-08-04・移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: 2026-07-14） | **Free Tier ユーザー**のデータ保持期間について記述がある（＝ Free Tier の存在を前提にしている） |
+| `docs/web/`（`Page updated`: 2026-10-02） | 前提条件の 1 項目目が **`A Pro, Pro+, Pro Max, or Power subscription`**。本文に **`Kiro Web is available on Pro, Pro+, Pro Max, and Power plans.`** |
+| `docs/web/setup/`（`Page updated`: 2026-10-02） | Kiro Web の利用には **Pro 以上**のサブスクリプションが必要（**`Ensure you have a paid Kiro subscription (Pro or higher). Kiro Web is not available on the free tier.`**） |
+| `docs/cloud-sessions/`（`Page updated`: 2026-10-01・移転先） | 前提条件は **Pro / Pro+ / Pro Max / Power** のいずれか |
+| `docs/privacy-and-security/data-protection/`（`Page updated`: 2026-09-30・移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: 2026-07-14） | **Free Tier ユーザー**のデータ保持期間について記述がある（＝ Free Tier の存在を前提にしている）。2026-09-30 版では「Storage by user type」に **Kiro Free Tier user** が区分として明記された |
 
 > ⚠️ **`docs/web/`（トップ）の前提条件は 2026-09-02 に表現が変わりました。**
 > 2026-08-14 時点は **`A paid Kiro subscription (Pro or higher)`** でしたが、
@@ -251,7 +270,7 @@
 > **表現が変わった理由は公式に説明がないため未確認**です。食い違いそのものは**継続**しています。
 >
 > 「`Kiro Web is not available on the free tier`」という**明示的な否定文**は、
-> 2026-09-13 時点で `docs/web/setup/` にのみあります（トップページには 2026-08-14 時点でも無い）。
+> 2026-10-04 時点でも `docs/web/setup/` にのみあります（トップページには 2026-08-14 時点でも無い）。
 
 ### 本サイトの扱い
 
@@ -272,7 +291,7 @@
 
 | 検証 | 内容 |
 |------|------|
-| 更新履歴の網羅性 | 公式の全エントリが載っているか／日付・タイトルが一致するか／**折りたたみ21項目の数が一致するか**（宣言した件数と実際の箇条書きの数の両方） |
+| 更新履歴の網羅性 | 公式の全エントリが載っているか／日付・タイトルが一致するか／**折りたたみ41項目の数が一致するか**（宣言した件数と実際の箇条書きの数の両方） |
 | リンク | 内部リンクとアンカーの実在／公式 URL が末尾スラッシュ付きか |
 | 構成 | 各ページに「Kiro Web 版の仕様」の明示と**公式の出典 URL** があるか |
 | 公開範囲 | 公開してはいけないファイルが混ざっていないか |
@@ -284,7 +303,7 @@
 ## 🔗 関連ページ
 
 - [01_official-site-structure.md](01_official-site-structure.md) — 公式サイトの構造マップ
-- [02_update/01_changelog.md](../02_update/01_changelog.md) — 更新履歴（折りたたみ21項目も全量掲載）
+- [02_update/01_changelog.md](../02_update/01_changelog.md) — 更新履歴（折りたたみ41項目も全量掲載）
 - [04_reference](../04_reference/) — HTML から取った値の一覧
 - 公式ドキュメント: <https://kiro.dev/docs/web/>
 

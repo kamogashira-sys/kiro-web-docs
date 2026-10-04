@@ -3,10 +3,11 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: August 4, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）
+**出典**: <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: September 30, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）
 
 > このページは2026-08-04に更新され、2026-08-12以前の公式サイト再構成で
-> `docs/privacy-and-security/data-protection/` へ移転しました。
+> `docs/privacy-and-security/data-protection/` へ移転しました。その後 2026-09-30 にも更新されています
+> （利用者区分別の保存・運用シグナル・不正利用検知の節が書き換わりました）。
 
 ---
 
@@ -14,12 +15,13 @@
 
 1. [責任共有モデル](#責任共有モデル)
 2. [データの保存先](#データの保存先)
-3. [リージョン間推論（cross-region inference）](#リージョン間推論cross-region-inference)
-4. [暗号化](#暗号化)
-5. [サービス改善への利用](#サービス改善への利用)
-6. [データ共有をオプトアウトする](#データ共有をオプトアウトする)
-7. [不正利用の検知](#不正利用の検知)
-8. [⚠️ Free Tier に関する公式ページ間の食い違い](#free-tier-conflict)
+3. [運用シグナル](#運用シグナル)
+4. [リージョン間推論（cross-region inference）](#リージョン間推論cross-region-inference)
+5. [暗号化](#暗号化)
+6. [サービス改善への利用](#サービス改善への利用)
+7. [データ共有をオプトアウトする](#データ共有をオプトアウトする)
+8. [不正利用の検知](#不正利用の検知)
+9. [⚠️ Free Tier に関する公式ページ間の食い違い](#free-tier-conflict)
 
 ---
 
@@ -38,17 +40,33 @@
 
 ### 何が保存されるか
 
-公式は、Kiro が次のものを保存すると説明しています（2026-08-04 更新で IDE/CLI/Web 共通の記述に変更）。
+公式は、Kiro が次のものを**保存する場合がある**と説明しています（2026-08-04 更新で IDE/CLI/Web 共通の記述に変更）。
 
 - 質問・応答（questions, responses）
 - コード等の追加コンテキスト（additional context such as code and metadata）
 - 不正利用検知のため、一部の場合に上記を保存（[不正利用の検知](#不正利用の検知)）
 
+公式は続けて「What Kiro stores depends on the features you use and whether you're a Free Tier user, an individual subscriber, or an enterprise user.」と書いており、**何が保存されるかは使う機能と利用者区分によって変わる**としています。
+
 > ⚠️ **記述が「Kiro Web が保存する」から「Kiro が保存する」に変わりました。**
 > 旧記述（task descriptions・chat messages・code changes）から
-> 新記述（questions・responses・additional context）に文言が変わっていますが、
-> **実質的に指している内容は同種**と判断できます。公式による説明変更の意図は不明のため、
-> 変更があったという事実のみを記載します。
+> 新記述（questions・responses・additional context）に文言が変わっています。
+> 公式は変更の意図を説明していないため、**変更があったという事実のみ**を記載します。
+>
+> さらに 2026-09-30 版では「Kiro stores」が「Kiro **may** store」に変わりました。
+
+### 利用者区分ごとの保存（2026-09-30 版で新設）
+
+公式は「Storage by user type」として3区分を挙げています。
+
+| 区分 | 公式の記述の要旨 |
+|------|----------------|
+| **Kiro Free Tier user** | オプトアウトしない限り、コンテンツが**サービス改善に使われる場合がある**。これとは別に、**追加の不正利用検知のため入力を最長 60 日保存する場合がある**。モデル固有の保持要件が適用される場合がある |
+| **Kiro individual subscriber**（有料・ソーシャルログインまたは AWS Builder ID） | オプトアウトしない限り、コンテンツが**サービス改善に使われる場合がある**。不正利用検知のためのモデル固有の保持要件が適用される場合がある |
+| **Kiro enterprise user** | コンテンツは**サービス改善に使われない**。IDE・CLI の利用者についてプロンプトログや日次利用レポートを有効にした場合、そのデータは**顧客が選んだ自分の AWS アカウントの Amazon S3 バケット**に保存される。モデル固有の保持要件が適用される場合がある |
+
+> 「Free Tier user」が区分として明記されています。Kiro Web の Free Tier については
+> [公式ページ間の食い違い](#free-tier-conflict)が続いています。
 
 ### 保存されるリージョン
 
@@ -63,6 +81,19 @@
 > **Kiro Web に enterprise 利用者区分が存在するかは [02_identity-center.md](02_identity-center.md) の
 > 対象（AWS Identity Center 利用）と関連する可能性がありますが、この記述が Kiro Web の
 > Identity Center 利用者にも適用されるかは公式から判別できないため未確認です。**
+
+---
+
+## 運用シグナル
+
+**2026-09-30 版で新設された節です。** 公式は次のように説明しています。
+
+> We may collect operational signals regarding your use of Kiro, such as error logs and metrics based on natural language instructions, feedback, and responses to provide and maintain the service and to assess service performance.
+
+| 項目 | 内容 |
+|------|------|
+| 収集されうるもの | **エラーログ**、自然言語の指示・フィードバック・応答に基づく**メトリクス** |
+| 目的（公式の記述） | サービスの提供と維持、サービス性能の評価 |
 
 ---
 
@@ -146,8 +177,8 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 > We may use certain content from Kiro Free Tier and Kiro individual subscribers for service improvement.
 
 > ⚠️ **2026-08-04 の更新で「Kiro Web Free Tier」から「Kiro Free Tier」に文言が変わりました**
-> （「Web」が削除）。これも本ページが IDE/CLI/Web 共通の記述に変わったことによる変化と考えられますが、
-> Kiro Web の Free Tier 利用者を指す実質的な内容は変わっていないと判断できます。
+> （「Web」が削除）。本ページが IDE/CLI/Web 共通の記述に変わった時期と同じ更新ですが、
+> 文言を変えた理由は公式に書かれていないため**未確認**です。
 
 | 利用者区分 | サービス改善への利用 |
 |-----------|------------------|
@@ -202,18 +233,32 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 
 ## 不正利用の検知
 
-すべての Kiro 利用者・全モデルに適用される Amazon Bedrock の不正利用検知に**加えて**、公式は次を挙げています。
+公式は 2026-09-30 版で、この節を **Amazon Bedrock の不正利用検知**と **Free Tier 利用者向けの追加の検知**の2段に書き分けています。
+
+### Amazon Bedrock の不正利用検知（全利用者・全モデル）
+
+公式は、Amazon Bedrock で実装された不正利用検知が**すべての Kiro 利用者・全モデル**に適用され、次を含むと説明しています。
+
+| 対象 | 保持期間・内容 | 目的 |
+|------|------------|------|
+| **すべての Kiro 利用者・全モデル** | 自動化された不正利用検知の仕組みを使う場合がある | 自社またはサードパーティのモデル提供者の規約・利用ポリシーに違反する活動の検知 |
+| **OpenAI GPT モデル** | 分類器がフラグを立てたトラフィックを**最長 30 日**（法令で別途求められる場合を除く） | 自動オフライン不正利用検知 |
+| **Anthropic Claude Fable 5.1 (Preview)** | **すべてのトラフィック**を**最長 30 日**（法令で別途求められる場合を除く）。分類器がフラグを立てたトラフィックは **AWS による人によるレビューの対象になりうる** | 自動オフライン不正利用検知 |
+
+### Free Tier 利用者のみの追加の検知
 
 | 対象 | 保持期間 | 目的 |
 |------|---------|------|
-| **Kiro Free Tier 利用者のみ** | 入力を**最長 60 日** | 規約違反の活動の検知と、検知能力の向上 |
-| **OpenAI GPT モデル** | 分類器がフラグを立てたトラフィックを**最長 30 日** | 自動オフライン不正利用検知 |
+| **Kiro Free Tier 利用者のみ** | 入力を**最長 60 日**（法令で別途求められる場合を除く） | 規約違反の活動の検知と、検知能力の向上 |
 
 ### 保存内容の扱い
 
 - Free Tier 利用者の入力は、**Kiro の基盤となる生成 AI モデルの改善には使われません**
 - ただし**不正利用検知用の分類器ツールの開発・改善には使われる場合があります**
-- フラグが立ったトラフィックは、**推論が処理されたリージョンに保存**されます
+
+> ⚠️ **2026-08-04 版にあった「Retained traffic is stored in the region where your inference was processed.」
+> （保持したトラフィックは推論が処理されたリージョンに保存される）という一文は、2026-09-30 版にはありません。**
+> 一文が削除された理由と、保存リージョンの扱いが変わったかどうかは公式に書かれていないため**未確認**です。
 
 ### 違反時の措置
 
@@ -224,15 +269,15 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 <a id="free-tier-conflict"></a>
 ## ⚠️ Free Tier に関する公式ページ間の食い違い
 
-**2026-08-01 時点で未解決**でした。**2026-09-13 時点でも食い違いは継続しています。**
+**2026-08-01 時点で未解決**でした。**2026-10-04 時点でも食い違いは継続しています。**
 
 | 出典 | Page updated | 記述の要旨 |
 |------|-------------|-----------|
-| `docs/web/`（トップ） | 2026-09-02 | 前提条件の 1 項目目が **「A Pro, Pro+, Pro Max, or Power subscription」**。本文に **「Kiro Web is available on Pro, Pro+, Pro Max, and Power plans.」** |
-| `docs/web/setup/` | 2026-09-02 | **「Ensure you have a paid Kiro subscription (Pro or higher). Kiro Web is not available on the free tier.」** |
-| **本ページ**（`docs/privacy-and-security/data-protection/`・移転先） | 2026-08-04 | **「Kiro Web Free Tier」**という区分が繰り返し登場し、Free Tier 利用者のデータ保持（60 日）・オプトアウト・不正利用検知が記述されている |
+| `docs/web/`（トップ） | 2026-10-02 | 前提条件が **「A Pro, Pro+, Pro Max, or Power subscription」**。本文に **「Kiro Web is available on Pro, Pro+, Pro Max, and Power plans.」** |
+| `docs/web/setup/` | 2026-10-02 | **「Ensure you have a paid Kiro subscription (Pro or higher). Kiro Web is not available on the free tier.」** |
+| **本ページ**（`docs/privacy-and-security/data-protection/`・移転先） | 2026-09-30 | **「Kiro Free Tier user」**が利用者区分として明記され（Storage by user type）、Free Tier 利用者のデータ保持（60 日）・オプトアウト・不正利用検知が記述されている。**Kiro Web を Free Tier の対象から除くという記述はない** |
 
-> **更新日は `docs/web/`・`docs/web/setup/`（2026-09-02）の方が新しい**ですが、
+> **更新日は `docs/web/`・`docs/web/setup/`（2026-10-02）の方が新しい**ですが、
 > 本サイトは更新日を根拠に一方を否定しません（後述）。
 
 ### 本サイトの扱い
