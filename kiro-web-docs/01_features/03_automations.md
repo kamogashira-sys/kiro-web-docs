@@ -1,22 +1,29 @@
-# Automations（定期実行）
+# Schedule（スケジュール実行タスク）
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/automations/>（Page updated: October 2, 2026）
+**出典**: <https://kiro.dev/docs/web/automations/>（Page updated: October 23, 2026）
 
-Automations は、**セッションを自分で開始せずに、スケジュールに従ってプロンプトを GitHub または GitLab のリポジトリに対して実行させる**機能です。
+Schedule（スケジュール実行タスク）は、**セッションを自分で開始せずに、スケジュールに従ってプロンプトを GitHub または GitLab のリポジトリに対して実行させる**機能です。
 
-公式は「Automations are available on **Pro, Pro+, Pro Max, and Power** plans.」と記載しています。
+公式は「Scheduled tasks are available on **Pro, Pro+, Pro Max, and Power** plans.」と記載しています。
 
 > この機能は [2026-06-19 のエントリ](../02_update/01_changelog.md#2026-06-19-introducing-automations)で追加されました。
+
+> ⚠️ **名称について（公式の表記の違い）**: 上記の公式 docs <https://kiro.dev/docs/web/automations/>（Page updated: October 23, 2026）は、この機能を **Schedule**（本文は **Scheduled tasks**）と呼んでいます。
+> URL は従来どおり `docs/web/automations/` です。
+> 一方、2026-06-19 の changelog エントリは **Automations** と書いており、
+> [2026-10-12 のエントリ](../02_update/01_changelog.md#2026-10-12-model-fallback-and-workflow-updates)の Fixes（Upgrade plan ボタンの修正）も、サブスクリプションが必要なページの例として **Automations** と書いています。
+> 名称が変わった理由は公式に記載がなく**未確認**です。
+> 本サイトのファイル名（`03_automations.md`）は、相互リンクを保つため変えていません。
 
 ---
 
 ## 📑 このページの内容
 
 1. [何ができるか](#何ができるか)
-2. [オートメーションの作成](#オートメーションの作成)
+2. [スケジュールタスクの作成](#スケジュールタスクの作成)
 3. [スケジュール](#スケジュール)
 4. [一覧と操作](#一覧と操作)
 5. [結果の確認](#結果の確認)
@@ -47,17 +54,17 @@ Automations は、**セッションを自分で開始せずに、スケジュー
 
 ---
 
-## オートメーションの作成
+## スケジュールタスクの作成
 
-`app.kiro.dev` の左サイドバーから **Automations** を開き、**Create new automation** を選びます。
+`app.kiro.dev` の左サイドバーから **Schedule** を開き、**Create scheduled task** を選びます。
 
-作成時に設定する項目は次のとおりです（最後に **Create automation** を選びます）。
+作成時に設定する項目は次のとおりです（最後に **Create scheduled task** を選びます）。
 
 | 項目 | 内容 |
 |------|------|
-| **名前** | オートメーションの名前 |
+| **Task name** | タスクの名前（一覧で見分けるための名前） |
 | **Status** | **Enabled** のままにするとスケジュールで実行される。無効にすると実行せずに保存できる |
-| **Prompt** | オートメーションが行うべきことを記述する。**最大 10,000 文字** |
+| **Prompt** | タスクが行うべきことを記述する。**最大 10,000 文字** |
 | **リポジトリ** | 対象のリポジトリ（1つ以上） |
 | **Schedules** | 実行タイミング（1つ以上・**最大 5 つ**） |
 
@@ -65,13 +72,13 @@ Automations は、**セッションを自分で開始せずに、スケジュー
 
 公式は次のように注意しています。
 
-> Be specific about the task and the expected output, since the automation runs without anyone there to clarify.
+> Be specific about the task and the expected output, since the task runs without anyone there to clarify.
 
 **明確化してくれる人がいない状態で実行される**ため、タスクと期待される出力を具体的に書く必要があります。
 
 ### プロンプトの例（公式）
 
-公式は、プロンプトを「**無人で実行されるタスクへの指示書**」として扱い、目標・従うべきリポジトリの規約・生成すべきものを書くよう案内しています。changelog を保守するオートメーションの例として、次を挙げています。
+公式は、プロンプトを「**無人で実行されるタスクへの指示書**」として扱い、目標・従うべきリポジトリの規約・生成すべきものを書くよう案内しています。changelog を保守するスケジュールタスクの例として、次を挙げています。
 
 ```text
 Find all pull requests merged to the main branch since yesterday.
@@ -91,11 +98,11 @@ If no pull requests were merged, do nothing.
 
 ## スケジュール
 
-各オートメーションは**1つ以上のスケジュール**で動きます。
+各タスクは**1つ以上のスケジュール**で動きます。
 
 | 項目 | 値 |
 |------|---|
-| **1オートメーションあたりのスケジュール数** | **最大 5**（公式本文では綴りで `five`） |
+| **1タスクあたりのスケジュール数** | **最大 5**（公式本文では綴りで `five`） |
 | 各スケジュールの間隔 | **それぞれ別の間隔を設定できます** |
 
 追加は **+ Add schedule** です。
@@ -119,7 +126,7 @@ If no pull requests were merged, do nothing.
 | カスタムスケジュールの実行頻度 | **最大で 1 時間に 1 回** |
 | それより頻繁な cron 式 | **入力中に指摘され、修正するまで送信できません** |
 
-> この制限は公式ページの 2026-08-04 版には無く、2026-10-02 版で追加されています。
+> この制限は公式ページの 2026-08-04 版には無く、2026-10-02 版で追加されています（現行は <https://kiro.dev/docs/web/automations/>（Page updated: October 23, 2026））。
 > [2026-09-22 のエントリ](../02_update/01_changelog.md#2026-09-22-reasoning-effort-and-a-grouped-timeline)の Improvements（Sub-hourly schedule validation）と
 > Fixes（拒否されたスケジュールで汎用エラーではなく具体的な理由を表示）にも対応する記述があります。
 
@@ -127,7 +134,7 @@ If no pull requests were merged, do nothing.
 
 公式は次のように明記しています。
 
-> Schedules are evaluated in **UTC**. In the automations list, a schedule's next run is shown in your local time alongside its UTC equivalent, for example At 9:00 AM (1:00 PM UTC).
+> Schedules are evaluated in **UTC**. In the scheduled tasks list, a schedule's next run is shown in your local time alongside its UTC equivalent, for example At 9:00 AM (1:00 PM UTC).
 
 | 項目 | 内容 |
 |------|------|
@@ -143,11 +150,11 @@ If no pull requests were merged, do nothing.
 
 ## 一覧と操作
 
-**Automations** の一覧では、各行に次が表示されます。
+**Schedule** の一覧では、各行に次が表示されます。
 
 | 表示項目 |
 |--------|
-| オートメーションの名前 |
+| タスクの名前 |
 | プロンプトのプレビュー |
 | 接続されているリポジトリ |
 | スケジュール |
@@ -158,7 +165,7 @@ If no pull requests were merged, do nothing.
 | 名前で検索 | 検索ボックス |
 | 状態で絞り込み | ステータスフィルタ |
 | **Edit**（各行の **Actions** メニュー `⋯`） | 名前・プロンプト・リポジトリ・ステータス・スケジュールを変更 |
-| **Delete**（各行の **Actions** メニュー `⋯`） | オートメーションを削除する。**以後の実行はすべて止まります** |
+| **Delete**（各行の **Actions** メニュー `⋯`） | スケジュールタスクを削除する。**以後の実行はすべて止まります** |
 
 ### 有効・無効
 
@@ -181,11 +188,11 @@ If no pull requests were merged, do nothing.
 
 公式は次のように説明しています。
 
-> Each time an automation runs, it creates a session visible in your session list alongside interactive sessions.
+> Each time a scheduled task runs, it creates a session visible in your session list alongside interactive sessions.
 
 **実行のたびにセッションが作られ、対話的なセッションと並んでセッション一覧に表示されます。** 実行のセッションを開くと、会話・実行したステップ・作成されたプルリクエストを確認できます。
 
-> 公式は、これが**オートメーションが期待どおりに動いているかを確認する最良の方法**であり、
+> 公式は、これが**スケジュールタスクが期待どおりに動いているかを確認する最良の方法**であり、
 > 期待した変更が出なかった実行のトラブルシュートにも使えるとしています。
 
 ### 変更はプルリクエスト／マージリクエストとして提出されます
@@ -202,7 +209,7 @@ If no pull requests were merged, do nothing.
 
 ### 実行ごとに独立したサンドボックス
 
-[2026-06-19 のエントリ](../02_update/01_changelog.md#2026-06-19-introducing-automations)で公式は次のように説明しています。
+[2026-06-19 のエントリ](../02_update/01_changelog.md#2026-06-19-introducing-automations)（当時の名称は Automations）で公式は次のように説明しています。
 
 > Each run spins up an independent sandbox, clones your repositories, executes the work autonomously, and opens a pull request with the changes.
 
@@ -212,10 +219,10 @@ If no pull requests were merged, do nothing.
 
 ## 🔗 関連ページ
 
-- [01_agent-modes.md](01_agent-modes.md) — Autonomous モード（オートメーションの実行モード）
-- [04_steering.md](04_steering.md) — Steering（オートメーションの挙動を規約で導く）
+- [01_agent-modes.md](01_agent-modes.md) — Autonomous モード（スケジュールタスクの実行モード）
+- [04_steering.md](04_steering.md) — Steering（スケジュールタスクの挙動を規約で導く）
 - [05_sandbox.md](05_sandbox.md) — サンドボックス（実行環境）
-- [04_reference/04_limits.md](../04_reference/04_limits.md#オートメーションの上限) — 上限値（スケジュール 5・プロンプト 10,000 文字・カスタムスケジュールは 1 時間に 1 回まで）
+- [04_reference/04_limits.md](../04_reference/04_limits.md#スケジュール実行タスクの上限) — 上限値（スケジュール 5・プロンプト 10,000 文字・カスタムスケジュールは 1 時間に 1 回まで）
 - 公式: <https://kiro.dev/docs/web/automations/>
 
 ---

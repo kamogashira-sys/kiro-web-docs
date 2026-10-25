@@ -11,9 +11,9 @@
 | ファイル | 内容 | 公式ドキュメント |
 |---------|------|---------------|
 | [01_setup.md](01_setup.md) | **セットアップ**（ソーシャルログイン / AWS Identity Center・GitHub / GitLab の接続）・**最初のタスク** | `web/setup/`・`web/first-task/` |
-| [02_identity-center.md](02_identity-center.md) | **AWS Identity Center**（要件・**適用されない共有設定6項目**・CMK 非対応） | `web/identity-center/` |
-| [03_data-protection.md](03_data-protection.md) | **データ保護**（保存リージョン・リージョン間推論・暗号化・オプトアウト・不正利用検知） | `web/data-protection/` |
-| [04_firewalls.md](04_firewalls.md) | **ファイアウォール・プロキシ・データ境界**（許可リストの構成と考え方） | `web/firewalls/` |
+| [02_identity-center.md](02_identity-center.md) | **AWS Identity Center**（要件・**Kiro Sign-In アプリケーション**・**適用されない共有設定6項目**・CMK 非対応・`access_denied` の対処） | `web/identity-center/` |
+| [03_data-protection.md](03_data-protection.md) | **データ保護**（保存リージョン・リージョン間推論・暗号化・オプトアウト・不正利用検知） | `docs/privacy-and-security/data-protection/`（旧 `web/data-protection/` の移転先） |
+| [04_firewalls.md](04_firewalls.md) | **ファイアウォール・プロキシ・データ境界**（許可リストの構成と考え方・GitHub サインインの `*.awswaf.com`） | `docs/privacy-and-security/firewalls/`（旧 `web/firewalls/` の移転先） |
 
 ---
 

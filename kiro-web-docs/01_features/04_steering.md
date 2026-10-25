@@ -6,7 +6,7 @@
 > ⚠️ **かつて公式にあった「3つのインターフェースで同じように動作する」という一文は、
 > 移転先の現行ページにはありません**（[下記](#3つのインターフェースの関係公式の記述は移転で変わりました)）。
 
-**出典**: <https://kiro.dev/docs/steering/>（Page updated: October 2, 2026・**移転先。旧 `docs/web/steering/` は2026-08-12以前は Page updated: May 27, 2026**）
+**出典**: <https://kiro.dev/docs/steering/>（Page updated: October 21, 2026・**移転先。旧 `docs/web/steering/` は2026-08-12以前は Page updated: May 27, 2026**）
 
 Steering は、**Markdown ファイルを通じてエージェントに永続的な知識を与える**仕組みです。毎回セッションで規約を説明する代わりに、確立したパターン・ライブラリ・標準に一貫して従わせられます。
 
@@ -67,7 +67,7 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 
 > Steering files work the **same way** across Kiro IDE, Kiro CLI, and Kiro Web.
 
-**2026-09-13 の実測で、この一文は移転先の <https://kiro.dev/docs/steering/>（Page updated: October 2, 2026）に存在しないことを確認しました**（2026-10-02 版でも存在しません）。
+**2026-09-13 の実測で、この一文は移転先の <https://kiro.dev/docs/steering/>（Page updated: October 21, 2026）に存在しないことを確認しました**（2026-10-02 版・2026-10-21 版でも存在しません）。
 `same way`・`work the same`・`across Kiro IDE`・`Kiro CLI, and Kiro Web`・`identically` のいずれも 0 件でした。
 2026-10-02 版では `same way` が 1 件現れますが、これは別の文（「On Kiro Web, you can steer autonomous-mode tasks the same way — …」・[下記](#モードによる違い)）の一部で、Steering ファイルが3つのインターフェースで同じように動作するという一文ではありません。
 
@@ -117,7 +117,7 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 
 | 項目 | Web での扱い |
 |------|-----------|
-| **`~/.kiro/steering/`** | **非対応**。公式は「On Web, "Global steering" refers to your local `~/.kiro/steering/` directory, **which the cloud sandbox cannot read**」と説明しています。**クラウドサンドボックスはローカルのディレクトリを読めません**。個人の steering をクラウドセッションで使い回すには **Configuration Sync でアップロード**します（アップロードしたクラウド側のコピーが**すべてのクラウドセッションに適用**されます） |
+| **`~/.kiro/steering/`** | **非対応**。公式は「On Web, "Global steering" refers to your local `~/.kiro/steering/` directory, **which the cloud sandbox cannot read**」と説明しています。**クラウドサンドボックスはローカルのディレクトリを読めません**。個人の steering をクラウドセッションで使い回すには **Configuration Sync でアップロード**します（**Agent Config > Cloud Config** からアップロードし、クラウド側のコピーは **Agent Config > Steering** で作成・編集します。クラウド側のコピーが**すべてのクラウドセッションに適用**されます） |
 | **UI での foundation ファイル生成** | **IDE のみ**（Web は非対応） |
 
 ### 現行ページが書いている Kiro Web 固有の動作
@@ -194,7 +194,7 @@ Steering は、**Markdown ファイルを通じてエージェントに永続的
 
 - [01_agent-modes.md](01_agent-modes.md) — 2つのモード（操縦の仕方が違う）
 - [02_specs.md](02_specs.md) — Specs（公式が IDE との差分を明記している機能）
-- [03_automations.md](03_automations.md) — Automations（誰もいない状態で実行されるため規約が重要）
+- [03_automations.md](03_automations.md) — Schedule（Scheduled tasks。誰もいない状態で実行されるため規約が重要）
 - [06_repository-integration.md](06_repository-integration.md) — PR フィードバックへの対応
 - 公式: <https://kiro.dev/docs/steering/>（移転先）
 

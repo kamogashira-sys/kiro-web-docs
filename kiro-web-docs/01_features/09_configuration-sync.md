@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: September 30, 2026）
+**出典**: <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 21, 2026）
 
 ---
 
@@ -35,24 +35,27 @@
 | 解決 | ローカルの `.kiro` から**対応フォルダをアップロード**すると、**すべての Cloud Session でクラウド上の複製が使われる** |
 | 追加 | クラウド上の複製を**新しいローカルの IDE / CLI セッションにも適用**できる |
 
-**開始場所**: Kiro Web の設定を開き、サイドバーの **Configuration** の下にある **Sync** を選びます。
+**開始場所**: Kiro Web の設定を開き、**Agent Config > Cloud Config** を選びます。
 
-> Open Kiro Web settings and select **Sync** under **Configuration** in the sidebar to get started.
+> Open Kiro Web settings and select **Agent Config > Cloud Config** to get started.
+
+> 公式ページの 2026-09-30 版は「サイドバーの **Configuration** の下にある **Sync**」（`Settings > Sync`）と書いていました。
+> 2026-10-21 版で **Agent Config > Cloud Config** に変わりました。設定画面の再編については公式に説明がなく、理由は**未確認**です。
 
 ### 個人設定とプロジェクト設定は別です
 
 公式は次のように説明しています。
 
-> Configuration Sync covers your **personal** configuration. **Supported** project configuration committed under `.kiro/` travels with the repository because the sandbox clones it. Workflow recipes can also be uploaded individually through Settings > Workflows or imported as a complete `.kiro/workflows/` folder through Settings > Sync.
+> Configuration Sync covers your **personal** configuration. **Supported** project configuration committed under `.kiro/` travels with the repository because the sandbox clones it. Workflow recipes can also be uploaded individually through Agent Config > Workflows or imported as a complete `.kiro/workflows/` folder through Agent Config > Cloud Config.
 
 | 設定の範囲 | クラウドへの届き方 |
 |-----------|----------------|
 | **個人設定** | **Configuration Sync でアップロードする**（本ページ） |
 | **プロジェクト設定**（リポジトリに `.kiro/` としてコミットしたもの） | **対応するもの**は**リポジトリと一緒に運ばれる**（サンドボックスがクローンするため） |
-| **Workflow のレシピ** | **Settings > Workflows** で1つずつアップロードする、または **Settings > Sync** で `.kiro/workflows/` フォルダごと取り込む |
+| **Workflow のレシピ** | **Agent Config > Workflows** で1つずつアップロードする、または **Agent Config > Cloud Config** で `.kiro/workflows/` フォルダごと取り込む |
 
 > 公式ページの 2026-09-02 版は「Project configuration committed under `.kiro/` in a repository **already** travels with the repository」でした。
-> 2026-09-30 版で「**Supported** project configuration」に変わり、Workflow のレシピの一文が加わりました。
+> 2026-09-30 版で「**Supported** project configuration」に変わり、Workflow のレシピの一文が加わりました（現行の 2026-10-21 版も同じ記述で、メニュー名だけが変わっています）。
 > **どのプロジェクト設定が「対応する（Supported）」に当たるかは、このページには書かれていません**（未確認）。
 
 ---
@@ -67,13 +70,13 @@
 
 | フォルダ | アップロードされるもの | クラウド側の管理場所 |
 |---------|-------------------|----------------|
-| `steering/` | Markdown の Steering ファイル | **Settings > Steering** |
-| `agents/` | カスタムエージェントの定義と付随ファイル | **Settings > Agents** |
-| `hooks/` | フックの定義ファイル | **Settings > Hooks** |
-| `skills/` | `SKILL.md` と付随するテキストファイル | **Settings > Skills** |
-| `powers/` | インストール済みの Powers（[後述](#powers-の同期は2経路)） | **Settings > Powers** |
-| `settings/` | `mcp.json` の MCP サーバー | **Kiro Web サンドボックスの MCP サーバー設定** |
-| `workflows/` | 拡張子が `.workflow.json`・`.workflow.yaml`・`.workflow.yml` のレシピ | **Settings > Workflows** |
+| `steering/` | Markdown の Steering ファイル | **Agent Config > Steering** |
+| `agents/` | カスタムエージェントの定義と付随ファイル | **Agent Config > Agents** |
+| `hooks/` | フックの定義ファイル | **Agent Config > Hooks** |
+| `skills/` | `SKILL.md` と付随するテキストファイル | **Agent Config > Skills** |
+| `powers/` | インストール済みの Powers（[後述](#powers-の同期は2経路)） | **Agent Config > Powers & MCP** |
+| `settings/` | `mcp.json` の MCP サーバー | **Agent Config > Powers & MCP**（MCP サーバー設定） |
+| `workflows/` | 拡張子が `.workflow.json`・`.workflow.yaml`・`.workflow.yml` のレシピ | **Agent Config > Workflows** |
 
 Steering の詳細は [04_steering.md](04_steering.md)、MCP の詳細は
 [../04_reference/03_mcp-configuration.md](../04_reference/03_mcp-configuration.md)、Workflows は
@@ -117,7 +120,7 @@ Steering の詳細は [04_steering.md](04_steering.md)、MCP の詳細は
 
 | # | 手順 |
 |---|------|
-| 1 | Kiro Web で **Settings > Sync** を開く |
+| 1 | Kiro Web で **Agent Config > Cloud Config** を開く |
 | 2 | 対応フォルダを**1つ**（例: `~/.kiro/steering`・`<project>/.kiro/workflows`）アップロード領域に**ドラッグ**する。またはフォルダ選択で指定する |
 | 3 | **各ファイルとそのステータスを確認**する。行を展開すると中身を確認できる |
 | 4 | 同期するファイルを選び、**`Upload N files`** を選ぶ。**ファイルごとに進捗が表示され、失敗したファイルは再試行できる** |

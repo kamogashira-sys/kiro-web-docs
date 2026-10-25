@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: October 2, 2026・**旧 `docs/web/first-task/` は2026-08-14以前にPage updated: April 21, 2026・現在は本ページへ統合**）
+**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: October 21, 2026・**旧 `docs/web/first-task/` は2026-08-14以前にPage updated: April 21, 2026・現在は本ページへ統合**）
 
 Kiro Web はブラウザから使うサービスなので、**インストールはありません**。「サインイン」と「リポジトリプロバイダの接続」が導入作業になります。
 
@@ -54,7 +54,7 @@ Kiro Web はブラウザから使うサービスなので、**インストール
 
 > Kiro Web is not available on the free tier.
 
-一方、<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: September 30, 2026）には **Free Tier ユーザー**を前提とした記述があります（データ保持期間・オプトアウト・不正利用検知）。詳細は [03_data-protection.md](03_data-protection.md) を参照してください。
+一方、<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: October 23, 2026）には **Free Tier ユーザー**を前提とした記述があります（データ保持期間・オプトアウト・不正利用検知）。詳細は [03_data-protection.md](03_data-protection.md) を参照してください。
 
 **本サイトはどちらが正しいかを断定しません。** 上記の「Pro 以上が必要」を主たる記述として示しつつ、食い違いがあることを明記します。実際の適用条件は公式ページで確認してください。
 
@@ -69,7 +69,9 @@ Kiro Web はブラウザから使うサービスなので、**インストール
 | 制約 | 内容 |
 |------|------|
 | **リージョン** | **US East（N. Virginia）`us-east-1` のみ** |
-| **管理者の有効化が必要** | Kiro を構成している AWS アカウントで **Settings > Kiro Settings** の **Cloud Sessions** をオンにしないと、利用者はアクセスできない |
+| **管理者の有効化が必要** | **Kiro プロファイルを所有する AWS アカウント**で **Settings > Kiro Settings** の **Cloud Sessions** をオンにしないと、利用者はアクセスできない |
+
+> 公式ページの 2026-10-02 版は「Kiro が構成されている AWS アカウント（the AWS account where Kiro is configured）」と書いていました。2026-10-21 版で「**Kiro プロファイルを所有する AWS アカウント**（the AWS account that owns the Kiro profile）」に変わっています。
 
 > **トグルの名称は変わっています。** 2026-08-14 時点は **Cloud Sessions (Preview)**（さらに旧称は「Autonomous agents」）でしたが、
 > 2026-09-02 更新時点では **Cloud Sessions** です。
@@ -84,13 +86,22 @@ Kiro Web はブラウザから使うサービスなので、**インストール
 
 要件・制限の詳細は [02_identity-center.md](02_identity-center.md) にまとめています。
 
+### パスワードと MFA の後に `access_denied` になる場合
+
+公式は 2026-10-21 版で次の一文を加えています。
+
+> If Kiro Web shows access_denied after you enter your password and MFA, ask your administrator to follow Fix Kiro Web access denied.
+
+パスワードと MFA の入力後に Kiro Web が **`access_denied`** を表示する場合は、**管理者**に「Fix Kiro Web access denied」の手順を実施してもらうよう案内しています。
+その手順（Kiro Sign-In アプリケーションの確認）は [02_identity-center.md](02_identity-center.md#kiro-web-で-access_denied-になる場合) にまとめています。
+
 ---
 
 ## GitHub を接続する
 
 公式の手順は4ステップです。
 
-1. **Settings** に移動し、**Agent** タブを選ぶ
+1. **Settings > Integrations** に移動する
 2. **GitHub** の下の **Connect GitHub** をクリックする
 3. **Kiro Agent GitHub app** を認可する
 4. エージェントがアクセスできるリポジトリを選ぶ
@@ -117,6 +128,8 @@ Kiro Web はブラウザから使うサービスなので、**インストール
 > 逆に言えば、**どちらか一方でも欠けていると表示されません**。リポジトリが見えないときは
 > 両方を確認してください。
 
+> 公式ページの 2026-10-02 版は GitHub・GitLab とも「**Settings** に移動し **Agent** タブを選ぶ」と書いていました。2026-10-21 版で **Settings > Integrations** に変わっています。
+
 詳細は [01_features/06_repository-integration.md](../01_features/) を参照してください。
 
 ---
@@ -127,7 +140,7 @@ Kiro Web は **パーソナルアクセストークン（PAT）** で GitLab に
 
 1. GitLab で自分のアバターを選び **Preferences** → **Access > Personal access tokens** → **Generate token**
 2. **スコープを選んで**トークンを作成しコピーする
-3. Kiro で **Settings** → **Agent** タブ
+3. Kiro で **Settings > Integrations** に移動する
 4. **GitLab** の下の **Connect GitLab** をクリック
 5. パーソナルアクセストークンを貼り付け、**GitLab インスタンスを選ぶ**（既定で `gitlab.com` が入力されています）
 
@@ -148,7 +161,7 @@ Kiro Web は **パーソナルアクセストークン（PAT）** で GitLab に
 
 ## 最初のタスクを実行する
 
-**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: October 2, 2026・**「最初のタスクを実行する」節は旧 `docs/web/first-task/` の内容を統合したもの**）
+**出典**: <https://kiro.dev/docs/web/setup/>（Page updated: October 21, 2026・**「最初のタスクを実行する」節は旧 `docs/web/first-task/` の内容を統合したもの**）
 
 ### 1. セッションを開始する
 
@@ -202,6 +215,7 @@ Kiro Web は **パーソナルアクセストークン（PAT）** で GitLab に
 | モード | 進み方 |
 |-------|-------|
 | **既定のモード** | エージェントが対話的に作業します。依頼を分析し、進め方を相談し、一緒に反復します。納得したらプルリクエストまたはマージリクエストの作成を依頼します |
+| **Spec mode** | エージェントが依頼を**要件・技術設計・実装計画**にまとめて利用者のレビューに出し、**承認されたタスクを実装**します（2026-10-21 版で加わった記述。[01_features/02_specs.md](../01_features/02_specs.md)） |
 | **Autonomous モード** | チャット入力バーで **Autonomous** を有効にします。エージェントが計画を立て、専門のサブエージェントで作業を実行し、**自動的にプルリクエストを作成**します |
 
 > 2026-10-02 版で、Autonomous モードの説明から「asks clarifying questions」（明確化の質問をする）が削除されました

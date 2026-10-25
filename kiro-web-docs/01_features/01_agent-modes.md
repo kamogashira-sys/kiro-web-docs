@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/using-the-agent/chatting/>（Page updated: September 30, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/autonomous-mode/>（Page updated: October 2, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）・<https://kiro.dev/docs/web/using-the-agent/chatting/>（Page updated: September 30, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/autonomous-mode/>（Page updated: October 2, 2026）
 
 ---
 
@@ -18,11 +18,12 @@
 7. [チャットでの操縦](#チャットでの操縦)
 8. [会話のタイムラインの読み方](#会話のタイムラインの読み方)
 9. [Reviews（Summary の中）](#reviewssummary-の中)
-10. [バックグラウンドのタブと再接続](#バックグラウンドのタブと再接続)
-11. [セッションをグループにまとめる](#セッションをグループにまとめる)
-12. [セッション名は自動で付きます](#セッション名は自動で付きます)
-13. [Workflows（バックグラウンドで動く多段の計画）](#workflowsバックグラウンドで動く多段の計画)
-14. [Web 検索](#web-検索)
+10. [フォールバックモデルを選ぶ](#フォールバックモデルを選ぶ)
+11. [バックグラウンドのタブと再接続](#バックグラウンドのタブと再接続)
+12. [セッションをグループにまとめる](#セッションをグループにまとめる)
+13. [セッション名は自動で付きます](#セッション名は自動で付きます)
+14. [Workflows（バックグラウンドで動く多段の計画）](#workflowsバックグラウンドで動く多段の計画)
+15. [Web 検索](#web-検索)
 
 ---
 
@@ -167,17 +168,18 @@ Workflows は[下記](#workflowsバックグラウンドで動く多段の計画
 
 ## タスクの作り方
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 2, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）
 
 ### `app.kiro.dev` から
 
 1. <https://app.kiro.dev> にアクセスして **New session** を選ぶ
-2. チャット入力欄の下の **Select repo** で**リポジトリを1つ以上選ぶ**（任意）
+2. チャット入力欄の下の **Select repo** で**リポジトリを1つ以上選ぶ**（任意）。既定のブランチ以外から作業するときは、**ブランチセレクタ**でブランチを選ぶ
 3. **Add to group** でセッションのグループを選ぶか作る（任意。[下記](#セッションをグループにまとめる)）
 4. エージェントにやってほしいことを記述する
 
-> 手順 1〜4 は <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 2, 2026）の「Start a session」に基づきます。
-> 手順 3 は 2026-10-02 版で追加されました。
+> 手順 1〜4 は <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）の「Start a session」に基づきます。
+> 手順 3 は 2026-10-02 版で追加されました。手順 2 の「既定のブランチ以外から作業するときは、ブランチセレクタで選ぶ」は 2026-10-21 版で本文に加わった記述です
+> （ブランチ選択は [2026-08-31 のエントリ](../02_update/01_changelog.md#2026-08-31-pick-a-branch-when-you-pick-a-repository)で告知されています）。
 
 セッション開始時にリポジトリを選ばなかった場合、作業を依頼した時点で選択を求められます。
 
@@ -196,7 +198,7 @@ Workflows は[下記](#workflowsバックグラウンドで動く多段の計画
 | 方法 | 動作 |
 |------|------|
 | **`kiro` ラベルを付ける** | エージェントが作業を開始し、**その issue のすべてのコメントを聞き取って**追加のコンテキストやフィードバックとして扱う |
-| **コメントで `/kiro` とメンションする** | **その issue を**エージェントに割り当てる |
+| **コメントで `/kiro` とメンションする** | **その issue を**エージェントに割り当てる（`/kiro` は**コメントの先頭または空白の直後**に書く。直後に英数字・アンダースコアが続く `/kirocrew` などは反応しない。[06_repository-integration.md](06_repository-integration.md#kiro-が反応する条件2026-10-21-版で追加)） |
 
 ### タスクを書くときのコツ（公式の5項目）
 
@@ -275,13 +277,17 @@ Workflows は[下記](#workflowsバックグラウンドで動く多段の計画
 
 ### セッションの保持期間
 
-**90 日**で期限切れになり、チャットメッセージとログが削除されます。**プルリクエスト・マージリクエスト・コードの変更・GitHub または GitLab 上の会話は影響を受けません**（[04_reference/04_limits.md](../04_reference/04_limits.md#セッションの保持期間)）。
+セッションは**最後のアクティビティから 90 日**で期限切れになります。**セッションを開く、またはメッセージを送ると、90 日が再び起算されます**。**プルリクエスト・マージリクエスト・コードの変更・GitHub または GitLab 上の会話は影響を受けません**（[04_reference/04_limits.md](../04_reference/04_limits.md#セッションの保持期間)）。
+
+> 公式ページの 2026-10-02 版は「90 日で期限切れになり、その時点でチャットメッセージとログが削除される」と書いていました。
+> 2026-10-21 版（節の見出しは **Data retention**）には、起算点（最後のアクティビティ）と再起算の記述が加わった一方で、削除されるものの記述がありません。
+> 現在の削除の対象は**未確認**です。
 
 ---
 
 ## 会話のタイムラインの読み方
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 2, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）
 
 | 表示 | 内容（公式の説明） |
 |------|----------------|
@@ -295,7 +301,7 @@ Workflows は[下記](#workflowsバックグラウンドで動く多段の計画
 
 ## Reviews（Summary の中）
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 2, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）
 
 セッションにレビュー（プルリクエスト）がある場合、**Summary** を開くと **Files**・**Artifacts** と並んで **Reviews** が表示されます。
 
@@ -313,9 +319,39 @@ GitHub のプルリクエストの詳細表示と GitLab のマージリクエ�
 
 ---
 
+## フォールバックモデルを選ぶ
+
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）・<https://kiro.dev/changelog/web/model-fallback-and-workflow-updates/>（October 12, 2026）
+
+公式は次のように説明しています。
+
+> A fallback model takes over when your selected model can't complete a request.
+
+**フォールバックモデルは、選択したモデルがリクエストを完了できないときに引き継ぐモデル**です。
+
+| 項目 | 内容 |
+|------|------|
+| 設定の場所（docs） | **Agent Config > Model fallback** を開き、一覧からモデルを選んで、そのフォールバックを選ぶ |
+| 設定の場所（changelog） | **Settings > Model** を開き、一覧からモデルを選んで、そのフォールバックを選ぶ |
+| 解除 | **Agent Config > Model fallback** でそのモデルの項目を削除する（changelog は「いつでも削除できる」） |
+
+| 状況 | 動作（公式） |
+|------|------------|
+| 選択したモデルが**利用できない** | フォールバックが**そのターンだけ**応答し、**次のターンで選択したモデルに戻る** |
+| 選択したモデルが**リクエストを拒否した** | セッションは**フォールバックのまま**になる（changelog は「会話はセッションの残りの間フォールバックのまま」） |
+
+> ⚠️ **公式の記述に食い違いがあります。** 設定の場所を、公式 docs <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）は **Agent Config > Model fallback**、
+> changelog（2026-10-12 のエントリ）は **Settings > Model** と書いています。
+> docs の更新日（2026-10-21）の方が新しいものの、本サイトは更新日を根拠に一方を否定せず、**両方を併記**します。現行の画面は**未確認**です。
+> 告知は [2026-10-12 のエントリ](../02_update/01_changelog.md#2026-10-12-model-fallback-and-workflow-updates)にあります。
+
+> Autonomous モードではモデルを選べません（[上記](#autonomous-モード)）。Autonomous モードとフォールバックの関係は公式に記載がなく**未確認**です。
+
+---
+
 ## バックグラウンドのタブと再接続
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 2, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）
 
 セッションを開いたタブがバックグラウンドにある間にマシンがスリープしたりネットワークが変わったりしても、**タブに戻るとセッションが再接続され、切断中に届いたアクティビティが再生されます**。
 
@@ -326,11 +362,24 @@ GitHub のプルリクエストの詳細表示と GitLab のマージリクエ�
 
 > この動作は [2026-09-22 のエントリ](../02_update/01_changelog.md#2026-09-22-reasoning-effort-and-a-grouped-timeline)で告知されました。
 
+### セッションを再び開いたときの会話プレビュー
+
+公式は次のように説明しています（同じ節の中の記述です）。
+
+> When you reopen a session whose sandbox has stopped, Kiro shows a preview of the saved conversation while the sandbox starts. Once the sandbox is ready, the complete history replaces the preview.
+
+| 状況 | 表示 |
+|------|------|
+| **サンドボックスが停止しているセッション**を再び開く | サンドボックスの起動中、**保存済みの会話のプレビュー**を表示する |
+| サンドボックスの準備ができた | **完全な履歴がプレビューに置き換わる** |
+
+> この動作は [2026-10-12 のエントリ](../02_update/01_changelog.md#2026-10-12-model-fallback-and-workflow-updates)（See Your Conversation While a Session Reopens）で告知されました。
+
 ---
 
 ## セッションをグループにまとめる
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 2, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）
 
 セッションが増えてきたら、**関連する作業をグループにまとめて**整理できます。
 **グループは任意**で、グループに入れていないセッションは **Ungrouped** に残ります。
@@ -351,7 +400,7 @@ GitHub のプルリクエストの詳細表示と GitLab のマージリクエ�
 
 | 操作 | 方法 |
 |------|------|
-| **既存のグループに入れる** | セッションのメニュー → **Move to group** から選ぶ |
+| **既存のグループに入れる** | セッションのメニュー → **Move to Group** から選ぶ |
 | **新しいグループを作って入れる** | セッションのメニュー → **New group**（作成と移動が**1手順**で済みます） |
 | **グループから出す** | セッションのメニュー → **Remove from group**（**Ungrouped** に戻ります） |
 
@@ -375,12 +424,14 @@ GitHub のプルリクエストの詳細表示と GitLab のマージリクエ�
 | **Filter by group** | 選んだグループのセッションだけを表示。**選択操作は不要**（単独で使えます） |
 
 > この機能は [2026-08-22 のエントリ](../02_update/01_changelog.md#2026-08-22-organize-sessions-into-groups)で告知されました。
+> 公式ページの 2026-10-02 版のメニュー名は `Move to group`、2026-10-21 版は `Move to Group`（大文字の G）です。
+> 2026-10-12 のエントリ（Improvements）は、**Move to Group** のメニューに **New group** が含まれ、移動とアーカイブが**すぐに反映される**ことも書いています。
 
 ---
 
 ## セッション名は自動で付きます
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 2, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）
 
 公式は次のように説明しています。
 
@@ -397,7 +448,7 @@ GitHub のプルリクエストの詳細表示と GitLab のマージリクエ�
 
 ## Workflows（バックグラウンドで動く多段の計画）
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/using-the-agent/chatting/>（Page updated: September 30, 2026）・<https://kiro.dev/docs/web/cloud-configuration/>（Page updated: September 30, 2026）・<https://kiro.dev/changelog/web/introducing-workflows/>（September 30, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）・<https://kiro.dev/docs/web/using-the-agent/chatting/>（Page updated: September 30, 2026）・<https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 21, 2026）・<https://kiro.dev/changelog/web/introducing-workflows/>（September 30, 2026）・<https://kiro.dev/changelog/web/model-fallback-and-workflow-updates/>（October 12, 2026）
 
 公式は `docs/web/using-the-agent/` で次のように説明しています。
 
@@ -407,6 +458,7 @@ GitHub のプルリクエストの詳細表示と GitLab のマージリクエ�
 |------|------|
 | 何をするものか | **再利用できる多段のオーケストレーション**。メインの会話を使える状態のまま**バックグラウンド**で動く |
 | 調整できるもの | 隔離されたエージェント・ループ・レビュー・外部の待機 |
+| オプトイン | 公式 docs（2026-10-21 版）は「**Workflows are opt-in: turn on Enable workflows in Agent Config > Workflows.**」と書いている |
 | 個々のステップ | セッションの詳細の **Workflows** の下で確認し、メッセージを送れる（[親チャットと Workflow のステップ](#親チャットと-workflow-のステップ2026-09-30-版で追加)） |
 | Autonomous モードとの違い | [上記](#workflows-との違い) |
 
@@ -416,10 +468,20 @@ GitHub のプルリクエストの詳細表示と GitLab のマージリクエ�
 
 | 操作 | 方法（公式の説明） |
 |------|----------------|
-| 有効にする | **Settings > Workflows** で **Enable workflows** をオンにする |
+| 有効にする | **Agent Config > Workflows** で **Enable workflows** をオンにする（公式 docs の記述。2026-09-30 の changelog エントリは **Settings > Workflows** と書いている） |
 | レシピを1つアップロード | **Upload workflow**（`.workflow.json`・`.workflow.yaml`・`.workflow.yml`） |
 | フォルダごと取り込む | [Configuration Sync](09_configuration-sync.md) で `.kiro/workflows/` フォルダを取り込む |
 | 無効にする | Workflows の画面要素が隠れ、**新しい起動ができなくなる** |
+
+### ステップのモデルを変える・ループを復旧する（2026-10-12 版の changelog）
+
+[2026-10-12 のエントリ](../02_update/01_changelog.md#2026-10-12-model-fallback-and-workflow-updates)は次の2点を告知しています。
+
+| 機能 | 内容（公式） |
+|------|------------|
+| **ステップのモデルの変更** | **Workflows をオンにしている**と、選択したステップのコンポーザに**モデルピッカー**（モデルが対応していれば effort と Thinking を含む）が出る。**先にそのステップを停止**し、**メッセージを送って続行**する。選択は**そのステップだけ**に適用される |
+| **反復の上限でのループの復旧** | repeat が上限で一時停止したとき、**Run N more**（1〜1,000 の整数。追加の反復を与える）か、**Stop looping and continue**（repeat を終了して次のステップへ）を選べる |
+| **レシピの編集** | アップロード済みの JSON / YAML のレシピを **Settings > Workflows** で開いて編集できる。構文が有効になると保存でき、保存に失敗しても下書きは残る（Improvements） |
 
 ### 同梱のレシピ（3種類）
 

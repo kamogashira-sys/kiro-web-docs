@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: October 1, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026**）
+**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: October 16, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026**）
 
 > ⚠️ **本ページは公式ページの HTML 版のみを出典にしています。**
 > このページの `.md` 版（旧 `docs/web/firewalls.md`）は **Web / privacy-and-security / cli の
@@ -54,20 +54,34 @@
 
 ## 許可リストの構成（7グループ）
 
-公式ページの URL 表のうち Kiro Web に関わるもの（全製品共通の表と Web タブの表）は7つのグループに分かれています。**合計 38 行**です（ワイルドカード6件を含む）。
+公式ページの URL 表のうち Kiro Web に関わるもの（全製品共通の表と Web タブの表）は7つのグループに分かれています。**合計 42 行**です（ワイルドカード9件を含む）。
 
 | # | グループ | 行数 | 必要になる条件 |
 |---|---------|-----|--------------|
 | 1 | **Core URLs（全製品共通）** | 2 | 常に必要 |
 | 2 | **Core URLs（Kiro Web 用）** | 15 | 常に必要（AI サービスとテレメトリ） |
-| 3 | **Social sign-in** | 1 | Google または GitHub でサインインする場合 |
+| 3 | **Social sign-in** | 2 | Google または GitHub でサインインする場合（**GitHub サインインは `*.awswaf.com` も必要**・下記） |
 | 4 | **IAM Identity Center** | 6 | AWS IAM Identity Center で認証する場合 |
 | 5 | **External identity providers** | 2 | 外部 IdP（Entra ID・Okta など）を使う場合 |
 | 6 | **AWS GovCloud (US)** | 4 | AWS GovCloud (US) で Kiro を使う場合（**Kiro Web への適用は未確認**・下記） |
 | 7 | **Subscription management** | 2 | Google・GitHub・AWS Builder ID でサインインする場合（Stripe の課金ポータル） |
-| — | **Wildcard rules**（上記の代替） | 6 | ワイルドカードが使える場合 |
+| — | **Wildcard rules**（上記の代替） | 9 | ワイルドカードが使える場合 |
 
 **個別の URL とその用途は [04_reference/01_allowed-domains.md](../04_reference/01_allowed-domains.md) を参照してください。**
+
+### グループ3: GitHub サインインには `*.awswaf.com` が必要です（2026-10-16 版で追加）
+
+公式は次のように説明しています。
+
+> If you sign in with Google or GitHub, allowlist the Cognito endpoint below. GitHub sign-in also loads an AWS WAF CAPTCHA from `*.awswaf.com`. If your firewall or proxy blocks this domain, GitHub sign-in fails.
+
+| 項目 | 内容 |
+|------|------|
+| 追加された許可対象 | **`*.awswaf.com`**（GitHub サインイン用の AWS WAF CAPTCHA） |
+| ブロックした場合 | **GitHub サインインが失敗する**（公式の記述） |
+| ワイルドカードを1階層分しか一致させないファイアウォールの場合 | **`*.captcha.awswaf.com` と `*.token.awswaf.com` も許可する** |
+
+> Google サインインに `*.awswaf.com` が必要かどうかは、公式の記述が「GitHub sign-in also loads…」であり、**Google については記載がない**ため未確認です。
 
 ### グループ1・2 は必須です
 
@@ -132,7 +146,7 @@ IAM Identity Center と外部 IdP のグループには、環境ごとに置き�
 > ワイルドカードは行数を減らせますが、**自分のファイアウォールがどちらの挙動か確認しないと
 > 取りこぼします。** 実際に `assets.app.kiro.dev` は Core URLs の必須2件の一方です。
 
-ワイルドカード6件の一覧は [04_reference/01_allowed-domains.md](../04_reference/01_allowed-domains.md) にあります。
+ワイルドカード9件の一覧は [04_reference/01_allowed-domains.md](../04_reference/01_allowed-domains.md) にあります。
 
 ---
 
@@ -142,7 +156,7 @@ IAM Identity Center と外部 IdP のグループには、環境ごとに置き�
 
 | 構成 | 必要なグループ |
 |------|--------------|
-| **ソーシャルログイン（Google / GitHub）** | 1・2・3・7 |
+| **ソーシャルログイン（Google / GitHub）** | 1・2・3・7（GitHub は 3 の `*.awswaf.com` も必要） |
 | **AWS Builder ID** | 1・2・7 |
 | **IAM Identity Center（外部 IdP なし）** | 1・2・4 |
 | **IAM Identity Center（外部 IdP あり）** | 1・2・4・5 |
@@ -157,7 +171,7 @@ IAM Identity Center と外部 IdP のグループには、環境ごとに置き�
 
 ## 🔗 関連ページ
 
-- **[04_reference/01_allowed-domains.md](../04_reference/01_allowed-domains.md) — 許可すべき URL・ドメインの完全な一覧（38 行・ワイルドカード6件を含む）**
+- **[04_reference/01_allowed-domains.md](../04_reference/01_allowed-domains.md) — 許可すべき URL・ドメインの完全な一覧（42 行・ワイルドカード9件を含む）**
 - [01_setup.md](01_setup.md) — セットアップ（サインイン方法）
 - [02_identity-center.md](02_identity-center.md) — AWS Identity Center の要件
 - [03_data-protection.md](03_data-protection.md) — データ保護（テレメトリ）

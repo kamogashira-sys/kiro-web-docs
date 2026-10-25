@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: October 1, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026。タブ構成（IDE/CLI/Web）に変更されたが Web タブの表は変化なし（実測確認済み）。2026-10-01 版で全サーフェス共通の AWS GovCloud (US) 節が表 4 行になり、合計は 34 → 38 行**）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: August 4, 2026）
+**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: October 16, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026。タブ構成（IDE/CLI/Web）に変更されたが Web タブの表は変化なし（実測確認済み）。2026-10-01 版で全サーフェス共通の AWS GovCloud (US) 節が表 4 行になり、合計は 34 → 38 行。2026-10-16 版で GitHub サインイン用の `*.awswaf.com` が Social sign-in（1 → 2 行）とワイルドカード（6 → 9 件）に加わり、合計は 38 → 42 行**）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: October 21, 2026）
 
 > ⚠️ **本ページの値はすべて公式ページの HTML 版から取っています。**
 > `firewalls` の `.md` 版は3サーフェス分が連結されているため使用していません
@@ -17,13 +17,13 @@
 
 | # | 系統 | 誰が通信するか | 件数 |
 |---|------|--------------|------|
-| 1 | [Kiro Web 本体のエンドポイント](#1-kiro-web-本体のエンドポイント38-行) | **利用者のネットワーク → Kiro のバックエンド** | **38 行** |
+| 1 | [Kiro Web 本体のエンドポイント](#1-kiro-web-本体のエンドポイント42-行) | **利用者のネットワーク → Kiro のバックエンド** | **42 行** |
 | 2 | [サンドボックスの依存関係取得先](#2-サンドボックスの依存関係取得先73-ドメイン) | **サンドボックス → パッケージレジストリ** | **73 ドメイン** |
 | 3 | [GitLab 側で許可する送信元 IP](#3-gitlab-側で許可する送信元-ip3-件) | **Kiro Web → 利用者の GitLab** | **3 件** |
 
 ---
 
-## 1. Kiro Web 本体のエンドポイント（38 行）
+## 1. Kiro Web 本体のエンドポイント（42 行）
 
 **出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（HTML 版・移転先。Surface-specific URLs のタブ構成のうち Web タブを対象）
 
@@ -65,13 +65,19 @@
 > 各エンドポイントと併せて許可リストに残す必要がある」としています。
 > **廃止時期は公式に示されていないため未確認です。**
 
-### 1-3. Social sign-in（1 行）
+### 1-3. Social sign-in（2 行）
 
-Google または GitHub でサインインする場合に追加します。
+Google または GitHub でサインインする場合に追加します。公式は「If you sign in with Google or GitHub, allowlist the Cognito endpoint below. GitHub sign-in also loads an AWS WAF CAPTCHA from `*.awswaf.com`. If your firewall or proxy blocks this domain, GitHub sign-in fails.」としています。
 
 | URL | 用途 |
 |-----|------|
 | `cognito-identity.us-east-1.amazonaws.com` | ソーシャルサインインのフェデレーテッドアイデンティティ |
+| `*.awswaf.com` | GitHub サインイン用の CAPTCHA |
+
+> **GitHub でサインインする場合、`*.awswaf.com` をブロックするとサインインに失敗します**（公式の記述）。
+> ファイアウォールやプロキシが**ワイルドカードを1階層分しか一致させない**場合は、`*.captcha.awswaf.com` と `*.token.awswaf.com` も許可します
+> （[1-8. Wildcard rules](#1-8-wildcard-rules9-件上記の代替) の表に載っています）。
+> この行は 2026-10-16 版で加わりました（2026-10-01 版は `cognito-identity.us-east-1.amazonaws.com` の1行だけでした）。
 
 ### 1-4. IAM Identity Center（6 行）
 
@@ -136,7 +142,7 @@ Google・GitHub・AWS Builder ID でサインインする場合、Kiro は **Str
 
 > **IAM Identity Center を使うエンタープライズ顧客はこの2件が不要**です（公式明記）。
 
-### 1-8. Wildcard rules（6 件・上記の代替）
+### 1-8. Wildcard rules（9 件・上記の代替）
 
 ネットワークポリシーでワイルドカードが使える場合、許可リストを簡略化できます。
 
@@ -146,6 +152,9 @@ Google・GitHub・AWS Builder ID でサインインする場合、Kiro は **Str
 | `*.app.kiro.dev` | アプリケーションと CDN のアセット |
 | `*.kiro.aws.dev` | テレメトリのエンドポイント |
 | `*.amazonaws.com` | AWS サービスのエンドポイントすべて（Kiro サービス・RUM・OIDC・SSO・Cognito） |
+| `*.awswaf.com` | GitHub サインイン用の AWS WAF CAPTCHA |
+| `*.captcha.awswaf.com` | GitHub サインイン用の入れ子の CAPTCHA ホスト（ファイアウォールが**ワイルドカードを1階層分しか一致させない**場合に追加） |
+| `*.token.awswaf.com` | GitHub サインイン用の入れ子の CAPTCHA ホスト（同上） |
 | `*.shortbread.aws.dev` | Cookie 同意 |
 | `*.signin.aws` | IAM Identity Center のサインイン |
 
@@ -153,19 +162,19 @@ Google・GitHub・AWS Builder ID でサインインする場合、Kiro は **Str
 > 実装では `*.kiro.dev` は `app.kiro.dev` に一致しますが **`assets.app.kiro.dev` には一致しません**
 > （これは必須2件の一方です）。`*.app.kiro.dev` も追加するか、多階層を明示的に列挙してください。
 
-### 行数の内訳（合計 38 行）
+### 行数の内訳（合計 42 行）
 
 | グループ | 行数 |
 |---------|-----|
 | 1-1. Core URLs（全製品共通） | 2 |
 | 1-2. Core URLs（Kiro Web） | 15 |
-| 1-3. Social sign-in | 1 |
+| 1-3. Social sign-in | 2 |
 | 1-4. IAM Identity Center | 6 |
 | 1-5. External identity providers | 2 |
 | 1-6. AWS GovCloud (US) | 4 |
 | 1-7. Subscription management | 2 |
-| 1-8. Wildcard rules | 6 |
-| **合計** | **38** |
+| 1-8. Wildcard rules | 9 |
+| **合計** | **42** |
 
 ---
 
@@ -225,7 +234,7 @@ yarnpkg.com
 
 ## 3. GitLab 側で許可する送信元 IP（3 件）
 
-**出典**: <https://kiro.dev/docs/web/gitlab/>（Page updated: August 4, 2026）
+**出典**: <https://kiro.dev/docs/web/gitlab/>（Page updated: October 21, 2026）
 
 **これは方向が逆です。** 系統1・2は「Kiro 側への送信」ですが、これは **Kiro Web から利用者の GitLab インスタンスへの受信**です。
 
