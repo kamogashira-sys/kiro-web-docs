@@ -14,7 +14,7 @@
 | **Kiro Web がどんなものか知りたい** | [01_features/01_agent-modes.md](01_features/01_agent-modes.md)（2つのモード） |
 | **使い始めたい** | [03_deployment/01_setup.md](03_deployment/01_setup.md)（セットアップと最初のタスク） |
 | **組織で導入したい** | [03_deployment/02_identity-center.md](03_deployment/02_identity-center.md) → [03_deployment/04_firewalls.md](03_deployment/04_firewalls.md) |
-| **何が変わったか知りたい** | [02_update/01_changelog.md](02_update/01_changelog.md)（全21エントリ） |
+| **何が変わったか知りたい** | [02_update/01_changelog.md](02_update/01_changelog.md)（全22エントリ） |
 | **設定値をピンポイントで調べたい** | [04_reference/](04_reference/)（[早見表](04_reference/04_limits.md#-早見表)） |
 | **公式情報の読み方を知りたい** | [00_information/02_information-sources.md](00_information/02_information-sources.md)（落とし穴5つ） |
 
@@ -26,7 +26,7 @@
 |-----------|------|
 | [00_information](00_information/) | 公式サイトの構造・情報源の使い分けと落とし穴（2ページ） |
 | [01_features](01_features/) | 機能詳細ガイド（10ページ） |
-| [02_update](02_update/) | 更新履歴（全21エントリ） |
+| [02_update](02_update/) | 更新履歴（全22エントリ） |
 | [03_deployment](03_deployment/) | 導入・運用（4ページ） |
 | [04_reference](04_reference/) | リファレンス（4ページ・検証可能な正準値） |
 
@@ -41,8 +41,8 @@ Kiro IDE（`1.0.NNN`）や Kiro CLI と違い、**Kiro Web の更新にバージ
 | 項目 | 内容 |
 |------|------|
 | 更新の識別 | **日付（ISO）＋スラッグ** |
-| changelog エントリ数 | **21**（2025-12-02 〜 2026-09-30） |
-| 公式ドキュメントのページ数 | **18**（snapshot: 2026-10-04） |
+| changelog エントリ数 | **22**（2025-12-02 〜 2026-10-12） |
+| 公式ドキュメントのページ数 | **17**（snapshot: 2026-10-25） |
 | 提供形態 | ホスト型サービス（**インストール不要**） |
 | 段階 | **一般提供（GA）**（2026-09-01） |
 
@@ -58,7 +58,7 @@ Kiro IDE（`1.0.NNN`）や Kiro CLI と違い、**Kiro Web の更新にバージ
 |---|---------|------|
 | 1 | **`.md` 版でプレースホルダが潰れる** | `${key_name}` が裸の `` `$` `` になる（2ページ） |
 | 2 | **`.md` 版に3製品分の内容が連結される** | `firewalls` は見出しが 8 → 18 に |
-| 3 | **折りたたまれた項目が HTML に存在しない** | changelog の **21 項目**が丸ごと抜ける |
+| 3 | **折りたたまれた項目が HTML に存在しない** | changelog の **57 項目**が丸ごと抜ける |
 | 4 | **日付表記が2種類ある** | 5月は略記と月名フルが同形で判別不能 |
 | 5 | **公式ページ間で記述が食い違う** | [Free Tier の有無](03_deployment/03_data-protection.md#free-tier-conflict)（**未解決**） |
 

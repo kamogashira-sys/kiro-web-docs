@@ -11,13 +11,13 @@
     **表・コードブロック（実体）から数え**、それを文書中の件数記述と突き合わせる。
 
 検証する正準値（作業計画書 D-W7 の件数系）:
-    S1  changelog エントリ数              = 21
-    S2  docs Web ページ数                 = 18
+    S1  changelog エントリ数              = 22
+    S2  docs Web ページ数                 = 17
     S5  Common dependencies 許可ドメイン数 = 73
-    S6  firewalls の URL/ドメイン表の行数  = 38（全サーフェス共通の表＋ Web タブの表）
+    S6  firewalls の URL/ドメイン表の行数  = 42（全サーフェス共通の表＋ Web タブの表）
     S7  GitLab 送信元 IP 数               = 3
     S12 cross-region inference 対応リージョン数 = 3
-    （値は 20261004 snapshot。正は SSOT 辞書と手順書 §7.1）
+    （値は 20261025 snapshot。正は SSOT 辞書と手順書 §7.1）
 
 3方向から突き合わせる:
     (a) 節見出しの `（N 行）` / `（N 件）` が、**その節の最初の表**の実行数と一致するか
@@ -55,13 +55,13 @@ LOCAL_ONLY = ("05_meta", "06_embedded-docs", "work_plans", "work_records")
 # SSoT（正準値）— 件数系。値の出典は kiro-web-docs/05_meta/10_update-guide.md §7
 # ------------------------------------------------------------
 SSOT = {
-    "S1": {"value": 21, "label": "changelog エントリ数",
+    "S1": {"value": 22, "label": "changelog エントリ数",
            "doc": f"{DOC_ROOT}/02_update/01_changelog.md"},
-    "S2": {"value": 18, "label": "docs Web ページ数",
+    "S2": {"value": 17, "label": "docs Web ページ数",
            "doc": f"{DOC_ROOT}/00_information/01_official-site-structure.md"},
     "S5": {"value": 73, "label": "Common dependencies 許可ドメイン数",
            "doc": f"{DOC_ROOT}/04_reference/01_allowed-domains.md"},
-    "S6": {"value": 38, "label": "firewalls の URL/ドメイン表の行数（共通＋ Web タブ）",
+    "S6": {"value": 42, "label": "firewalls の URL/ドメイン表の行数（共通＋ Web タブ）",
            "doc": f"{DOC_ROOT}/04_reference/01_allowed-domains.md"},
     "S7": {"value": 3, "label": "GitLab 送信元 IP 数",
            "doc": f"{DOC_ROOT}/04_reference/01_allowed-domains.md"},

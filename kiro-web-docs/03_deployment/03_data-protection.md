@@ -3,11 +3,13 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: September 30, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）
+**出典**: <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: October 23, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）
 
 > このページは2026-08-04に更新され、2026-08-12以前の公式サイト再構成で
 > `docs/privacy-and-security/data-protection/` へ移転しました。その後 2026-09-30 にも更新されています
 > （利用者区分別の保存・運用シグナル・不正利用検知の節が書き換わりました）。
+> さらに 2026-10-23 にも更新され、**リージョン間推論の節**（推論スコープ・AWS GovCloud (US) の行・Global の節の改称）、
+> **Web のオプトアウトの導線**（Settings > Privacy & data）、**Claude Fable 5.1 の `(Preview)` 表記の削除**が変わりました。
 
 ---
 
@@ -99,7 +101,10 @@
 
 ## リージョン間推論（cross-region inference）
 
-Kiro Web は**リージョン間推論**を使い、大規模言語モデル（LLM）の推論性能と信頼性を高めるためにトラフィックを複数の AWS リージョンに分散します。公式は「需要が高い時期のスループットと回復力の向上、性能の改善」を挙げています。
+公式は「Kiro is powered by Amazon Bedrock and uses cross-region inference to route requests among supported AWS Regions.」と説明しています（Kiro は Amazon Bedrock を基盤とし、**リージョン間推論で、対応する AWS リージョンの間でリクエストをルーティング**します）。
+
+> 公式ページの 2026-09-30 版は「大規模言語モデル（LLM）の推論性能と信頼性を高めるためにトラフィックを複数の AWS リージョンに分散する」「需要が高い時期のスループットと回復力の向上、性能の改善」と書いていました。
+> 2026-10-23 版ではこの二文が無く、上記の一文に置き換わっています。
 
 ### ⚠️ 保存先と処理先は別です
 
@@ -114,14 +119,34 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 | **データの保存先** | Free Tier・個人サブスクライバーは **US East（N. Virginia）のみ**（[前述](#保存されるリージョン)） |
 | **推論の処理先** | 保存先と異なるリージョンになる場合がある（下表） |
 
-### 対応リージョン（2026-08-04 の更新でヨーロッパが追加）
+### 推論スコープ（2026-10-23 版で新設）
+
+公式は次のように説明しています。
+
+> Where a model processes your requests can differ from where Kiro stores your content. A model's inference scope shows whether requests stay within one geography or may use supported commercial AWS Regions worldwide. Inference location does not change the Region where Kiro stores your content.
+
+| 項目 | 内容 |
+|------|------|
+| モデルの処理場所 | **Kiro がコンテンツを保存する場所と異なる場合がある** |
+| 推論スコープ | 各モデルについて、リクエストが**1つの地域（geography）内に留まるか**、**世界中の対応する商用 AWS リージョンを使いうるか**を示す |
+| 推論の場所が変えるもの | **コンテンツの保存リージョンは変わらない** |
+
+公式はモデルごとの推論スコープとエンドポイントの場所を「Inference endpoint regions」の表で示しています（全製品共通のモデルのページであり、本サイトの収録範囲外です）。
+
+### 対応リージョン（2026-08-04 の更新でヨーロッパが追加・2026-10-23 の更新で GovCloud が独立した行に）
 
 > ⚠️ **本サイトの正準値 S12（推論リージョン3件）に影響する変更です。** 実測を記録します。
 
 | 対応地域 | 推論リージョン |
 |---------|--------------|
-| United States | **US East（N. Virginia）`us-east-1`**<br>**US West（Oregon）`us-west-2`**<br>**US East（Ohio）`us-east-2`**<br>AWS GovCloud (US-East)<br>AWS GovCloud (US-West) |
+| United States | **US East（N. Virginia）`us-east-1`**<br>**US West（Oregon）`us-west-2`**<br>**US East（Ohio）`us-east-2`** |
 | **Europe（2026-08-04 新設）** | Europe (Frankfurt) `eu-central-1`<br>Europe (Ireland) `eu-west-1`<br>Europe (Paris) `eu-west-3`<br>Europe (Stockholm) `eu-north-1`<br>Europe (Milan) `eu-south-1`<br>Europe (Spain) `eu-south-2` |
+| **AWS GovCloud (US)（2026-10-23 版で独立した行に）** | AWS GovCloud (US-East)<br>AWS GovCloud (US-West) |
+
+公式は表の前に「The Regions below support inference within each Kiro geography. Individual models may use one or more listed Regions.」と書いています（**表のリージョンは各地域の中での推論に対応し、個々のモデルは表のうち1つ以上のリージョンを使いうる**）。
+
+> ⚠ 2026-09-30 版の公式は GovCloud の 2 リージョンを **United States の行の中**に並べていました。
+> 2026-10-23 版で United States の行は **3 リージョン**（`us-east-1`・`us-west-2`・`us-east-2`）になり、GovCloud は別の行になっています。
 
 > **この表が Kiro Web にそのまま適用されるかは未確認です。** 本ページは2026-08-04の更新で
 > IDE/CLI/Web共通の記述に変わっており（[前述](#何が保存されるか)）、GovCloud・欧州リージョンの
@@ -130,9 +155,22 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 > 現時点でKiro Web固有の対応リージョン数を確定できないため、**S12は実測差分の記録に留め、
 > 正準値としての更新は見送ります**（Phase 5 で再検討）。
 
-> 実験的機能向けの「グローバルクロスリージョン推論」も新設されていますが、
-> **「実験的タグが付いたモデル・機能のみ」に限定される**ため、Kiro Web の通常機能への
-> 影響は未確認です。
+### Global cross-region inference
+
+公式の 2026-09-30 版は、この節を「Global cross-region inference for experimental features」とし、**experimental タグが付いたモデル・機能のみ**が対象だと書いていました。
+2026-10-23 版は節の名前を **Global cross-region inference** に改め、次のように書いています。
+
+> Some Kiro models and capabilities use global cross-region inference. When Global routing applies, requests may be processed in supported commercial AWS Regions worldwide, including Regions outside your Kiro profile's geography. This does not change where Kiro stores your content. Global cross-region inference does not apply to AWS GovCloud (US).
+
+| 項目 | 内容 |
+|------|------|
+| 対象 | **一部の Kiro のモデルと機能**（「experimental タグが付いたもののみ」という限定は、この節の記述から無くなっている） |
+| Global ルーティングが適用されるとき | リクエストが、**Kiro プロファイルの地域の外を含む世界中の対応する商用 AWS リージョン**で処理されうる |
+| コンテンツの保存場所 | **変わらない** |
+| **AWS GovCloud (US)** | Global cross-region inference は**適用されない** |
+
+公式は「Lifecycle status and inference scope are independent」（ライフサイクルの状態と推論スコープは独立している）とも書いています。
+どのモデル・機能が Global ルーティングを使うかは、公式の Inference endpoint regions の表と各機能のドキュメントに依存し、**Kiro Web の機能のうちどれが該当するかは未確認**です。
 
 ---
 
@@ -217,9 +255,11 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 
 ### オプトアウトの手順（Web）
 
-1. サインインして **Settings** に移動する
-2. **Agent** 設定を選ぶ
-3. **Allow AWS to use your Kiro Web content for service improvement** をオフにする
+1. サインインして **Settings > Privacy & data** に移動する
+2. **Allow AWS to use your Kiro Web content for service improvement** をオフにする
+
+> 公式ページの 2026-09-30 版は「**Settings** に移動し、**Agent** 設定を選ぶ」（Sign in and go to Settings / Select "Agent" settings）と書いていました。
+> 2026-10-23 版で **Settings > Privacy & data** に変わっています。
 
 ### ⚠️ オプトアウトしても保存される場合があります
 
@@ -243,7 +283,7 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 |------|------------|------|
 | **すべての Kiro 利用者・全モデル** | 自動化された不正利用検知の仕組みを使う場合がある | 自社またはサードパーティのモデル提供者の規約・利用ポリシーに違反する活動の検知 |
 | **OpenAI GPT モデル** | 分類器がフラグを立てたトラフィックを**最長 30 日**（法令で別途求められる場合を除く） | 自動オフライン不正利用検知 |
-| **Anthropic Claude Fable 5.1 (Preview)** | **すべてのトラフィック**を**最長 30 日**（法令で別途求められる場合を除く）。分類器がフラグを立てたトラフィックは **AWS による人によるレビューの対象になりうる** | 自動オフライン不正利用検知 |
+| **Anthropic Claude Fable 5.1** | **すべてのトラフィック**を**最長 30 日**（法令で別途求められる場合を除く）。分類器がフラグを立てたトラフィックは **AWS による人によるレビューの対象になりうる** | 自動オフライン不正利用検知 |
 
 ### Free Tier 利用者のみの追加の検知
 
@@ -255,6 +295,8 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 
 - Free Tier 利用者の入力は、**Kiro の基盤となる生成 AI モデルの改善には使われません**
 - ただし**不正利用検知用の分類器ツールの開発・改善には使われる場合があります**
+
+> 2026-10-23 版で、公式の記述から Claude Fable 5.1 の **`(Preview)` 表記が消えました**（保持期間の記述は同じです）。表記が消えた理由は公式に書かれていないため**未確認**です。
 
 > ⚠️ **2026-08-04 版にあった「Retained traffic is stored in the region where your inference was processed.」
 > （保持したトラフィックは推論が処理されたリージョンに保存される）という一文は、2026-09-30 版にはありません。**
@@ -269,15 +311,15 @@ Kiro Web は**リージョン間推論**を使い、大規模言語モデル（L
 <a id="free-tier-conflict"></a>
 ## ⚠️ Free Tier に関する公式ページ間の食い違い
 
-**2026-08-01 時点で未解決**でした。**2026-10-04 時点でも食い違いは継続しています。**
+**2026-08-01 時点で未解決**でした。**2026-10-25 時点でも食い違いは継続しています。**
 
 | 出典 | Page updated | 記述の要旨 |
 |------|-------------|-----------|
-| `docs/web/`（トップ） | 2026-10-02 | 前提条件が **「A Pro, Pro+, Pro Max, or Power subscription」**。本文に **「Kiro Web is available on Pro, Pro+, Pro Max, and Power plans.」** |
-| `docs/web/setup/` | 2026-10-02 | **「Ensure you have a paid Kiro subscription (Pro or higher). Kiro Web is not available on the free tier.」** |
-| **本ページ**（`docs/privacy-and-security/data-protection/`・移転先） | 2026-09-30 | **「Kiro Free Tier user」**が利用者区分として明記され（Storage by user type）、Free Tier 利用者のデータ保持（60 日）・オプトアウト・不正利用検知が記述されている。**Kiro Web を Free Tier の対象から除くという記述はない** |
+| `docs/web/`（トップ） | 2026-10-23 | 前提条件が **「A Pro, Pro+, Pro Max, or Power subscription」**。本文に **「Kiro Web is available on Pro, Pro+, Pro Max, and Power plans.」** |
+| `docs/web/setup/` | 2026-10-21 | **「Ensure you have a paid Kiro subscription (Pro or higher). Kiro Web is not available on the free tier.」** |
+| **本ページ**（`docs/privacy-and-security/data-protection/`・移転先） | 2026-10-23 | **「Kiro Free Tier user」**が利用者区分として明記され（Storage by user type）、Free Tier 利用者のデータ保持（60 日）・オプトアウト・不正利用検知が記述されている。**Kiro Web を Free Tier の対象から除くという記述はない** |
 
-> **更新日は `docs/web/`・`docs/web/setup/`（2026-10-02）の方が新しい**ですが、
+> **更新日は本ページ（2026-10-23）が `docs/web/setup/`（2026-10-21）より新しく、`docs/web/`（2026-10-23）とは同日**で、更新日の新旧では優劣がつきません。
 > 本サイトは更新日を根拠に一方を否定しません（後述）。
 
 ### 本サイトの扱い

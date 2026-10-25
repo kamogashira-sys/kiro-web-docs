@@ -56,12 +56,12 @@ DOC_LIMITS = f"{DOC_ROOT}/04_reference/04_limits.md"
 DOC_STRUCTURE = f"{DOC_ROOT}/00_information/01_official-site-structure.md"
 
 # SSoT（本スクリプトが守る分）
-SSOT_S1 = 21           # changelog エントリ数（20261004 snapshot）
-SSOT_S2 = 18           # docs Web ページ数（llms.txt Web URL 集合）
-SSOT_S3 = "2026-09-30"  # 最新エントリ日付（introducing-workflows）
-# ⚠️ S4 は **Web docs（docs/web/ 配下 18 ページ）だけ**を対象にした最大値。
+SSOT_S1 = 22           # changelog エントリ数（20261025 snapshot）
+SSOT_S2 = 17           # docs Web ページ数（llms.txt Web URL 集合。2026-10-25 に web/memory が Web 区分から外れ 18 → 17）
+SSOT_S3 = "2026-10-12"  # 最新エントリ日付（model-fallback-and-workflow-updates）
+# ⚠️ S4 は **Web docs（docs/web/ 配下 17 ページ）だけ**を対象にした最大値。
 #    Shared / §8.3 のリンク先ページ（docs/specs 等）は含めない（含めると意味が変わる）。
-SSOT_S4 = "2026-10-02"  # verified docs の最新 JSON-LD dateModified（web/ ほか 7 ページ・20261004 snapshot）
+SSOT_S4 = "2026-10-23"  # verified docs の最新 JSON-LD dateModified（web/・web/automations の 2 ページ・20261025 snapshot）
 
 BASE = "https://kiro.dev"
 # ⚠️ 末尾スラッシュ必須（無しは 301・本文0バイト — F-W11）。
@@ -119,7 +119,7 @@ MANIFEST_FIELDS = {
     "request_url", "final_url", "kind", "http_status", "content_type", "bytes",
     "sha256", "retrieved_at_jst", "save_path", "date_modified", "date_modified_status", "result", "error",
 }
-MISSING_DATE_MODIFIED_ALLOWLIST = {"https://kiro.dev/docs/web/memory/"}
+MISSING_DATE_MODIFIED_ALLOWLIST: set = set()  # 2026-10-25: web/memory が移転し Web docs 17 ページすべてが dateModified を持つ
 
 
 def canonical_page_url(url):
@@ -501,8 +501,8 @@ def main():
 
     # ---- 4. S2（docs ページ数）----
     if args.offline:
-        # ⚠️ `len(docs_dates)` で数えてはいけない。`web/memory/` は **dateModified を持たない**
-        #    ため 1 件少なくなり、S2 が常に不一致になる（実測で 17 vs 18 になった）。
+        # ⚠ `len(docs_dates)` ではなく**ファイル数**で数える。20261004 snapshot では `web/memory/` が
+        #    **dateModified を持たない**ため 1 件少なくなり、S2 が常に不一致になった（実測で 17 vs 18）。
         #    Web docs の **ファイル数**で数える（`shared_*`・`linked_*` は Web 集合外なので除く）。
         n_docs = offline_web_doc_files
     else:

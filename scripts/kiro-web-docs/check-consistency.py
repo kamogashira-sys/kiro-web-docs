@@ -207,18 +207,17 @@ SNAPSHOT_PREFIX = {
     "docs/privacy-and-security": "shared_privacy-and-security",
 }
 # Web docs 以外で本サイトが出典にしている全製品共通ページ（§8.3 のリンク先）。
-LINKED_DOC_NAMES = {"specs", "steering", "cloud-sessions"}
+LINKED_DOC_NAMES = {"specs", "steering", "cloud-sessions", "memory"}
 
 # スナップショットに `dateModified` が無い（＝照合できない）ページ。
-# `web/memory/` は取得できない（F-12）。取りこぼしを黙認しないため明示する。
-NO_DATE_MODIFIED = {"https://kiro.dev/docs/web/memory/"}
+# 公式に dateModified が無く照合できないページ。取りこぼしを黙認しないため明示する。
+# 2026-10-25: 旧 `docs/web/memory/`（F-12・dateModified 無し）が `docs/memory/`（dateModified あり）へ移転したため空。
+NO_DATE_MODIFIED: set = set()
 
 # 公式ページ自体に更新日が無いため、出典日を転記できない本文ページ（F-12）。
 # ⚠️ 上の NO_DATE_MODIFIED（URL 集合）と対応する。
 #    両方を手で書くと片方だけ増えて食い違うので、下の整合チェックで一致を強制する。
-NO_SOURCE_DATE_DOCS = {
-    f"{DOC_ROOT}/01_features/08_memory.md",   # https://kiro.dev/docs/web/memory/
-}
+NO_SOURCE_DATE_DOCS: set = set()
 
 
 def iso_from_page_updated(date_text):

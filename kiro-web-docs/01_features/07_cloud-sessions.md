@@ -5,7 +5,7 @@
 > Kiro IDE・Kiro CLI・Mobile にも共通します。ただし**Kiro Web のすべてのセッションは Cloud Session です**
 > （後述）。そのため本サイトに収録し、Web からの利用に焦点を当てて記述します。
 
-**出典**: <https://kiro.dev/docs/cloud-sessions/>（Page updated: October 1, 2026）
+**出典**: <https://kiro.dev/docs/cloud-sessions/>（Page updated: October 23, 2026）
 
 ---
 
@@ -37,10 +37,13 @@
 | 既存 Cloud Session の再開・操縦 | ✓ | ✓ | ✓ | ✓ |
 | Autonomous モード | ✓ | ✓ | ✓ | ✓ |
 | 宣言的ワークフロー（Declarative workflows） | ✓ | ✓ | ✓ | Not documented |
-| スケジュール実行（Automations） | — | — | ✓ | — |
+| スケジュール実行（Scheduled tasks） | — | — | ✓ | — |
 
-> **Kiro Web は5項目すべてに対応しています。** Automations（[03_automations.md](03_automations.md)）は
+> **Kiro Web は5項目すべてに対応しています。** Scheduled tasks（[03_automations.md](03_automations.md)）は
 > **Web 固有の機能**であることが、この表から確認できます。
+>
+> この行は 2026-10-01 版では **Scheduled automations** でした。2026-10-23 版で **Scheduled tasks** に変わっています
+> （同機能の名称の違いは [03_automations.md](03_automations.md) を参照してください）。
 >
 > 「宣言的ワークフロー」の行は 2026-10-01 版で追加されました。Mobile の欄は公式の表記どおり **Not documented**（記載なし）です。
 > Kiro Web での Workflows は [01_agent-modes.md](01_agent-modes.md#workflowsバックグラウンドで動く多段の計画) を参照してください。
@@ -85,8 +88,11 @@
 ### Web からの開始手順（公式）
 
 1. <https://app.kiro.dev> にサインインする
-2. 接続済みの [GitHub](06_repository-integration.md) または [GitLab](06_repository-integration.md) アカウントから作業対象のリポジトリを選ぶ
-3. エージェントとチャットして探索・実装・反復する。準備ができたらプルリクエストの作成を依頼するか、[Autonomous モード](01_agent-modes.md#autonomous-モード)を有効にして計画・実装・PR作成を任せる
+2. 接続済みの [GitHub](06_repository-integration.md) または [GitLab](06_repository-integration.md) アカウントから作業対象のリポジトリを選ぶ。ピッカーのリポジトリの横にある**ブランチセレクタ**で、既定ブランチ以外のブランチをクローンできる（選ばなければ既定ブランチ）
+3. エージェントとチャットして探索・実装・反復する。準備ができたらプルリクエストの作成を依頼するか、**spec mode で先に要件と設計を形にし**、または [Autonomous モード](01_agent-modes.md#autonomous-モード)を有効にして計画・実装・PR作成を任せる
+
+> 手順 2 のブランチセレクタと手順 3 の spec mode は、2026-10-23 版で本文に加わった記述です
+> （2026-10-01 版は「ブランチセレクタが表示されるとき（When a branch selector is shown）に限り」開けるという書き方で、spec mode の記述はありませんでした）。
 
 ### セッションはブラウザタブ・デバイスを越えて継続します
 
@@ -94,7 +100,7 @@
 
 > Your sessions persist across browser tabs and devices. Close the tab mid-task and the agent keeps working; the session list shows live status when you return.
 
-**タブを閉じてもエージェントは作業を継続**し、戻ったときにセッション一覧で状態を確認できます。定期的な作業には [Automations](03_automations.md) が、開始操作なしに Cloud Session をスケジュール実行します。
+**タブを閉じてもエージェントは作業を継続**し、戻ったときにセッション一覧で状態を確認できます。定期的な作業には [Scheduled tasks](03_automations.md) が、開始操作なしに Cloud Session をスケジュール実行します。
 
 [Mobile アプリ](https://kiro.dev/docs/mobile/)も同じセッションに接続でき、スマートフォンから diff の確認や承認応答ができます。
 
@@ -153,20 +159,22 @@
 公式は次のように説明しています。
 
 > - **Project configuration travels with the repo:** steering, specs, custom agents, hooks, and MCP servers committed under `.kiro/` in your repository apply in cloud sessions automatically, because the sandbox clones the repository.
-> - **Personal configuration can sync through your account:** your local `~/.kiro/` directory stays local and isn't applied to a cloud session. Use **Settings > Sync** in Kiro Web to upload supported personal configuration. Manage the cloud copy from its feature-specific settings page, including account-backed Powers under **Settings > Powers**.
+> - **Personal configuration can sync through your account:** your local `~/.kiro/` directory stays local and isn't applied to a cloud session. Use **Agent Config > Cloud Config** in Kiro Web to upload supported personal configuration. Manage the cloud copy from its feature-specific settings page, including account-backed Powers under **Agent Config > Powers & MCP**.
 
 | 構成の種類 | 扱い |
 |-----------|------|
 | **プロジェクト構成**（リポジトリの `.kiro/` 配下） | **リポジトリと一緒に移動**。Steering・Specs・カスタムエージェント・Hooks・MCP サーバーはサンドボックスがリポジトリをクローンする際に自動的に適用される |
-| **個人構成**（`~/.kiro/`） | **ローカルに留まり、Cloud Session には適用されません**。持ち込むには [Kiro Web の Settings](https://app.kiro.dev/settings/cloud-config) の **Sync**（Configuration Sync）からアップロードする |
-| **アップロード後のクラウド側の管理** | **機能ごとの設定ページ**で行う（アカウント側で持つ **Powers** は **Settings > Powers**） |
+| **個人構成**（`~/.kiro/`） | **ローカルに留まり、Cloud Session には適用されません**。持ち込むには [Kiro Web の Settings](https://app.kiro.dev/settings/cloud-config) の **Agent Config > Cloud Config**（Configuration Sync）からアップロードする |
+| **アップロード後のクラウド側の管理** | **機能ごとの設定ページ**で行う（アカウント側で持つ **Powers** は **Agent Config > Powers & MCP**） |
 
 > ⚠️ **2026-09-02 更新で表現が変わりました。** 移転前は
 > 「Personal configuration stays local: your `~/.kiro/` directory isn't applied automatically.」でしたが、
 > 現行は「**Personal configuration can sync through your account**」（アカウント経由で同期できる）が見出しになり、
 > 設定画面の名称も **Cloud configuration** から **Configuration Sync** に変わっています（2026-09-13 実測）。
-> さらに 2026-10-01 版では、この一文のメニュー名が「Settings > Configuration Sync」から「**Settings > Sync**」に変わりました
-> （[09_configuration-sync.md](09_configuration-sync.md) の「Settings > Sync」と一致します）。
+> さらに 2026-10-01 版では、この一文のメニュー名が「Settings > Configuration Sync」から「**Settings > Sync**」に、
+> 2026-10-23 版では「**Agent Config > Cloud Config**」に変わりました
+> （[09_configuration-sync.md](09_configuration-sync.md) の「Agent Config > Cloud Config」と一致します）。
+> Powers の管理場所も「Settings > Powers」から「**Agent Config > Powers & MCP**」に変わっています。
 
 公式はセッション内で何が起きるかを表にまとめており、個人構成の行は次のとおりです。
 
@@ -200,7 +208,7 @@
 
 ## 現時点の制限
 
-**出典**: <https://kiro.dev/docs/cloud-sessions/>（Page updated: October 1, 2026）
+**出典**: <https://kiro.dev/docs/cloud-sessions/>（Page updated: October 23, 2026）
 
 公式が「**Current limitations**」として明記している制限は4点です。
 
@@ -236,11 +244,12 @@
 ## 🔗 関連ページ
 
 - [01_agent-modes.md](01_agent-modes.md) — 2つのモード（Cloud Session 上での操縦方法）
-- [03_automations.md](03_automations.md) — Automations（Cloud Session のスケジュール実行・Web 固有）
+- [03_automations.md](03_automations.md) — Schedule（Scheduled tasks。Cloud Session のスケジュール実行・Web 固有）
 - [05_sandbox.md](05_sandbox.md) — サンドボックス（Cloud Session の実行環境の詳細）
 - [06_repository-integration.md](06_repository-integration.md) — GitHub / GitLab 連携
 - [03_deployment/02_identity-center.md](../03_deployment/02_identity-center.md) — AWS Identity Center 組織での有効化手順
 - 公式: <https://kiro.dev/docs/cloud-sessions/>
+- 公式ガイド（全製品共通ページ・本サイトの収録範囲外）: <https://kiro.dev/docs/guides/running-kiro-in-the-cloud/> — 公式は Cloud Sessions のページ冒頭で「How-to を探しているなら動画付きのガイドを」と案内しています（2026-10-23 版で追加）
 
 ---
 

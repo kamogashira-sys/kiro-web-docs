@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: October 1, 2026）
+**出典**: <https://kiro.dev/docs/web/sandbox/mcp/>（Page updated: October 21, 2026）
 
 > **2026-08-04 の更新で新設**: 公式は「全 Kiro サーフェスに共通する MCP の一般的な設定・概念は
 > `docs/mcp/` を参照、Powers の一般的な文書は `docs/powers/` を参照」という案内を
@@ -33,7 +33,7 @@
 
 | 方式 | 内容（公式の説明） | 設定 |
 |------|----------------|------|
-| **Powers** | **Kiro Web に同梱されている統合群**。専門的なツールとコンテキストをエージェントに追加する | セッションで有効にする Powers を選ぶ。**Settings > Powers**（カタログからのインストールを含む）。自分の `powers/` フォルダを **Settings > Sync**（[Configuration Sync](../01_features/09_configuration-sync.md)）からアップロードすることもできる |
+| **Powers** | **Kiro Web に同梱されている統合群**。専門的なツールとコンテキストをエージェントに追加する | セッションで有効にする Powers を選ぶ。**Agent Config > Powers & MCP**（カタログからのインストールを含む）。自分の `powers/` フォルダを **Agent Config > Cloud Config**（[Configuration Sync](../01_features/09_configuration-sync.md)）からアップロードすることもできる |
 | **MCP servers** | **Model Context Protocol** を使ったカスタムツール統合。**完全に制御できる** | **手動で設定**し、各タスクの開始時にサンドボックスに読み込まれる |
 
 > **Powers は Kiro Web に固有の概念**です。Kiro IDE / Kiro CLI の MCP 設定とは別扱いにしてください。
@@ -81,7 +81,7 @@
 
 ### 追加手順
 
-1. **Settings** に移動し **Agent** タブを選ぶ
+1. **Agent Config > Powers & MCP** に移動する
 2. **MCP server settings** の下の **Add server** をクリック
 3. **サーバー名**・**種類（HTTP または local）**・**コマンドまたは URL** を入力する
 
@@ -193,7 +193,7 @@ MCP の設定から環境変数とシークレットを参照して、資格情�
 
 ### 認可の手順
 
-1. **Settings > Powers** に移動する
+1. **Agent Config > Powers & MCP** に移動する
 2. 接続したい Power を見つけて **Authorize** を選ぶ
 3. **新しいブラウザタブ**が開き、サービスの同意画面が表示される
 4. 要求されている権限を確認して承認する
@@ -203,11 +203,18 @@ MCP の設定から環境変数とシークレットを参照して、資格情�
 
 ### 接続の解除
 
-1. **Settings > Powers** に移動する
+1. **Agent Config > Powers & MCP** に移動する
 2. 対象の Power を見つけて **Disconnect** を選ぶ
 
-> **公式ページの 2026-09-02 版と 2026-10-01 版の間で、Powers の管理場所が「Settings > Agent タブ > Sandbox > Manage Powers」から
-> 「Settings > Powers」に変わりました。** 認可・解除の手順もこれに合わせて 1 段階短くなっています。
+> **公式ページ（`docs/web/sandbox/mcp/`）の Powers の管理場所は、版ごとに次のように変わっています。**
+>
+> | 版 | Powers の管理場所 | MCP サーバーの追加場所 |
+> |----|----------------|------------------|
+> | 2026-09-02 版 | Settings > Agent タブ > Sandbox > Manage Powers | Settings の Agent タブ |
+> | 2026-10-01 版 | Settings > Powers | Settings の Agent タブ |
+> | 2026-10-21 版（現行） | **Agent Config > Powers & MCP** | **Agent Config > Powers & MCP**（MCP server settings） |
+>
+> 2026-10-01 版で認可・解除の手順が 1 段階短くなり、2026-10-21 版では Powers と MCP サーバーが**同じ画面**にまとまりました。
 
 | 項目 | 内容 |
 |------|------|

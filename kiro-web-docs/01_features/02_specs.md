@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/specs/>（Page updated: October 2, 2026・**Features 区分の全製品共通ページに移転**。旧 `docs/web/specs/` は2026-08-12以前は Page updated: July 22, 2026）
+**出典**: <https://kiro.dev/docs/specs/>（Page updated: October 15, 2026・**Features 区分の全製品共通ページに移転**。旧 `docs/web/specs/` は2026-08-12以前は Page updated: July 22, 2026）
 
 > ⚠️ **旧 `docs/web/specs/` は2026-08-12に `docs/specs/`（Features 区分の全製品共通ページ）へ移転しました。**
 > 2026-08-01時点では「Kiro Web の docs で3番目に新しい更新」でしたが、この順位は移転前の記録です。
@@ -136,7 +136,7 @@ Specs は、いきなりコードを書き始めるのではなく、**要件・
 
 ### タスクは並列で実行されます
 
-**出典**: <https://kiro.dev/docs/specs/>（Page updated: October 2, 2026）
+**出典**: <https://kiro.dev/docs/specs/>（Page updated: October 15, 2026）
 
 spec のタスクをすべて実行すると、Kiro は**タスクリストを解析して依存関係を判断し、独立したタスクを並行実行**します。
 公式は「**ほとんどの feature spec で、設定なしに実行時間を大幅に短縮する**」と説明しています。
@@ -159,7 +159,7 @@ spec のタスクをすべて実行すると、Kiro は**タスクリストを�
 > ⚠️ **本節は公式サイトの再構成（2026-08-12）により、出典が現存しないページのスナップショットに基づきます。**
 > 旧 `docs/web/specs/`（Page updated: July 22, 2026）には「**Differences from the IDE**」という節があり、
 > **Kiro IDE の Specs と web で異なる点**が3つ挙げられていました。
-> **移転先 <https://kiro.dev/docs/specs/>（Page updated: October 2, 2026・Features 区分の全製品共通ページ）を実測したところ、
+> **移転先 <https://kiro.dev/docs/specs/>（Page updated: October 15, 2026・Features 区分の全製品共通ページ）を実測したところ、
 > この節および「Kiro Web」への言及は0件でした。** 移転時点でこの記述は失われたと判断できます。
 
 旧ページに記載されていた3点差分（出典: 06_embedded-docs の 2026-08-01 スナップショット）:

@@ -1,12 +1,12 @@
-# Kiro Web 更新履歴（全21エントリ）
+# Kiro Web 更新履歴（全22エントリ）
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の更新履歴です。**
 > Kiro IDE / Kiro CLI の更新は別製品のものです（姉妹サイトを参照してください）。
 > **Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
 **出典**: [公式 changelog（Web 系列）](https://kiro.dev/changelog/web/)
-**収録範囲**: 公式 changelog の `web` 系列**全21エントリ**（2025-12-02 〜 2026-09-30）
-**情報の基準日**: 2026-10-04（公式 snapshot の取得日。出典日は各公式エントリの公開日）
+**収録範囲**: 公式 changelog の `web` 系列**全22エントリ**（2025-12-02 〜 2026-10-12）
+**情報の基準日**: 2026-10-25（公式 snapshot の取得日。出典日は各公式エントリの公開日）
 
 ---
 
@@ -20,14 +20,14 @@ Kiro IDE の `1.0.242` のような版番号が Kiro Web には**存在しませ
 
 ### 折りたたまれている項目も全部載せています
 
-公式サイトでは一部のエントリの `Improvements` / `Fixes` が**初期状態で折りたたまれて**います。本ページは**折りたたみの中身も省略せず全量**を掲載しています（該当3エントリ・計41項目）。
+公式サイトでは一部のエントリの `Improvements` / `Fixes` が**初期状態で折りたたまれて**います。本ページは**折りたたみの中身も省略せず全量**を掲載しています（該当4エントリ・計57項目）。
 
 ### 各エントリの構造は2種類あります
 
 | 種類 | 構造 | 件数 |
 |------|------|------|
 | **機能紹介型** | 導入文（＋機能ごとの節） | 18 |
-| **保守型** | 導入文（＋節）＋ `Improvements` / `Fixes` の一覧 | 3 |
+| **保守型** | 導入文（＋節）＋ `Improvements` / `Fixes` の一覧 | 4 |
 
 ### 本文は公式の記述の翻訳です
 
@@ -40,6 +40,7 @@ Kiro IDE の `1.0.242` のような版番号が Kiro Web には**存在しませ
 
 | 日付 | エントリ | 種類 | 主な内容 |
 |------|---------|------|---------|
+| 2026-10-12 | [Model Fallback, Workflow Step Models, and Session Reopen Previews](#2026-10-12-model-fallback-and-workflow-updates) | **保守型**（16項目） | フォールバックモデル・Workflow ステップのモデル変更・セッション再オープン時のプレビュー・Workflow ループの復旧 |
 | 2026-09-30 | [Introducing Workflows in Kiro Web](#2026-09-30-introducing-workflows-in-kiro-web) | 機能紹介型 | Workflows（バックグラウンドで動く多段の計画）・オプトイン |
 | 2026-09-22 | [Reasoning Effort and a Grouped Timeline](#2026-09-22-reasoning-effort-and-a-grouped-timeline) | **保守型**（20項目） | 推論の effort の選択・タイムラインの折りたたみ・添付上限・タブの再接続 |
 | 2026-09-01 | [Use Cloud Configuration in Local Sessions](#2026-09-01-use-cloud-configuration-in-local-sessions) | 機能紹介型 | クラウドの設定をローカルの IDE / CLI セッションに適用 |
@@ -61,6 +62,90 @@ Kiro IDE の `1.0.242` のような版番号が Kiro Web には**存在しませ
 | 2026-05-19 | [Session Stability, Stop Control, and Mobile Layout Fixes](#2026-05-19-session-stability-stop-control-and-mobile-layout-fixes) | **保守型**（11項目） | 停止ボタン・モバイルレイアウト・セッション安定性 |
 | 2026-05-07 | [Introducing Kiro Web (Preview)](#2026-05-07-introducing-kiro-web-preview) | 機能紹介型 | **Kiro Web の提供開始（Preview）** |
 | 2025-12-02 | [Introducing Kiro autonomous agent](#2025-12-02-introducing-kiro-autonomous-agent) | 機能紹介型 | autonomous agent のプレビュー提供開始 |
+
+---
+
+<a id="2026-10-12-model-fallback-and-workflow-updates"></a>
+
+## 2026-10-12: Model Fallback, Workflow Step Models, and Session Reopen Previews
+
+**出典**: <https://kiro.dev/changelog/web/model-fallback-and-workflow-updates/>（October 12, 2026）
+
+Kiro Web で、**フォールバックモデルを選べる**ようになり、**Workflow のステップが動くモデルを変更**できるようになりました。再オープンしたセッションは、サンドボックスが起動する間も会話を表示します。公式はさらに、**反復の上限に達した Workflow のループを復旧**できること、**使い続けているセッションは利用できる状態が続く**ことを挙げています。
+
+### Choose a Fallback Model
+
+**Settings > Model** を開き、一覧からモデルを選んで、そのフォールバックを選びます（公式の記述）。
+
+| 状況 | 動作 |
+|------|------|
+| 選択したモデルが**利用できない** | フォールバックが**そのターンだけ**応答し、次のターンで選択したモデルに戻る |
+| 選択したモデルが**リクエストを拒否した** | 会話は**セッションの残りの間フォールバックのまま**になる |
+
+フォールバックは**いつでも削除**できます。
+
+> ⚠️ **公式の記述に食い違いがあります。** 本エントリは設定の場所を **Settings > Model** と書いています。
+> 一方、公式ドキュメント <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）の
+> 「Choose a fallback model」は **Agent Config > Model fallback** と書いています。
+> 本サイトは**どちらが現行の画面かを裁定せず、両方を併記**します（[01_features/01_agent-modes.md](../01_features/01_agent-modes.md#フォールバックモデルを選ぶ)）。現行の画面は**未確認**です。
+> 公式エントリの「Learn more」は <https://kiro.dev/docs/web/using-the-agent/>（節 `choose-a-fallback-model`） を指しています。
+
+### Change a Workflow Step's Model
+
+**Workflows をオンにしている**と、選択したステップのコンポーザに**モデルピッカー**が加わります。モデルが対応していれば **effort** と **Thinking** も選べます。モデルを変えるには**先にそのステップを停止**し、**メッセージを送って続行**します。**選択は、そのステップだけに適用**されます。
+
+> 公式エントリの「Learn more」は全製品共通ページ <https://kiro.dev/docs/workflows/manage/>（節 `choose-the-right-run-control`・Web タブ） を指しています（本サイトの収録範囲外）。
+
+### See Your Conversation While a Session Reopens
+
+サンドボックスが停止しているセッションを再び開くと、Kiro Web は**サンドボックスの起動中に保存済みの会話のプレビュー**を表示します。**サンドボックスの準備ができると、完全な履歴がプレビューに置き換わります。**
+
+> 詳細は [01_features/01_agent-modes.md](../01_features/01_agent-modes.md#セッションを再び開いたときの会話プレビュー) を参照してください。
+> 公式エントリの「Learn more」は <https://kiro.dev/docs/web/using-the-agent/>（節 `background-tabs-and-reconnecting`） を指しています。
+
+### Recover a Workflow Loop at Its Iteration Cap
+
+Workflow の repeat（ループ）が**反復の上限で一時停止**したとき、続行する方法が2つになりました。
+
+| 操作 | 動作 |
+|------|------|
+| **Run N more** | **1 から 1,000 の整数**を受け付け、その数だけ**追加の反復**を与える |
+| **Stop looping and continue** | repeat を**終了**し、**次のステップへ進む** |
+
+> 公式エントリの「Learn more」は全製品共通ページ <https://kiro.dev/docs/workflows/manage/>（節 `choose-the-right-run-control`・Web タブ） を指しています（本サイトの収録範囲外）。
+
+### Improvements（7件）
+
+- **Sessions stay while you use them**: セッションを開く、またはメッセージを送ると、**90 日の保持期間が再び起算**されます（[04_reference/04_limits.md](../04_reference/04_limits.md#セッションの保持期間) 参照）
+- **Supported images fitted to the selected model**: Kiro は、リクエスト時に**対応する画像を選択したモデルに合わせて調整**し、必要なときは**そのモデルの上限まで大きな画像を縮小**できます。モデルを変えた後は画像を**再調整**します。画像に対応しないモデルには**プレースホルダ**が渡され、元のモデルに戻すと**画像が再び送られます**
+- **Edit workflow recipes in place**: アップロード済みの JSON または YAML のレシピを **Settings > Workflows** で開いて編集できます。**構文が有効になると保存**でき、保存に失敗しても**下書きは残ります**
+- **.agents folder in Files**: セッションの Files ツリーに **`.agents` フォルダ**が表示されます。それ以外の隠しファイル・隠しフォルダは**非表示のまま**です
+- **Repositories cloned during a session**: エージェントが `git`・`gh`・`glab` でクローンしたリポジトリが、**セッションのリポジトリ一覧に表示**されます
+- **New group from Move to Group**: **Move to Group** のメニューに **New group** が加わり、セッションを移しながらグループを作れます。移動とアーカイブは**すぐに反映**されます
+- **Session setup after restarts**: セッションまたはサンドボックスが再起動したとき、繰り返される起動処理が**1つの Session setup グループにまとまり**、再び別々に現れることがありません
+
+> 設定場所の表記（`Settings > Workflows`）は本エントリのものです。公式 docs <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 21, 2026）は `Agent Config > Workflows` と書いています
+> （[01_features/09_configuration-sync.md](../01_features/09_configuration-sync.md)）。
+>
+> 公式エントリの「Learn more」の参照先は、「Sessions stay while you use them」が <https://kiro.dev/docs/web/using-the-agent/>（節 `data-retention`）、
+> 「Edit workflow recipes in place」が全製品共通ページ <https://kiro.dev/docs/workflows/>（節 `turn-it-on`・Web タブ）、
+> 「New group from Move to Group」が <https://kiro.dev/docs/web/using-the-agent/>（節 `organize-sessions-into-groups`） です。
+
+### Fixes（9件）
+
+- 長いプロンプトが**コンポーザのモデルセレクタの行にはみ出す**問題を修正しました。テキストが伸びるにつれて、コントロールの行が下へ移ります
+- 再読み込みしたセッションで、「Fetching your learnings」と「Fetching steering files」が、Session setup の行ではなく**生の JSON を含む展開式カード**として表示される問題を修正しました
+- チャット内のフォルダへのリンクが**ファイルとして開き**、エラーのトーストと「Unable to load file.」が表示される問題を修正しました。フォルダでは「This is a folder. Select a file inside it to view its contents.」と表示されます
+- エージェントが最初の成果物を書く前に **Artifacts タブの読み込みが失敗**する問題を修正しました。空の一覧が表示されます
+- サイドバーの**緑の点が、サンドボックスが動いているセッションではなくアイドル状態のセッションに表示される**問題を修正しました
+- ループの復旧コントロールが表示されている状態でパネルを狭めると、**Workflows パネルのヘッダーがステップのパンくずと重なる**問題を修正しました
+- Automations など**サブスクリプションが必要なページの Upgrade plan ボタン**が、サブスクリプションのない利用者で失敗する問題を修正しました。アカウント設定のプラン選択が開きます
+- 別のプロバイダでサインインしているのに、**Kiro CLI のデバイスサインインが「Continue with」を提示する**問題を修正しました。「Sign out and use the requested provider」が提示されます
+- GitHub の issue コメントで、`/kiro` が単独のコマンド境界を持たない形で現れると**意図しないセッションが始まる**問題を修正しました。Kiro は、コメントの先頭または空白の直後にあり、**直後に英字・数字・アンダースコアが続かない** `/kiro` だけを認識します（[01_features/06_repository-integration.md](../01_features/06_repository-integration.md) 参照）
+
+> 公式のエントリは Fixes の項目で、サブスクリプションが必要なページの例として **Automations** と書いています。
+> 公式 docs <https://kiro.dev/docs/web/automations/>（Page updated: October 23, 2026）は同機能を **Schedule**（本文は Scheduled tasks）と呼んでいます（[01_features/03_automations.md](../01_features/03_automations.md)）。
+> GitHub の `/kiro` に関する Fixes の「Learn more」は <https://kiro.dev/docs/web/github/>（節 `assigning-tasks-from-github-issues`） を指しています。
 
 ---
 
@@ -462,7 +547,7 @@ Vibe セッションでは、**最初のプロンプトを送った後でも** A
 
 > **⚠️ 未確認・公式ページ間の食い違いがあります**: 本エントリと `docs/web/`・`docs/web/setup/` は
 > Pro 以上のサブスクリプションが前提と読めますが、
-> <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: September 30, 2026）は
+> <https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: October 23, 2026）は
 > **Free Tier 利用者**のデータ保持期間を記述しています。
 > 本サイトはどちらが正しいかを**断定しません**。
 

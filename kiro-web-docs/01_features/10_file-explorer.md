@@ -106,6 +106,11 @@
 > ⚠️ 制限2の「まだ（`yet`）」は**公式の表現**です。今後の追加が予告されているわけではありません
 > （公式に予定の記載はないため**未確認**）。
 
+> 2026-10-12 の changelog エントリ（Improvements の「.agents folder in Files」）は、**セッションの Files ツリーに `.agents` フォルダが表示される**ようになり、
+> **それ以外の隠しファイル・隠しフォルダは非表示のまま**だと書いています
+> （[2026-10-12 のエントリ](../02_update/01_changelog.md#2026-10-12-model-fallback-and-workflow-updates)）。
+> このページ <https://kiro.dev/docs/web/using-the-agent/file-explorer/>（Page updated: August 22, 2026）には `.agents` の記述がありません。
+
 ---
 
 ## 🔗 関連ページ

@@ -33,7 +33,11 @@ FIELDS = [
     "slug", "title", "index_url",
 ]
 DATE_MODIFIED_RE = re.compile(r'\\?"dateModified\\?"\s*:\s*\\?"(\d{4}-\d{2}-\d{2})')
-MISSING_DATE_MODIFIED_ALLOWLIST = {"https://kiro.dev/docs/web/memory/"}
+# dateModified を持たない Web docs の許可リスト。
+# 2026-10-25: 公式の docs/web/memory/ が全製品共通の docs/memory/ へ移転し（Web 区分から外れ）、
+#             Web docs 17 ページすべてが dateModified を持つようになったため空にした。
+#             空のままであることも検証する（新たに dateModified の無いページが現れたら失敗する）。
+MISSING_DATE_MODIFIED_ALLOWLIST: set[str] = set()
 # Shared 区分（更新手順書 §8.1）。**S2/S4 の Web 集合には入れない**。
 # 本サイトが出典として引用しているため dateModified の照合対象にする。
 SHARED_DOCS = {
@@ -45,6 +49,8 @@ LINKED_DOCS = {
     f"{BASE}/docs/specs/": "docs/linked_specs.html",
     f"{BASE}/docs/steering/": "docs/linked_steering.html",
     f"{BASE}/docs/cloud-sessions/": "docs/linked_cloud-sessions.html",
+    # 2026-10-25 追加: 旧 docs/web/memory/ の移転先（IDE / CLI / Web の 3 タブ構成）。
+    f"{BASE}/docs/memory/": "docs/linked_memory.html",
 }
 # dateModified を必須とする kind。Web 集合以外も出典日照合に使うため抽出する。
 DATE_MODIFIED_KINDS = {"web-doc", "shared-doc", "linked-doc"}
@@ -341,7 +347,7 @@ def main() -> int:
         "date_modified_urls": sorted(dates),
         "unverified_date_modified_urls": sorted(unverified_dates),
         "max_entry_date": max((item["date"] for item in index_entries.values() if item["date"]), default=None),
-        # ⚠️ S4 は **Web docs 18 ページのみ**から算出する。Shared / §8.3 のページを混ぜてはいけない。
+        # ⚠️ S4 は **Web docs 17 ページのみ**から算出する。Shared / §8.3 のページを混ぜてはいけない。
         "max_docs_date_modified": max((r["date_modified"] for r in cap.records if r["kind"] == "web-doc"), default=None),
         # 出典日照合（check-consistency.py）が使う。Web 集合の外にある引用先ページの実測日。
         "extra_doc_date_modified": {
