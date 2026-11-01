@@ -16,6 +16,7 @@ Schedule（スケジュール実行タスク）は、**セッションを自分�
 > 一方、2026-06-19 の changelog エントリは **Automations** と書いており、
 > [2026-10-12 のエントリ](../02_update/01_changelog.md#2026-10-12-model-fallback-and-workflow-updates)の Fixes（Upgrade plan ボタンの修正）も、サブスクリプションが必要なページの例として **Automations** と書いています。
 > 名称が変わった理由は公式に記載がなく**未確認**です。
+> [2026-10-28 のエントリ](../02_update/01_changelog.md#2026-10-28-session-recap-and-reorganized-settings)（Improvements「Schedule」）は「**Automations is now Schedule**, and its tasks are called scheduled tasks」と改称を告知し、同時セッション数の上限や一時的なサービスの上限に当たった実行は**限られた時間だけ再試行**すると書いています。再試行の回数・時間は公式に記載がなく**未確認**です。
 > 本サイトのファイル名（`03_automations.md`）は、相互リンクを保つため変えていません。
 
 ---

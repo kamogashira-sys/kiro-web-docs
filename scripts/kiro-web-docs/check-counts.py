@@ -11,7 +11,7 @@
     **表・コードブロック（実体）から数え**、それを文書中の件数記述と突き合わせる。
 
 検証する正準値（作業計画書 D-W7 の件数系）:
-    S1  changelog エントリ数              = 22
+    S1  changelog エントリ数              = 23
     S2  docs Web ページ数                 = 17
     S5  Common dependencies 許可ドメイン数 = 73
     S6  firewalls の URL/ドメイン表の行数  = 42（全サーフェス共通の表＋ Web タブの表）
@@ -55,7 +55,7 @@ LOCAL_ONLY = ("05_meta", "06_embedded-docs", "work_plans", "work_records")
 # SSoT（正準値）— 件数系。値の出典は kiro-web-docs/05_meta/10_update-guide.md §7
 # ------------------------------------------------------------
 SSOT = {
-    "S1": {"value": 22, "label": "changelog エントリ数",
+    "S1": {"value": 23, "label": "changelog エントリ数",
            "doc": f"{DOC_ROOT}/02_update/01_changelog.md"},
     "S2": {"value": 17, "label": "docs Web ページ数",
            "doc": f"{DOC_ROOT}/00_information/01_official-site-structure.md"},

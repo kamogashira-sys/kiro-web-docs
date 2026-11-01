@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 21, 2026）
+**出典**: <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 30, 2026）
 
 ---
 
@@ -192,7 +192,7 @@ Powers と MCP の詳細は [05_sandbox.md](05_sandbox.md) を参照してくだ
 |------|------|
 | 一度にアップロードできるフォルダ | **対応する最上位フォルダを1つずつ** |
 | 1項目あたりのサイズ | **4,000,000 バイト**（[04_limits.md](../04_reference/04_limits.md#configuration-sync-の上限)） |
-| 1つの Skill に含められるファイル数 | **25 ファイル**（[04_limits.md](../04_reference/04_limits.md#configuration-sync-の上限)） |
+| 1つの Skill に含められるファイル数 | **50 ファイル**（[04_limits.md](../04_reference/04_limits.md#configuration-sync-の上限)。2026-10-21 版までは 25） |
 | 1つのカスタム Power に含められるファイル数 | **50 ファイル**（[04_limits.md](../04_reference/04_limits.md#configuration-sync-の上限)） |
 | Skills とカスタム Power のファイル形式 | **テキストファイルのみ** |
 | `Update` を選んだときの動作 | **クラウド側を置き換える**。**ファイルの内容はマージされない** |

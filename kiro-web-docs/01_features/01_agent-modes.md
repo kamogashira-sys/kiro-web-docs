@@ -342,8 +342,10 @@ GitHub のプルリクエストの詳細表示と GitLab のマージリクエ�
 
 > ⚠️ **公式の記述に食い違いがあります。** 設定の場所を、公式 docs <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）は **Agent Config > Model fallback**、
 > changelog（2026-10-12 のエントリ）は **Settings > Model** と書いています。
-> docs の更新日（2026-10-21）の方が新しいものの、本サイトは更新日を根拠に一方を否定せず、**両方を併記**します。現行の画面は**未確認**です。
+> docs の更新日（2026-10-21）の方が新しいものの、本サイトは更新日を根拠に一方を否定せず、**両方を併記**します。
 > 告知は [2026-10-12 のエントリ](../02_update/01_changelog.md#2026-10-12-model-fallback-and-workflow-updates)にあります。
+>
+> その後の [2026-10-28 のエントリ](../02_update/01_changelog.md#2026-10-28-session-recap-and-reorganized-settings)は、サイドバーを **Agent Config** と **Settings** に分けたと告知し、モデルのフォールバックは **Agent Config > Model fallback** の下にあると書いています（docs と同じ記述）。同エントリは、モデルピッカーとフォールバックの一覧に各モデルのコンテキストウィンドウ（例: 「(1M context)」）が表示されること、**Auto がリクエストを拒否したときはフォールバックが応答し**、モデルが途中で失敗した場合は表示済みの応答から続けることも挙げています。
 
 > Autonomous モードではモデルを選べません（[上記](#autonomous-モード)）。Autonomous モードとフォールバックの関係は公式に記載がなく**未確認**です。
 
@@ -374,6 +376,7 @@ GitHub のプルリクエストの詳細表示と GitLab のマージリクエ�
 | サンドボックスの準備ができた | **完全な履歴がプレビューに置き換わる** |
 
 > この動作は [2026-10-12 のエントリ](../02_update/01_changelog.md#2026-10-12-model-fallback-and-workflow-updates)（See Your Conversation While a Session Reopens）で告知されました。
+> [2026-10-28 のエントリ](../02_update/01_changelog.md#2026-10-28-session-recap-and-reorganized-settings)（Improvements「Sandbox reopening」）は、「Waking up sandbox」の表示中も**保存済みの会話を読め、コンポーザを使える**こと、起動中に送ったメッセージは保持されること、起動に失敗すると「Sandbox unavailable」が **Retry** とともに表示され続けること、削除されたサンドボックスは数分後ではなくすぐにその状態を報告することを追加しています。
 
 ---
 
@@ -448,7 +451,7 @@ GitHub のプルリクエストの詳細表示と GitLab のマージリクエ�
 
 ## Workflows（バックグラウンドで動く多段の計画）
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）・<https://kiro.dev/docs/web/using-the-agent/chatting/>（Page updated: September 30, 2026）・<https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 21, 2026）・<https://kiro.dev/changelog/web/introducing-workflows/>（September 30, 2026）・<https://kiro.dev/changelog/web/model-fallback-and-workflow-updates/>（October 12, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）・<https://kiro.dev/docs/web/using-the-agent/chatting/>（Page updated: September 30, 2026）・<https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 30, 2026）・<https://kiro.dev/changelog/web/introducing-workflows/>（September 30, 2026）・<https://kiro.dev/changelog/web/model-fallback-and-workflow-updates/>（October 12, 2026）
 
 公式は `docs/web/using-the-agent/` で次のように説明しています。
 
@@ -482,6 +485,20 @@ GitHub のプルリクエストの詳細表示と GitLab のマージリクエ�
 | **ステップのモデルの変更** | **Workflows をオンにしている**と、選択したステップのコンポーザに**モデルピッカー**（モデルが対応していれば effort と Thinking を含む）が出る。**先にそのステップを停止**し、**メッセージを送って続行**する。選択は**そのステップだけ**に適用される |
 | **反復の上限でのループの復旧** | repeat が上限で一時停止したとき、**Run N more**（1〜1,000 の整数。追加の反復を与える）か、**Stop looping and continue**（repeat を終了して次のステップへ）を選べる |
 | **レシピの編集** | アップロード済みの JSON / YAML のレシピを **Settings > Workflows** で開いて編集できる。構文が有効になると保存でき、保存に失敗しても下書きは残る（Improvements） |
+
+### 計画の前に尋ねる create-workflow ステップ（2026-10-28 版の changelog）
+
+[2026-10-28 のエントリ](../02_update/01_changelog.md#2026-10-28-session-recap-and-reorganized-settings)（Workflows That Check In With You）は次を告知しています。
+
+| 項目 | 内容（公式） |
+|------|------------|
+| **create-workflow ステップ** | Workflows をオンにしていると、プロンプトから作られた Workflow は**開いて誘導できる create-workflow ステップ**から始まる。詳細が足りなければ**推測せずに尋ねる** |
+| **計画の表示** | 各ステップの**エージェント・モデル・effort・最初のタスク**を示す。却下した計画の後に求めた変更は、承認したステップに引き継がれる |
+| **レビューループの既定** | これまで 3〜5 回走って失敗していたレビューループは、**既定で 2 回却下されると一時停止**する。Workflow 自身の回数上限があればそちらが優先 |
+| **実行中の run** | **チャットの上に固定表示**される |
+| **pull request watch** | マージコンフリクトと失敗したチェックに反応し、回答済みのレビュースレッドを解決する（Improvements） |
+
+> 同エントリの Fixes は、Workflow のステップのセッションがタスクの上に親の会話のコピーを表示しなくなったこと、組織が Auto を承認済みモデルから外していても Workflows が実行されること、一時停止メッセージが「再開するとステップを再試行する」ことを説明するようになったことも挙げています。
 
 ### 同梱のレシピ（3種類）
 

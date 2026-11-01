@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/identity-center/>（Page updated: October 21, 2026）
+**出典**: <https://kiro.dev/docs/web/identity-center/>（Page updated: October 31, 2026）
 
 組織で AWS Identity Center を使っている場合、**利用者が Kiro Web のセッションを開始する前に、管理者が Cloud Sessions を有効にする必要があります**。また、**管理者が設定した共有設定の一部が Kiro Web には適用されません**。
 
@@ -129,18 +129,21 @@ Amazon Q Developer から移行した環境では、プロファイルの種類�
 |---|------------------|
 | 1 | Include suggestions with code references（コード参照付きの提案） |
 | 2 | Model Context Protocol（MCP） |
-| 3 | Model availability（利用できるモデル） |
-| 4 | Member account subscriptions（メンバーアカウントのサブスクリプション） |
-| 5 | MCP registry URL |
-| 6 | **Encryption key** — **Customer Managed Keys（CMK）は Kiro Web ではサポートされません** |
+| 3 | Member account subscriptions（メンバーアカウントのサブスクリプション） |
+| 4 | MCP registry URL |
+| 5 | **Encryption key** — **Customer Managed Keys（CMK）は Kiro Web ではサポートされません** |
+
+> 2026-10-21 版まではこの表に **Model availability（利用できるモデル）** の行があり、6 項目でした。2026-10-31 版でこの行が外れ、代わりに次の節のとおり「Model availability の設定は Kiro Web のセッションにも適用される」と書かれています。
 
 ### その他のガバナンスポリシー
 
 公式は次のように説明しています。
 
-> Other enterprise governance policies (such as model selection and web tool controls) are not currently available for Kiro Web.
+> Model availability settings apply to Kiro Web sessions that use your organization's Kiro profile. Other enterprise governance policies (such as web tool controls) are not currently available for Kiro Web.
 
-モデル選択や web ツール制御といった**その他のエンタープライズガバナンスポリシーも、現時点では Kiro Web で利用できません**。
+**Model availability（利用できるモデル）の設定は、組織の Kiro プロファイルを使う Kiro Web のセッションに適用されます。** web ツール制御といった**その他のエンタープライズガバナンスポリシーは、現時点では Kiro Web で利用できません**。
+
+> 2026-10-21 版のこの一文は「Other enterprise governance policies (such as model selection and web tool controls) are not currently available for Kiro Web.」で、モデル選択も「利用できない」側に挙げられていました。2026-10-31 版で Model availability が適用される側に移っています。
 
 ### エージェント設定は利用者ごとに個別管理されます
 

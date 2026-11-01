@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: October 16, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026。タブ構成（IDE/CLI/Web）に変更されたが Web タブの表は変化なし（実測確認済み）。2026-10-01 版で全サーフェス共通の AWS GovCloud (US) 節が表 4 行になり、合計は 34 → 38 行。2026-10-16 版で GitHub サインイン用の `*.awswaf.com` が Social sign-in（1 → 2 行）とワイルドカード（6 → 9 件）に加わり、合計は 38 → 42 行**）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: October 21, 2026）
+**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: October 29, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026。タブ構成（IDE/CLI/Web）に変更されたが Web タブの表は変化なし（実測確認済み）。2026-10-01 版で全サーフェス共通の AWS GovCloud (US) 節が表 4 行になり、合計は 34 → 38 行。2026-10-16 版で GitHub サインイン用の `*.awswaf.com` が Social sign-in（1 → 2 行）とワイルドカード（6 → 9 件）に加わり、合計は 38 → 42 行**）・<https://kiro.dev/docs/web/sandbox/internet-access/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/gitlab/>（Page updated: October 21, 2026）
 
 > ⚠️ **本ページの値はすべて公式ページの HTML 版から取っています。**
 > `firewalls` の `.md` 版は3サーフェス分が連結されているため使用していません
