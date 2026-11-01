@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/automations/>（Page updated: October 23, 2026）・<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: October 23, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）・<https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 21, 2026）・<https://kiro.dev/changelog/web/model-fallback-and-workflow-updates/>（October 12, 2026）・<https://kiro.dev/changelog/web/start-without-a-repo-switch-modes-anytime/>（June 2, 2026）・<https://kiro.dev/changelog/web/reasoning-effort-and-a-grouped-timeline/>（September 22, 2026）
+**出典**: <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）・<https://kiro.dev/docs/web/using-the-agent/creating-tasks/>（Page updated: October 2, 2026）・<https://kiro.dev/docs/web/automations/>（Page updated: October 23, 2026）・<https://kiro.dev/docs/privacy-and-security/data-protection/>（Page updated: October 23, 2026・**移転先。旧 `docs/web/data-protection/` は2026-08-04以前は Page updated: July 14, 2026**）・<https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 30, 2026）・<https://kiro.dev/changelog/web/model-fallback-and-workflow-updates/>（October 12, 2026）・<https://kiro.dev/changelog/web/start-without-a-repo-switch-modes-anytime/>（June 2, 2026）・<https://kiro.dev/changelog/web/reasoning-effort-and-a-grouped-timeline/>（September 22, 2026）
 
 > 本ページの値はすべて公式ページの HTML 版と公式 changelog から取っており、本サイトの検証スクリプトが公式との一致を機械的に確認しています。
 
@@ -21,7 +21,7 @@
 | **セッションの保持期間** | **最後のアクティビティから 90** 日 | `using-the-agent` |
 | **サンドボックスのディスク容量** | **128GB** | changelog（2026-06-02） |
 | **Configuration Sync の1項目あたりのサイズ** | **4,000,000 バイト** | `cloud-configuration` |
-| **1つの Skill に含められるファイル数** | **25** ファイル | `cloud-configuration` |
+| **1つの Skill に含められるファイル数** | **50** ファイル | `cloud-configuration` |
 | **1つのカスタム Power に含められるファイル数** | **50** ファイル | `cloud-configuration` |
 | **リージョン間推論の対応リージョン数** | **3** | `data-protection` |
 | **データ保存リージョン** | **US East（N. Virginia）のみ**（Free Tier・個人サブスクライバー） | `data-protection` |
@@ -167,24 +167,26 @@
 
 ## Configuration Sync の上限
 
-**出典**: <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 21, 2026）
+**出典**: <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 30, 2026）
 
 個人設定（`.kiro` 配下）を Kiro Web へアップロードする [Configuration Sync](../01_features/09_configuration-sync.md) の上限です。
 
 | 項目 | 値 |
 |------|---|
 | **1項目あたりのサイズ** | **4,000,000 バイト** |
-| **1つの Skill に含められるファイル数** | **25** ファイル |
+| **1つの Skill に含められるファイル数** | **50** ファイル |
 | **1つのカスタム Power に含められるファイル数** | **50** ファイル |
 
 公式は次のように説明しています。
 
 > - Upload one supported top-level folder at a time.
 > - Each uploaded item can be up to **4,000,000 bytes**.
-> - A Skill can contain up to **25 files**.
+> - A Skill can contain up to **50 files**.
 > - A custom Power can contain up to **50 files**.
 > - Skills and custom Powers support text files only.
 > - Selecting an Update replaces the cloud copy; uploads do not merge file contents.
+
+> Skill のファイル数は 2026-10-21 版まで **25** でした。2026-10-30 版で 50 になり、[2026-10-28 の changelog エントリ](../02_update/01_changelog.md#2026-10-28-session-recap-and-reorganized-settings)（Improvements「Larger skills」）も 25 → 50 と告知しています。
 
 数値以外の制限（1度に1フォルダ・テキストファイルのみ・置き換えでマージしない）は
 [01_features/09_configuration-sync.md](../01_features/09_configuration-sync.md#上限) を参照してください。

@@ -17,7 +17,7 @@
     S13 サンドボックスディスク  = 128GB
     S14 Free Tier 入力保持 / GPT 分類器 = 60 日 / 30 日
     S15 Configuration Sync の1項目サイズ = 4,000,000 バイト
-    S16 Skill のファイル数上限  = 25
+    S16 Skill のファイル数上限  = 50
     S17 カスタム Power のファイル数上限 = 50
 
 検証内容:
@@ -114,7 +114,7 @@ SSOT = [
             r"(?:バイト|bytes)"),
     },
     {
-        "id": "S16", "label": "Skill のファイル数上限", "value": "25",
+        "id": "S16", "label": "Skill のファイル数上限", "value": "50",
         "pattern": re.compile(
             r"(?:Skill に含められるファイル数|A Skill can contain up to)"
             r"[^\n]{0,24}?\**\s*(?<!\d)(\d+)\s*\**\s*(?:ファイル|files)"),

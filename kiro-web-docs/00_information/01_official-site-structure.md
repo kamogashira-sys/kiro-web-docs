@@ -58,7 +58,7 @@
 
 | # | 場所 | 内容 | 本サイトでの位置づけ |
 |---|------|------|------------------|
-| 1 | <https://kiro.dev/changelog/web/> | 更新履歴（**22 エントリ**・2025-12-02 〜 2026-10-12） | **更新内容と日付の正**。[02_update](../02_update/01_changelog.md) に全量掲載 |
+| 1 | <https://kiro.dev/changelog/web/> | 更新履歴（**23 エントリ**・2025-12-02 〜 2026-10-28） | **更新内容と日付の正**。[02_update](../02_update/01_changelog.md) に全量掲載 |
 | 2 | <https://kiro.dev/docs/web/> | 公式ドキュメント（**17 ページ**） | **機能仕様・設定・リファレンス値の正** |
 | 3 | <https://kiro.dev/blog/> | 関連ブログ（**3 本**） | 背景の補足のみ。本文の主たる根拠にしない |
 | 4 | <https://app.kiro.dev> | Kiro Web 本体 | 実機。利用には有料サブスクリプションが必要 |
@@ -382,7 +382,7 @@ sitemap の docs ページ（**2026-10-25 実測: 263 件**。2026-09-13 は 249
 ## 🔗 関連ページ
 
 - [02_information-sources.md](02_information-sources.md) — 情報源の使い分けと落とし穴（`.md` の壊れ方・折りたたみ節）
-- [02_update/01_changelog.md](../02_update/01_changelog.md) — 更新履歴（全22エントリ）
+- [02_update/01_changelog.md](../02_update/01_changelog.md) — 更新履歴（全23エントリ）
 - 公式ドキュメント: <https://kiro.dev/docs/web/>
 - 公式 changelog: <https://kiro.dev/changelog/web/>
 

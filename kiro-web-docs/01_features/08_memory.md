@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/memory/>（Page updated: October 24, 2026）
+**出典**: <https://kiro.dev/docs/memory/>（Page updated: October 29, 2026）
 
 > ⚠️ **Memory のページは Web 専用から全製品共通へ移転し、Web の記述は「coming soon」になっています。**
 > 旧 `docs/web/memory/`（`kiro.dev` 配下）は、現在は `https://kiro.dev/docs/memory/` へ転送されます
@@ -34,10 +34,11 @@
 
 | 項目 | 内容 |
 |------|------|
-| Web での設定・確認・表示の方法 | **公式に記載なし**（上記の「coming soon」のみ） |
+| Web での設定・確認・表示の方法 | **公式に記載なし**（上記の「coming soon」のみ）。ただし [2026-10-28 の changelog エントリ](../02_update/01_changelog.md#2026-10-28-session-recap-and-reorganized-settings)は、**Agent Config > Memory** に **Session recap**（メッセージごとに会話を要約し、入力欄の上に Recap を表示する）の設定があると書いています |
 | Web で Memory が動いているか | **未確認** |
 | 旧ページが書いていた「Settings の Memory セクション」が現行の画面にあるか | **未確認** |
 
+> 2026-10-29 版の `docs/memory/` の変更は、IDE タブ（種別・場所のバッジの説明）と CLI の操作（プレビュー・詳細表示・削除）の追記で、**Web タブは「coming soon」のまま**です。
 > 公式 <https://kiro.dev/docs/web/>（Page updated: October 23, 2026）の機能一覧には、移転前にあった「Memory — See what the agent learns from your work over time」の項目が**ありません**。
 > 本サイトが収録している他の Web docs（16 ページ）と、全製品共通の Cloud sessions・Steering・Specs のページにも、Memory を説明する本文は**ありません**。
 

@@ -3,7 +3,7 @@
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の仕様です。**
 > Kiro IDE / Kiro CLI とは別製品です。**Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
-**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: October 16, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026**）
+**出典**: <https://kiro.dev/docs/privacy-and-security/firewalls/>（Page updated: October 29, 2026・**移転先。旧 `docs/web/firewalls/` は2026-08-04以前は Page updated: May 27, 2026**）
 
 > ⚠️ **本ページは公式ページの HTML 版のみを出典にしています。**
 > このページの `.md` 版（旧 `docs/web/firewalls.md`）は **Web / privacy-and-security / cli の

@@ -56,12 +56,12 @@ DOC_LIMITS = f"{DOC_ROOT}/04_reference/04_limits.md"
 DOC_STRUCTURE = f"{DOC_ROOT}/00_information/01_official-site-structure.md"
 
 # SSoT（本スクリプトが守る分）
-SSOT_S1 = 22           # changelog エントリ数（20261025 snapshot）
+SSOT_S1 = 23           # changelog エントリ数（20261101 snapshot）
 SSOT_S2 = 17           # docs Web ページ数（llms.txt Web URL 集合。2026-10-25 に web/memory が Web 区分から外れ 18 → 17）
-SSOT_S3 = "2026-10-12"  # 最新エントリ日付（model-fallback-and-workflow-updates）
+SSOT_S3 = "2026-10-28"  # 最新エントリ日付（session-recap-and-reorganized-settings）
 # ⚠️ S4 は **Web docs（docs/web/ 配下 17 ページ）だけ**を対象にした最大値。
 #    Shared / §8.3 のリンク先ページ（docs/specs 等）は含めない（含めると意味が変わる）。
-SSOT_S4 = "2026-10-23"  # verified docs の最新 JSON-LD dateModified（web/・web/automations の 2 ページ・20261025 snapshot）
+SSOT_S4 = "2026-10-31"  # verified docs の最新 JSON-LD dateModified（web/identity-center・20261101 snapshot）
 
 BASE = "https://kiro.dev"
 # ⚠️ 末尾スラッシュ必須（無しは 301・本文0バイト — F-W11）。

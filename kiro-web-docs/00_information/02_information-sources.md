@@ -118,7 +118,7 @@
 | 確認方法 | 結果 |
 |---------|------|
 | 取得した HTML の記事部分から箇条書き（`<li>`）を数える | **0 件** |
-| ページに埋め込まれたデータ（React Server Components のペイロード）から取る | **57 件**（2026-10-25 実測。2026-10-04 は 41 件・2026-09-13 は 21 件） |
+| ページに埋め込まれたデータ（React Server Components のペイロード）から取る | **94 件**（2026-11-01 実測。2026-10-25 は 57 件・2026-10-04 は 41 件・2026-09-13 は 21 件） |
 
 該当するエントリと項目数:
 
@@ -128,10 +128,11 @@
 | [2026-06-02 Start Without a Repo, Switch Modes Anytime](../02_update/01_changelog.md#2026-06-02-start-without-a-repo-switch-modes-anytime) | 3 | 7 | 10 |
 | [2026-09-22 Reasoning Effort and a Grouped Timeline](../02_update/01_changelog.md#2026-09-22-reasoning-effort-and-a-grouped-timeline) | 8 | 12 | 20 |
 | [2026-10-12 Model Fallback, Workflow Step Models, and Session Reopen Previews](../02_update/01_changelog.md#2026-10-12-model-fallback-and-workflow-updates) | 7 | 9 | 16 |
-| **合計** | **23** | **34** | **57** |
+| [2026-10-28 Session Recaps, Guided Workflows, and Reorganized Settings](../02_update/01_changelog.md#2026-10-28-session-recap-and-reorganized-settings) | 16 | 21 | 37 |
+| **合計** | **39** | **55** | **94** |
 
-> **公式が公開している 57 項目が、素直に読むと丸ごと抜け落ちます。**
-> 本サイトはこの57項目を[更新履歴](../02_update/01_changelog.md)に**全量掲載**し、
+> **公式が公開している 94 項目が、素直に読むと丸ごと抜け落ちます。**
+> 本サイトはこの94項目を[更新履歴](../02_update/01_changelog.md)に**全量掲載**し、
 > 項目数が公式と一致することを機械検証しています。
 
 サンドボックスのディスク容量（**128GB**）のように、**リファレンスに載せるべき値がこの折りたたみの中にしかない**ケースもあります。
@@ -206,7 +207,9 @@
 
 → **「最新の changelog エントリの日付」だけを見ていると、仕様変更を見落とします。**
 本サイトは各ページに**公式の出典日**（`Page updated` の日付）を記載し、docs 側の更新も監視対象にしています。
-`check-freshness.py` の S4（docs 最新更新日）は実測値（**2026-10-23**）に同期しています。
+`check-freshness.py` の S4（docs 最新更新日）は実測値（**2026-10-31**。2026-10-25 時点は 2026-10-23）に同期しています。
+
+> **2026-11-01 の再実測**: 2026-10-25 との比較で更新日が進んだのは 4 ページ（`web/cloud-configuration` 2026-10-30・`web/identity-center` 2026-10-31・`docs/memory` 2026-10-29・`docs/privacy-and-security/firewalls` 2026-10-29）。本文の差分は、Skill のファイル数上限 25 → 50、Model availability の設定が Kiro Web に適用される側へ移ったこと、`docs/memory` の IDE / CLI タブの追記、`firewalls` の Kiro IDE 向け TLS 検査の一文で、後の 2 つは Web の記述に変更がありません。最新 changelog エントリ（2026-10-28）より後に更新された Web ページは 2 件（`web/cloud-configuration`・`web/identity-center`）です。
 
 > **2026-10-25 の実測では、2026-10-04 との比較で Web 17 ページのうち 11 ページ（上表の Web 11 件）、移転先・共通ページ 5 ページ（`cloud-sessions`・`data-protection`・`firewalls`・`steering`・`specs`）のすべてで `dateModified` と本文が変わっていました。**
 > 2026-10-12 の changelog エントリに対応する内容（フォールバックモデル・再オープン時のプレビュー・保持期間の再起算・`/kiro` の認識規則など）と、
@@ -311,7 +314,7 @@
 
 | 検証 | 内容 |
 |------|------|
-| 更新履歴の網羅性 | 公式の全エントリが載っているか／日付・タイトルが一致するか／**折りたたみ57項目の数が一致するか**（宣言した件数と実際の箇条書きの数の両方） |
+| 更新履歴の網羅性 | 公式の全エントリが載っているか／日付・タイトルが一致するか／**折りたたみ94項目の数が一致するか**（宣言した件数と実際の箇条書きの数の両方） |
 | リンク | 内部リンクとアンカーの実在／公式 URL が末尾スラッシュ付きか |
 | 構成 | 各ページに「Kiro Web 版の仕様」の明示と**公式の出典 URL** があるか |
 | 公開範囲 | 公開してはいけないファイルが混ざっていないか |
@@ -323,7 +326,7 @@
 ## 🔗 関連ページ
 
 - [01_official-site-structure.md](01_official-site-structure.md) — 公式サイトの構造マップ
-- [02_update/01_changelog.md](../02_update/01_changelog.md) — 更新履歴（折りたたみ57項目も全量掲載）
+- [02_update/01_changelog.md](../02_update/01_changelog.md) — 更新履歴（折りたたみ94項目も全量掲載）
 - [04_reference](../04_reference/) — HTML から取った値の一覧
 - 公式ドキュメント: <https://kiro.dev/docs/web/>
 

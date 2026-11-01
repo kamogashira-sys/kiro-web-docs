@@ -1,12 +1,12 @@
-# Kiro Web 更新履歴（全22エントリ）
+# Kiro Web 更新履歴（全23エントリ）
 
 > **本ページは Kiro Web 版（<https://app.kiro.dev>）の更新履歴です。**
 > Kiro IDE / Kiro CLI の更新は別製品のものです（姉妹サイトを参照してください）。
 > **Kiro Web は [2026-09-01 に一般提供（GA）になりました](https://kiro.dev/changelog/web/kiro-web-is-now-generally-available/)。**
 
 **出典**: [公式 changelog（Web 系列）](https://kiro.dev/changelog/web/)
-**収録範囲**: 公式 changelog の `web` 系列**全22エントリ**（2025-12-02 〜 2026-10-12）
-**情報の基準日**: 2026-10-25（公式 snapshot の取得日。出典日は各公式エントリの公開日）
+**収録範囲**: 公式 changelog の `web` 系列**全23エントリ**（2025-12-02 〜 2026-10-28）
+**情報の基準日**: 2026-11-01（公式 snapshot の取得日。出典日は各公式エントリの公開日）
 
 ---
 
@@ -20,14 +20,14 @@ Kiro IDE の `1.0.242` のような版番号が Kiro Web には**存在しませ
 
 ### 折りたたまれている項目も全部載せています
 
-公式サイトでは一部のエントリの `Improvements` / `Fixes` が**初期状態で折りたたまれて**います。本ページは**折りたたみの中身も省略せず全量**を掲載しています（該当4エントリ・計57項目）。
+公式サイトでは一部のエントリの `Improvements` / `Fixes` が**初期状態で折りたたまれて**います。本ページは**折りたたみの中身も省略せず全量**を掲載しています（該当5エントリ・計94項目）。
 
 ### 各エントリの構造は2種類あります
 
 | 種類 | 構造 | 件数 |
 |------|------|------|
 | **機能紹介型** | 導入文（＋機能ごとの節） | 18 |
-| **保守型** | 導入文（＋節）＋ `Improvements` / `Fixes` の一覧 | 4 |
+| **保守型** | 導入文（＋節）＋ `Improvements` / `Fixes` の一覧 | 5 |
 
 ### 本文は公式の記述の翻訳です
 
@@ -40,6 +40,7 @@ Kiro IDE の `1.0.242` のような版番号が Kiro Web には**存在しませ
 
 | 日付 | エントリ | 種類 | 主な内容 |
 |------|---------|------|---------|
+| 2026-10-28 | [Session Recaps, Guided Workflows, and Reorganized Settings](#2026-10-28-session-recap-and-reorganized-settings) | **保守型**（37項目） | セッションの要約（recap）・Agent Config と Settings の分離・Workflows の create-workflow ステップ・Schedule への改称 |
 | 2026-10-12 | [Model Fallback, Workflow Step Models, and Session Reopen Previews](#2026-10-12-model-fallback-and-workflow-updates) | **保守型**（16項目） | フォールバックモデル・Workflow ステップのモデル変更・セッション再オープン時のプレビュー・Workflow ループの復旧 |
 | 2026-09-30 | [Introducing Workflows in Kiro Web](#2026-09-30-introducing-workflows-in-kiro-web) | 機能紹介型 | Workflows（バックグラウンドで動く多段の計画）・オプトイン |
 | 2026-09-22 | [Reasoning Effort and a Grouped Timeline](#2026-09-22-reasoning-effort-and-a-grouped-timeline) | **保守型**（20項目） | 推論の effort の選択・タイムラインの折りたたみ・添付上限・タブの再接続 |
@@ -62,6 +63,85 @@ Kiro IDE の `1.0.242` のような版番号が Kiro Web には**存在しませ
 | 2026-05-19 | [Session Stability, Stop Control, and Mobile Layout Fixes](#2026-05-19-session-stability-stop-control-and-mobile-layout-fixes) | **保守型**（11項目） | 停止ボタン・モバイルレイアウト・セッション安定性 |
 | 2026-05-07 | [Introducing Kiro Web (Preview)](#2026-05-07-introducing-kiro-web-preview) | 機能紹介型 | **Kiro Web の提供開始（Preview）** |
 | 2025-12-02 | [Introducing Kiro autonomous agent](#2025-12-02-introducing-kiro-autonomous-agent) | 機能紹介型 | autonomous agent のプレビュー提供開始 |
+
+---
+
+<a id="2026-10-28-session-recap-and-reorganized-settings"></a>
+
+## 2026-10-28: Session Recaps, Guided Workflows, and Reorganized Settings
+
+**出典**: <https://kiro.dev/changelog/web/session-recap-and-reorganized-settings/>（October 28, 2026）
+
+Kiro Web が**セッションごとに短い要約（recap）を保持**できるようになり、**エージェントの設定（Agent Config）とアカウントの設定（Settings）が分かれました**。Workflows は、計画を立てる前に**足りない情報を尋ねる**ようになりました。
+
+### Agent Config and Settings, Side by Side
+
+サイドバーは、**エージェントの振る舞いを決める選択肢を Agent Config**、**アカウントと環境の設定を Settings** に分けました。
+
+| 区分 | 含まれる項目 |
+|------|------------|
+| **Agent Config** | Cloud Config・Steering・Skills・Workflows・Powers & MCP・Model fallback・Memory |
+| **Settings** | Account & plan・Appearance・Integrations・AWS access・Sandbox・API keys・Privacy & data・Help & support |
+
+MCP サーバーは **Powers & MCP** の下、IAM ロールは **AWS access** の下、テーマは **Appearance** の下、モデルのフォールバックは **Agent Config > Model fallback** の下にあります。
+
+> 公式エントリの「Learn more」は <https://kiro.dev/docs/web/cloud-configuration/> を指しています（[01_features/09_configuration-sync.md](../01_features/09_configuration-sync.md)）。
+> 2026-10-12 のエントリが **Settings > Model** と書いていたフォールバックモデルの設定場所は、本エントリでは **Agent Config > Model fallback** と書かれ、公式 docs <https://kiro.dev/docs/web/using-the-agent/>（Page updated: October 21, 2026）の記述と同じになりました（[01_features/01_agent-modes.md](../01_features/01_agent-modes.md#フォールバックモデルを選ぶ)）。
+
+### Workflows That Check In With You
+
+**Workflows をオンにしている**と、プロンプトから作られた Workflow は、**開いて誘導できる create-workflow ステップ**から始まります。詳細が足りなければ、**推測せずに尋ねます**。その計画には、各ステップの**エージェント・モデル・effort・最初のタスク**が示されます。却下した計画の後に求めた変更は、承認したステップに引き継がれます。これまで 3〜5 回走って失敗していたレビューループは、**既定で 2 回却下されると一時停止**します。Workflow 自身の回数上限がある場合はそちらが優先されます。実行中の run は**チャットの上に固定表示**されます。
+
+> 公式エントリの「Learn more」は全製品共通ページ <https://kiro.dev/docs/workflows/manage/>（節 `respond-when-a-step-needs-input`） を指しています（本サイトの収録範囲外）。
+> Workflows の Web での使い方は [01_features/01_agent-modes.md](../01_features/01_agent-modes.md#workflowsバックグラウンドで動く多段の計画) を参照してください。
+
+### Improvements（16件）
+
+- **Session recap**: **Agent Config > Memory** で **Session recap** をオンにすると、メッセージごとに会話を要約します。数回のメッセージの後、入力欄の上に **Recap** が表示されます。新しいセッションも同じ設定を使います
+- **Schedule**: **Automations は Schedule になり**、そのタスクは **scheduled tasks** と呼ばれます。同時セッション数の上限や一時的なサービスの上限に当たった実行は、**限られた時間だけ再試行**します（[01_features/03_automations.md](../01_features/03_automations.md) 参照）
+- **Sandbox reopening**: 再び開いたセッションは、「Waking up sandbox」が表示されている間も**保存済みの会話を読め、コンポーザを使えます**。起動中に送ったメッセージは保持されます。起動に失敗すると「Sandbox unavailable」が **Retry** とともに表示され続け、削除されたサンドボックスは**数分後ではなくすぐに**その状態を報告します（[01_features/01_agent-modes.md](../01_features/01_agent-modes.md#セッションを再び開いたときの会話プレビュー) 参照）
+- **What's new in the sidebar**: **What's new** がサイドバー下部の最初の行になり、**未読のお知らせの数**を表示します
+- **Panel layout per session**: 各セッションが、**サイドパネルの開閉・表示中のタブ・幅・選択中の Workflow の run とステップ**を記憶します
+- **Context window in model pickers**: モデルピッカーとフォールバックの一覧に、各モデルの**コンテキストウィンドウ**（例: 「(1M context)」）が表示されます
+- **Grouped sub-agent reasoning**: 並列のサブエージェントの推論は、アクティブなエージェントが変わるごとにブロックが変わるのではなく、**1 つの Thinking ブロックにまとまります**
+- **Lighter tool rows**: ツール呼び出しの表示が**省スペース**になり、枠付きのチップの中に置かれなくなりました
+- **Fallback after Auto refuses**: **Auto がリクエストを拒否**したとき、フォールバックモデルがそれに応答します。モデルが応答の途中で失敗した場合、フォールバックは**表示済みの応答から続けます**
+- **Clearer busy and rate-limit messages**: 混雑しているモデルは「is experiencing high traffic」と伝え、再試行または別のモデルを提案します。レート制限のメッセージは、**リクエストの頻度とクレジットの消費を区別**します
+- **Long image-heavy conversations**: 画像の多い会話が動き続けます。モデルの画像上限（**既定は 100**。一部のモデルではそれより少ない）を超えると、Kiro は**最も古い画像から除外**します
+- **A way out of image errors**: 画像の検証エラーは、新しいセッションを始めることを提案し、**Start new session** を提供します。古いセッションは、新しいセッションが受け付ける画像を拒否することがあります
+- **Larger skills**: 1 つの Skill に含められるファイルが **25 から 50 に**増えました（[04_reference/04_limits.md](../04_reference/04_limits.md#configuration-sync-の上限) 参照）
+- **Pull request watches in workflows**: Workflow の pull request watch が、**マージコンフリクトと失敗したチェックに反応**し、回答済みのレビュースレッドを解決します
+- **Daily session limit on GitHub**: 1 日のセッション数の上限に達すると、`/kiro` への返信は**後でもう一度 `/kiro` をメンションする**よう求めます（[01_features/06_repository-integration.md](../01_features/06_repository-integration.md) 参照）
+- **Recovery after a failed page load**: 更新後に Kiro Web の一部が読み込めなかった場合、ページは**1 回だけ再読み込み**します。エラー画面は失敗の内容を説明し、**Reload** を提供します
+
+> 公式エントリの「Learn more」の参照先は、「Schedule」が <https://kiro.dev/docs/web/automations/>、「Sandbox reopening」が <https://kiro.dev/docs/web/using-the-agent/>（節 `background-tabs-and-reconnecting`） です。
+> 「Larger skills」の上限は、公式 docs <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 30, 2026）でも **50 files** に更新されています。
+
+### Fixes（21件）
+
+- フォローアップの `/kiro` コメントが、**受け付けられたまま捨てられる**のではなく、実行中のセッションに届くようになりました
+- セッションのサンドボックスが再起動した後、`/kiro` コメントが「Something went wrong while processing your request」と返す問題を修正しました
+- `/kiro` のメッセージがエージェントに届く前に接続が切れた場合、Kiro は**エラーのコメントを投稿**するようになりました
+- 停止・セッションの読み込み・メッセージ送信が、**成功した後に接続エラーを表示する**問題を修正しました
+- Power の MCP サーバーに接続できないとき、セッションは**その Power の MCP ツール無しで続行**し、エラーカードではなく警告を表示します
+- リモートサーバーを持たないインストール済みの OAuth Power に **Connect** が表示される問題を修正しました
+- クラウド設定の無いセッションで「Fetching your cloud config」が表示されたり失敗したりする問題を修正しました
+- GitLab が遅いとき、読み込み済みのリポジトリが**空の一覧にならずに表示されたまま**になります
+- サインアウトすると **Kiro Web のサインインページに戻る**ようになりました
+- IAM Identity Center の利用者で、サインインが更新されてもホームページの**下書きのプロンプトが残る**ようになりました
+- GitHub App のインストールは「GitHub App installed」と、または組織のオーナーの承認が必要な場合は「Install request sent」と表示されます
+- 拒否時のフォールバックが、**ピッカーに表示されているモデル**に次のメッセージを送るようになりました
+- code ツールが **Python の型エラーの診断**を報告するようになりました
+- compaction の後、セッションの要約（recap）が**エージェントの次の返答のように読める**問題を修正しました
+- Workflow のステップのセッションが、タスクの上に**親の会話のコピーを表示せずに**開くようになりました
+- Workflow のループが、**一致する停止条件で始まる**ときに停止するようになりました
+- 組織が **Auto を承認済みモデルから外している**場合でも Workflows が実行されるようになりました
+- Workflow のステップが、親の回答の後に**すぐ続行**し、一時停止した並列ステップが自分で完了するようになりました
+- Workflow の一時停止メッセージが、**再開するとステップを再試行する**ことを説明するようになりました
+- 設定の空欄が、入力済みのように見えるのではなく**薄いプレースホルダ**を使うようになりました
+- 幅の狭い画面や文字を大きくした状態で、ページの内容とモバイルのメニューが**フッターの上に収まる**ようになりました
+
+> Fixes の「Workflow loops now stop when a matching stop condition begins with」は、公式の原文がこの形で終わっています（何で始まるかの記述が無い）。本サイトは原文どおりに訳し、補っていません。
 
 ---
 
@@ -124,7 +204,7 @@ Workflow の repeat（ループ）が**反復の上限で一時停止**したと
 - **New group from Move to Group**: **Move to Group** のメニューに **New group** が加わり、セッションを移しながらグループを作れます。移動とアーカイブは**すぐに反映**されます
 - **Session setup after restarts**: セッションまたはサンドボックスが再起動したとき、繰り返される起動処理が**1つの Session setup グループにまとまり**、再び別々に現れることがありません
 
-> 設定場所の表記（`Settings > Workflows`）は本エントリのものです。公式 docs <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 21, 2026）は `Agent Config > Workflows` と書いています
+> 設定場所の表記（`Settings > Workflows`）は本エントリのものです。公式 docs <https://kiro.dev/docs/web/cloud-configuration/>（Page updated: October 30, 2026）は `Agent Config > Workflows` と書いています
 > （[01_features/09_configuration-sync.md](../01_features/09_configuration-sync.md)）。
 >
 > 公式エントリの「Learn more」の参照先は、「Sessions stay while you use them」が <https://kiro.dev/docs/web/using-the-agent/>（節 `data-retention`）、
