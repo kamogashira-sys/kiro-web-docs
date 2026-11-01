@@ -48,13 +48,14 @@ Kiro IDE（`1.0.NNN`）や Kiro CLI と違い、**Kiro Web の更新にバージ
 
 ## 🐾 姉妹サイト
 
-Kiro は IDE・CLI・Web の3つのインターフェースを持つ**別製品**です。同名の機能でも仕様が異なることがあります。
+Kiro IDE・Kiro CLI・Kiro Web・Kiro Crew は別製品です。同名の機能でも仕様が異なることがあります。
 
 | 対象 | サイト |
 |------|-------|
 | **Kiro Web** | **本サイト** |
 | Kiro IDE | [猫でもわかるKiro IDE アップデート情報](https://github.com/kamogashira-sys/kiro-ide-docs) |
 | Kiro CLI | [猫でもわかるKiro CLI アップデート情報](https://github.com/kamogashira-sys/q-cli-docs) |
+| Kiro Crew | [猫でもわかるKiro Crewアップデート情報](https://github.com/kamogashira-sys/kiro-crew-docs) |
 
 ---
 
